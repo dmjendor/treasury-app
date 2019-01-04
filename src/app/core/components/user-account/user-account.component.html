@@ -1,0 +1,22 @@
+<div class="row" *ngIf="appUser">
+  <div class="col-6">
+      <div class="row top-margin">
+        <div class="col-4"><b>Email:</b></div>
+        <div class="col-8">
+          {{appUser.email}}
+        </div>
+      </div>
+      <div class="row top-margin">
+        <div class="col-4"><b>Role:</b></div>
+        <div class="col-8">
+          {{appUser.role}}
+        </div>
+      </div>
+
+      <div class="row top-margin">
+        <div class="col-12">
+          <button class="btn btn-primary form-control" (click)="saveUser(appUser)">Save Changes</button>
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form #currencyForm="ngForm" (ngSubmit)="save(currencyForm.value)">
+          <div class="row">
+            <div class="col-12">
+                <label for="name">Name</label>
+                <input
+                  required
+                  #name="ngModel"
+                  [(ngModel)]="currency.name"
+                  id="name"
+                  name="name"
+                  type="text"
+                  class="form-control"
+                />
+                <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+                  Name is required.
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="abbreviation">Abbreviation</label>
+              <input
+                #abbreviation="ngModel"
+                [(ngModel)]="currency.abbreviation"
+                id="abbreviation"
+                name="abbreviation"
+                class="form-control"
+                type="text">            
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="multiplier">Multiplier</label>
+              <input
+                #gbMarkup="ngModel"
+                [(ngModel)]="currency.multiplier"
+                id="multiplier"
+                name="multiplier"
+                type="text"
+                class="form-control">
+            </div>
+            
+          </div>
+          <div class="row top-margin">
+            <div class="col-12">
+                <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                    <button class="btn btn-primary w-100">
+                      Save
+                    </button>
+                    <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+                      Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger w-100" (click)="delete()">
+                      Delete
+                    </button>
+                </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+  

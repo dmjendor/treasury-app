@@ -1,0 +1,107 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/bootstrap.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+$primary-color: navy;
+$primary-color-hover: teal;
+$secondary-color: blue;
+$secondary-color-hover: aqua;
+
+
+body {
+    padding-top: 70px;
+}
+
+h1, h2, h3 { 
+  margin-bottom: 1.5rem;
+}
+
+.navbar { 
+  border-bottom: 3px solid $primary-color;
+}
+
+.navbar-light .navbar-brand {
+  color: $primary-color;
+  font-size: 24px;
+}
+
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: $primary-color-hover;
+}
+
+.list-group-item.active {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.btn-primary:hover {
+  background-color: $primary-color-hover;
+  border-color: $primary-color-hover;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.form-control:focus {
+  border-color: $primary-color;
+}
+
+.bg-primary {
+  background-color: $primary-color !important;
+}
+
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row.active {
+  background-color: $primary-color;
+  color: #FFF;
+}
+
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell {
+  padding: 0.25rem;
+}
+
+.ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
+  padding: 0.25rem 0;
+}
+
+.ngx-datatable.scroll-vertical {
+  height: 70vh;
+}
+.ngx-datatable .datatable-body {
+  max-height: 70vh !important;
+  overflow: auto !important;
+}
+.card-header {
+  background-color: $primary-color;
+}
+
+.card-header > h5 > .btn {
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.top-margin {
+  margin-top: 10px;
+}
+
+.textRight > .datatable-body-cell-label {
+    text-align: right;
+}
+
+.textRight > .datatable-header-cell-template-wrap {
+  text-align: center;
+}

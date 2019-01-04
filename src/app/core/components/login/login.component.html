@@ -1,0 +1,38 @@
+<div class="row">
+    
+</div>
+<div class="row">
+    <div class="col-6">
+        <form name="userform" method="post" #formCtrl="ngForm">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" [(ngModel)]="user.email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" [(ngModel)]="user.password" placeholder="Password" required>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="form-group">
+    <button type="button" class="btn btn-primary btn-block" style="margin-bottom: 20px" (click)="signInWithEmail()" [disabled]="formCtrl.form.invalid">
+        Login with Email
+    </button>    
+    <button class="btn btn-primary btn-block" style="margin-bottom: 20px" (click)="signInWithGoogle()">
+        <i class="fab fa-google"></i> Login with Google
+    </button>
+    <button class="btn btn-primary btn-block" style="margin-bottom: 20px" (click)="signInWithTwitter()">
+        <i class="fab fa-twitter"></i> Login with Twitter
+    </button>
+    <button class="btn btn-primary btn-block" style="margin-bottom: 20px" (click)="signInWithFacebook()">
+        <i class="fab fa-facebook"></i> Login with Facebook
+    </button>
+    <button class="btn btn-primary btn-block" style="margin-bottom: 20px" (click)="signInWithGithub()">
+        <i class="fab fa-github"></i> Login with Github 
+    </button>
+    
+</div>
+
+
+

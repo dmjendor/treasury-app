@@ -1,0 +1,67 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { FormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
+import { OptionQuantityComponent } from './components/option-quantity/option-quantity.component';
+import { FiltersService } from './services/filters.service';
+import { DnCEditComponent } from './components/dnc-edit/dnc-edit.component';
+import { VaultService } from './services/vault.service';
+import { CurrencyService } from './services/currency.service';
+import { VaultFormComponent } from 'shared/components/vault-form/vault-form.component';
+import { CurrencyFormComponent } from 'shared/components/currency-form/currency-form.component';
+import { ManageCurrenciesComponent } from 'shared/components/manage-currencies/manage-currencies.component';
+import { TreasuryFormComponent } from './components/treasury-form/treasury-form.component';
+
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    CustomFormsModule,
+    NgxDatatableModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    NgbModule.forRoot()
+  ],
+  declarations: [
+    OptionQuantityComponent,
+    DnCEditComponent,
+    VaultFormComponent,
+    CurrencyFormComponent,
+    ManageCurrenciesComponent,
+    TreasuryFormComponent,
+  ],
+  exports: [
+    DnCEditComponent,
+    OptionQuantityComponent,
+    VaultFormComponent,
+    CurrencyFormComponent,
+    TreasuryFormComponent,
+    ManageCurrenciesComponent,
+    CommonModule,
+    FormsModule,
+    CustomFormsModule,
+    NgxDatatableModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    NgbModule.forRoot().ngModule
+  ],
+  providers: [
+    VaultService,
+    CurrencyService,
+    FiltersService,
+    UserService,
+    AuthService,
+    AuthGuard
+  ]
+})
+export class SharedModule { }

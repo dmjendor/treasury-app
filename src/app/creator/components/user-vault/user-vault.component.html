@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-12">
+    <a class="btn btn-lg btn-info btn-block"
+      routerLink="/vaults/new"  
+    >
+      <span>Create Treasury</span>
+  </a>
+  </div>
+</div>
+<div class="row" *ngIf="vault">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-12">
+            <ngx-datatable
+            class="bootstrap"
+            [columnMode]="'force'"
+            [rows]="vault"
+            [limit]="25"
+            [rowHeight]="'auto'"
+            [columns]="columns"
+            [selected]="selected"
+            [selectionType]="'single'"
+            (activate)="onActivate($event)"
+            (select)='onSelect($event)'>
+            >
+            
+              <ngx-datatable-column name="Name"></ngx-datatable-column>
+              <ngx-datatable-column name="Theme"></ngx-datatable-column>
+              <ngx-datatable-column name="Active" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    <input type="checkbox" [checked]="value" disabled="disabled" />
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Edit" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                    <button
+                      class="btn btn-info btn-sm"
+                      (click)="editVault(row)">
+                      <i class="far fa-edit"></i>
+                    </button>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Delete" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                    <button
+                      class="btn btn-danger btn-sm"
+                      (click)="deleteVault(row)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>                    
+                  </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+
+    </div>
+  </div>
+  

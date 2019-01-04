@@ -1,0 +1,22 @@
+<div class="form-group row top-margin" *ngIf="name">
+    <div class="col-6"><span>{{name}}</span></div>
+    <div class="col-6">
+      <div class="">
+        <select
+          class="form-control"
+          [name]="name"
+          [id]="name"
+          [(ngModel)]="dnc"
+          (change)="onChange()"
+          (focus)="resetCost()"
+        >
+          <option value="-1">Vulnerable</option>  
+          <option value="0">Neutral</option>
+          <option value="1">Resistant</option>
+          <option value="2">Immune</option>
+        </select>
+      </div>
+      
+    </div>
+    
+</div>

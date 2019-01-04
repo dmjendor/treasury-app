@@ -1,0 +1,117 @@
+    <div class="form-group row">
+      <div class="col-8">
+          <label for="name">Name</label>
+          <input
+            required
+            #name="ngModel"
+            [(ngModel)]="vault.name"
+            id="name"
+            name="name"
+            type="text"
+            class="form-control"
+          />
+          <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+            Name is required.
+          </div>
+      </div>
+      <div class="col-2">
+        <label for="split" title="Party Coin Split">Split</label>
+        <input
+          #split="ngModel"
+          [(ngModel)]="vault.split"
+          id="split"
+          name="split"
+          type="checkbox"
+          class="form-control">
+      </div>
+      <div class="col-2">
+        <label for="active">Active</label>
+        <input
+          #active="ngModel"
+          [(ngModel)]="vault.active"
+          id="active"
+          name="active"
+          type="checkbox"
+          class="form-control">
+      </div>
+    </div>
+    <div class="row" *ngIf="currencies.length>0">
+      <div class="col-6">
+        <label for="baseCurrency">Base Currency</label>
+        <select
+          #baseCurrency="ngModel"
+          [(ngModel)]="vault.baseCurrency"
+          id="baseCurrency"
+          name="baseCurrency"
+          class="form-control">
+            <option *ngFor="let currency of currencies" [value]="currency.key">{{currency.name}}</option>
+          </select>
+      </div>
+      <div class="col-6">
+        <label for="commonCurrency">Common Currency</label>
+        <select
+          #baseCurrency="ngModel"
+          [(ngModel)]="vault.commonCurrency"
+          id="commonCurrency"
+          name="commonCurrency"
+          class="form-control">
+            <option *ngFor="let currency of currencies" [value]="currency.key">{{currency.name}}</option>
+          </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <label for="gbMarkup">Valuable Object Buy Markup</label>
+        <input
+          #gbMarkup="ngModel"
+          [(ngModel)]="vault.gbMarkup"
+          id="gbMarkup"
+          name="gbMarkup"
+          type="text"
+          class="form-control">
+      </div>
+      <div class="col-6">
+        <label for="active">Valuable Object Sell Markup</label>
+        <input
+          #gsMarkup="ngModel"
+          [(ngModel)]="vault.gsMarkup"
+          id="gsMarkup"
+          name="gsMarkup"
+          type="text"
+          class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <label for="ibMarkup">Item Buy Markup</label>
+        <input
+          #ibMarkup="ngModel"
+          [(ngModel)]="vault.ibMarkup"
+          id="ibMarkup"
+          name="ibMarkup"
+          type="text"
+          class="form-control">
+      </div>
+      <div class="col-6">
+        <label for="isMarkup">Item Sell Markup</label>
+        <input
+          #isMarkup="ngModel"
+          [(ngModel)]="vault.isMarkup"
+          id="isMarkup"
+          name="isMarkup"
+          type="text"
+          class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <label for="active">Theme</label>
+        <select
+          #theme="ngModel"
+          [(ngModel)]="vault.theme"
+          id="theme"
+          name="theme"
+          class="form-control">
+          </select>
+      </div>
+    </div>

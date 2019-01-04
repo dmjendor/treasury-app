@@ -1,0 +1,11 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+.fa-leaf {
+    color: darkgreen;
+}
+
+.branding {
+    margin-left: 10px;
+}

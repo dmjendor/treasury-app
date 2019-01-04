@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-12">
+          <treasury-form [(vault)]="vault"></treasury-form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            <button class="btn btn-secondary w-100 btn-info"
+            (click)="createVault()">
+            <span>Save</span>
+          </button>
+          <button class="btn btn-secondary w-100 btn-danger"
+            (click)="cancelVault()">
+            <span>Cancel</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+    </div>
+  </div>
+</div>

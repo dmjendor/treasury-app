@@ -1,0 +1,46 @@
+.text_widget img {
+    width: 150px;
+}
+
+.home-widget img {
+    margin-top: 0;
+}
+
+.aligncenter {
+    display: block;
+    margin: 5px auto 20px;
+}
+.aligncenter, div.aligncenter {
+    display: block;
+    margin: 5px auto 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+.home-widget {
+    margin: 0 0 20px;
+}
+.home-widget {
+    margin: 0 0 30px;
+    text-align: center;
+}
+
+#home-page-widgets {
+    padding: 20px 0 20px;
+}
+#home-page-widgets {
+    padding: 80px 0 20px;
+    color: #fff;
+}
+
+.home-jumbotron {
+    position: relative;
+    text-align: center;
+    background-color: transparent;
+    padding: 5px;
+    margin-bottom: 40px;
+}
