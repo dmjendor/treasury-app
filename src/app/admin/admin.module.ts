@@ -48,6 +48,7 @@ import { ThemeFormComponent } from './components/theme-form/theme-form.component
   declarations: [
     ManageVaultsComponent,
     ManageThemesComponent,
+    ThemeFormComponent
   ],
   providers: [
     AdminAuthGuard
