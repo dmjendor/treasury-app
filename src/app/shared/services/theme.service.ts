@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class ThemesService {
+export class ThemeService {
 
   themes$: Observable<any[]>;
 

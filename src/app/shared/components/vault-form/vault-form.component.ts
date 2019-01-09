@@ -7,6 +7,8 @@ import { VaultService } from 'shared/services/vault.service';
 import { take } from 'rxjs/operators';
 import { Currency } from 'shared/models/currency';
 import { CurrencyService } from 'shared/services/currency.service';
+import { ThemeService } from 'shared/services/theme.service';
+import { Theme } from 'shared/models/theme';
 
 @Component({
   selector: 'vault-form',
@@ -21,14 +23,17 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   currencySub: Subscription;
   selectedCurrency: Currency;
   editCurrency: boolean = false;
-  id;
+  themeList: Theme[];
+  themeSub: Subscription;
+  id: string;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private utilityService: UtilityService,
     private currencyService: CurrencyService,
-    private vaultService: VaultService
+    private vaultService: VaultService,
+    private themeService: ThemeService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
@@ -40,8 +45,14 @@ export class VaultFormComponent implements OnInit, OnDestroy {
       this.currencySub = this.currencyService.getCurrenciesByVault(this.id)
       .subscribe(currency => {
         this.currencies = currency as Currency[];
+        this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
+
       });
 
+      this.themeSub = this.themeService.getAll()
+      .subscribe(theme => {
+        this.themeList = theme as Theme[];
+      });
     }
   }
 
@@ -75,6 +86,7 @@ export class VaultFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.currencySub.unsubscribe();
+    this.themeSub.unsubscribe();
   }
 
 

@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Theme } from 'shared/models/theme';
 import { Subscription } from 'rxjs';
-import { ThemesService } from 'shared/services/themes.service';
+import { ThemeService } from 'shared/services/theme.service';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-manage-themes',
@@ -21,8 +22,9 @@ export class ManageThemesComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private themeService: ThemesService,
-    private router: Router
+    private themeService: ThemeService,
+    private router: Router,
+    private sanitizer: DomSanitizer
     ) {
     }
 
@@ -45,6 +47,10 @@ export class ManageThemesComponent implements OnInit, OnDestroy {
 
   onActivate(event) {
     // console.log('Activate Event', event);
+  }
+
+  currentTheme() {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('/assets/styles/' + this.selectedTheme.file);
   }
 
   filter(query: string) {

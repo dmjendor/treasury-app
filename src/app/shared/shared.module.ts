@@ -6,7 +6,7 @@ import { CustomFormsModule } from 'ng2-validation';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { RouterModule } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
@@ -20,17 +20,23 @@ import { VaultFormComponent } from 'shared/components/vault-form/vault-form.comp
 import { CurrencyFormComponent } from 'shared/components/currency-form/currency-form.component';
 import { ManageCurrenciesComponent } from 'shared/components/manage-currencies/manage-currencies.component';
 import { TreasuryFormComponent } from './components/treasury-form/treasury-form.component';
+import { ThemeService } from './services/theme.service';
+import { TreasuryNavbarListComponent } from './components/treasury-navbar-list/treasury-navbar-list.component';
+import { ToastaModule } from 'ngx-toasta';
+import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     CustomFormsModule,
     NgxDatatableModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    ToastaModule.forRoot(),
   ],
   declarations: [
     OptionQuantityComponent,
@@ -39,6 +45,8 @@ import { TreasuryFormComponent } from './components/treasury-form/treasury-form.
     CurrencyFormComponent,
     ManageCurrenciesComponent,
     TreasuryFormComponent,
+    TreasuryNavbarListComponent,
+    ConfirmationDialogComponent,
   ],
   exports: [
     DnCEditComponent,
@@ -47,8 +55,11 @@ import { TreasuryFormComponent } from './components/treasury-form/treasury-form.
     CurrencyFormComponent,
     TreasuryFormComponent,
     ManageCurrenciesComponent,
+    TreasuryNavbarListComponent,
     CommonModule,
     FormsModule,
+    RouterModule,
+    ToastaModule,
     CustomFormsModule,
     NgxDatatableModule,
     AngularFireDatabaseModule,
@@ -58,6 +69,7 @@ import { TreasuryFormComponent } from './components/treasury-form/treasury-form.
   providers: [
     VaultService,
     CurrencyService,
+    ThemeService,
     FiltersService,
     UserService,
     AuthService,

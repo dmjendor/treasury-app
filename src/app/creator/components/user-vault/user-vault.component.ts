@@ -5,6 +5,11 @@ import { AuthService } from 'shared/services/auth.service';
 import { AppUser } from 'shared/models/app-user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VaultService } from 'shared/services/vault.service';
+import { Theme } from 'shared/models/theme';
+import { ThemeService } from 'shared/services/theme.service';
+import { forEach } from '@angular/router/src/utils/collection';
+import { CurrencyService } from 'shared/services/currency.service';
+import { Currency } from 'shared/models/currency';
 
 @Component({
   selector: 'user-vault',
@@ -12,7 +17,6 @@ import { VaultService } from 'shared/services/vault.service';
   styleUrls: ['./user-vault.component.css']
 })
 export class UserVaultComponent implements OnInit, OnDestroy {
-
   itemCount: number;
   selected: any[];
   appUser: AppUser;
@@ -20,7 +24,10 @@ export class UserVaultComponent implements OnInit, OnDestroy {
   vault: Vault[];
   vaultSub: Subscription;
   selectedVault: Vault;
-
+  themeList: Theme[];
+  themeSub: Subscription;
+  currencyList: Currency[];
+  currencySub: Subscription;
   userId: string;
   userSubscription: Subscription;
 
@@ -31,15 +38,37 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     ];
 
     constructor(
+      private currencyService: CurrencyService,
       private vaultService: VaultService,
+      private themeService: ThemeService,
       private authService: AuthService,
       private router: Router
     ) {
     }
 
+    themeName(themeID) {
+      if (themeID && this.themeList.length > 0) {
+        for (let i = 0; i < this.themeList.length; i++) {
+          if (this.themeList[i].key === themeID) {
+            return this.themeList[i].name;
+          }
+        }
+      }
+    }
+
+    currencyName(currencyID) {
+      if (currencyID && this.currencyList && this.currencyList.length > 0) {
+      for (let i = 0; i < this.currencyList.length; i++) {
+        if (this.currencyList[i].key === currencyID) {
+          return this.currencyList[i].name;
+        }
+      }
+      }
+    }
+
     editVault(row) {
-      localStorage.setItem('returnUrl', '/vault');
-      this.router.navigate(['/vault/' + row.key]);
+      localStorage.setItem('returnUrl', '/vaults');
+      this.router.navigate(['/vaults/' + row.key]);
     }
 
     deleteVault(row) {
@@ -76,7 +105,6 @@ export class UserVaultComponent implements OnInit, OnDestroy {
 
       this.userSubscription = this.authService.user$.subscribe(user => {
         this.userId = user.uid;
-        console.log(this.userId);
         this.vaultService.getVaultByOwner(this.userId)
         .subscribe(vault => {
           this.vault = vault as Vault[];
@@ -85,11 +113,23 @@ export class UserVaultComponent implements OnInit, OnDestroy {
         });
       });
 
+      this.themeSub = this.themeService.getAll()
+      .subscribe(theme => {
+        this.themeList = theme as Theme[];
+      });
+
+      this.currencySub = this.currencyService.getAll()
+      .subscribe(currency => {
+        this.currencyList = currency as Currency[];
+      });
+
       this.authService.appUser$.subscribe(appUser => this.appUser = appUser);
     }
 
     ngOnDestroy() {
       this.userSubscription.unsubscribe();
+      this.themeSub.unsubscribe();
+      this.currencySub.unsubscribe();
     }
 
 

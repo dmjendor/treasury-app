@@ -14,11 +14,6 @@ import { ThemeFormComponent } from './components/theme-form/theme-form.component
     SharedModule,
     RouterModule.forChild([
     {
-      path: 'admin/vaults/new',
-      component: VaultFormComponent,
-      canActivate: [AuthGuard, AdminAuthGuard]
-    },
-    {
       path: 'admin/vaults/:id',
       component: VaultFormComponent,
       canActivate: [AuthGuard, AdminAuthGuard]

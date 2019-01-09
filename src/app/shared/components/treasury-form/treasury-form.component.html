@@ -35,7 +35,7 @@
           class="form-control">
       </div>
     </div>
-    <div class="row" *ngIf="currencies.length>0">
+    <div class="row" *ngIf="currencies && currencies.length>0">
       <div class="col-6">
         <label for="baseCurrency">Base Currency</label>
         <select
@@ -112,6 +112,7 @@
           id="theme"
           name="theme"
           class="form-control">
+            <option *ngFor="let theme of themeList" [value]="theme.key">{{theme.name}}</option>
           </select>
       </div>
     </div>

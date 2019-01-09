@@ -4,12 +4,12 @@ import { RouterModule } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
 import { HomeComponent } from 'core/components/home/home.component';
 import { environment } from 'environments/environment';
-
 import { AdminModule } from './admin/admin.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { CreatorModule } from './creator/creator.module';
 import { SharedModule } from './shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -18,6 +18,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     AdminModule,
     CoreModule,

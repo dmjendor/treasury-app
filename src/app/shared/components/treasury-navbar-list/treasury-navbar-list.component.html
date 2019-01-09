@@ -1,0 +1,5 @@
+<hr *ngIf="permissions" class="navbar-dropdown"/>
+<ng-container *ngFor="let perm of mergedPerms">
+    <a class="dropdown-item" [routerLink]="vaultRoute(perm.vault)">{{perm.name}}</a>
+</ng-container>
+<hr *ngIf="permissions" class="navbar-dropdown"/>

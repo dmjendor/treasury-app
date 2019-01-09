@@ -72,6 +72,7 @@ export class ManageCurrenciesComponent implements OnInit, OnDestroy, OnChanges {
       this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
       .subscribe(cls => {
         this.currencies = cls as Currency[];
+        this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
         this.selected = [this.currencies[0]];
         this.selectedCurrency = this.currencies[0];
       });

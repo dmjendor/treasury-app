@@ -8,7 +8,7 @@
   </div>
 </div>
 <div class="row" *ngIf="vault">
-    <div class="col-6">
+    <div class="col-12">
       <div class="row">
         <div class="col-12">
             <ngx-datatable
@@ -25,7 +25,58 @@
             >
             
               <ngx-datatable-column name="Name"></ngx-datatable-column>
-              <ngx-datatable-column name="Theme"></ngx-datatable-column>
+              <ngx-datatable-column name="Theme">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{themeName(value)}}
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="gbMarkup" name="VBMarkup">
+                  <ng-template ngx-datatable-header-template let-column="column">
+                      <span class="datatable-header-cell-label" title="Valuable Item Buy Markup">{{column.name}}</span>
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{value}}%
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="gsMarkup" name="VSMarkup">
+                  <ng-template ngx-datatable-header-template let-column="column">
+                      <span class="datatable-header-cell-label" title="Valuable Item Sell Markup">{{column.name}}</span>
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{value}}%
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="ibMarkup" name="TBMarkup">
+                  <ng-template ngx-datatable-header-template let-column="column">
+                      <span class="datatable-header-cell-label" title="Treasure Buy Markup">{{column.name}}</span>
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{value}}%
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="isMarkup" name="TSMarkup">
+                  <ng-template ngx-datatable-header-template let-column="column">
+                      <span class="datatable-header-cell-label" title="Treasure Sell Markup">{{column.name}}</span>
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{value}}%
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="baseCurrency" name="Base$">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{currencyName(value)}}
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="commonCurrency" name="Common$">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    {{currencyName(value)}}
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Split" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                    <input type="checkbox" [checked]="value" disabled="disabled" />
+                  </ng-template>
+              </ngx-datatable-column>
               <ngx-datatable-column name="Active" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
                   <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
                     <input type="checkbox" [checked]="value" disabled="disabled" />

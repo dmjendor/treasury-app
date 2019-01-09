@@ -3,6 +3,7 @@ import { VaultService } from 'shared/services/vault.service';
 import { Router } from '@angular/router';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'manage-vaults',
@@ -21,6 +22,7 @@ export class ManageVaultsComponent implements OnInit, OnDestroy {
 
   constructor(
     private vaultService: VaultService,
+    private modalService: NgbModal,
     private router: Router
     ) {
     }

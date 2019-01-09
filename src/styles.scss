@@ -4,12 +4,16 @@
 @import '~@swimlane/ngx-datatable/release/index.css';
 @import '~@swimlane/ngx-datatable/release/themes/bootstrap.css';
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
+@import '~ngx-toasta/styles/style-bootstrap.css';
 
 $primary-color: navy;
 $primary-color-hover: teal;
 $secondary-color: blue;
 $secondary-color-hover: aqua;
 
+#toasta .toast.toasta-theme-bootstrap.toasta-type-info {
+  background-color: $primary-color-hover;
+}
 
 body {
     padding-top: 70px;
@@ -104,4 +108,10 @@ h1, h2, h3 {
 
 .textRight > .datatable-header-cell-template-wrap {
   text-align: center;
+}
+
+hr.navbar-dropdown {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  border-top: 1px solid $primary-color;
 }
