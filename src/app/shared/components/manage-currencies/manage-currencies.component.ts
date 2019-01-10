@@ -32,8 +32,11 @@ export class ManageCurrenciesComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router
     ) { }
 
+  createDefaultCurrencies() {
+    this.currencyService.createDefaults(this.vault.key);
+  }
+
   createCurrency() {
-    console.log(this.newCurrency);
     this.emitter1.emit(this.newCurrency);
     this.emitter2.emit(true);
   }

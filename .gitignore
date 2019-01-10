@@ -39,6 +39,10 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+dist/
+environment/
+.firebase 
+
 # Optional npm cache directory
 .npm
 
@@ -59,3 +63,4 @@ typings/
 
 # next.js build output
 .next
+

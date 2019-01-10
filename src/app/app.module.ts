@@ -26,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFireModule.initializeApp(environment.firebase),
     RouterModule.forRoot([
        { path: '', redirectTo: 'home', pathMatch: 'full'},
+       // { path: 'addMessage', component: HomeComponent },
        { path: 'home', component: HomeComponent}
     ])
   ],

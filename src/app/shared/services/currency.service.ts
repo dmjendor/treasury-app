@@ -20,6 +20,42 @@ export class CurrencyService {
     return this.db.list('/currency').push(obj);
   }
 
+  createDefaults(vaultId) {
+    const copper: Currency = {
+        key: null,
+        abbreviation: 'cp',
+        multiplier: 1,
+        name: 'Copper',
+        vault: vaultId
+      };
+      const silver: Currency = {
+        key: null,
+        abbreviation: 'sp',
+        multiplier: 10,
+        name: 'Silver',
+        vault: vaultId
+      };
+      const gold: Currency = {
+        key: null,
+        abbreviation: 'gp',
+        multiplier: 100,
+        name: 'Gold',
+        vault: vaultId
+      };
+      const platinum: Currency = {
+        key: null,
+        abbreviation: 'pp',
+        multiplier: 1000,
+        name: 'Platinum',
+        vault: vaultId
+      };
+
+    this.db.list('/currency').push(copper);
+    this.db.list('/currency').push(silver);
+    this.db.list('/currency').push(gold);
+    return this.db.list('/currency').push(platinum);
+  }
+
   update(currencyID: string, obj: Currency) {
     return this.db.object('/currency/' + currencyID).update(obj);
   }

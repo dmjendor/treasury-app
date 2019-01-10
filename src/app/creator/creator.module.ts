@@ -6,6 +6,7 @@ import { UserVaultComponent } from './components/user-vault/user-vault.component
 import { AuthGuard } from 'shared/services/auth-guard.service';
 import { CreateVaultComponent } from './components/create-vault/create-vault.component';
 import { EditVaultComponent } from './components/edit-vault/edit-vault.component';
+import { VaultFormComponent } from 'shared/components/vault-form/vault-form.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { EditVaultComponent } from './components/edit-vault/edit-vault.component
       },
       {
         path: 'vaults/:id',
-        component: EditVaultComponent,
+        component: VaultFormComponent,
         canActivate: [AuthGuard]
       },
       {

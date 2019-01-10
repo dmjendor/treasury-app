@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Permission } from 'shared/models/permission';
 import { map } from 'rxjs/operators';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ export class PermissionService {
 
   permissions$: Observable<any[]>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private db: AngularFireDatabase,
+    private fns: AngularFireFunctions
+    ) {
     this.permissions$ = this.db.list('/permissions', c => c.orderByChild('name'))
     .snapshotChanges();
    }
@@ -54,6 +58,9 @@ export class PermissionService {
   }
 
   deleteVaultPermissions(vault: string) {
+
+    const callable = this.fns.httpsCallable('my-fn-name');
+    // this.data$ = callable({ name: 'some-data' });
 
   }
 

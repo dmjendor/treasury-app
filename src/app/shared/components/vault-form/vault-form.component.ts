@@ -26,6 +26,7 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   themeList: Theme[];
   themeSub: Subscription;
   id: string;
+  currentRoute: string;
 
   constructor(
     private router: Router,
@@ -36,6 +37,9 @@ export class VaultFormComponent implements OnInit, OnDestroy {
     private themeService: ThemeService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.currentRoute = this.route.snapshot.routeConfig.path.substr(0, this.route.snapshot.routeConfig.path.length - 4);
+
+    console.log(this.currentRoute);
     if (this.id) {
       this.vaultService.get(this.id)
       .valueChanges().pipe(take(1)).subscribe(p => {
@@ -66,17 +70,17 @@ export class VaultFormComponent implements OnInit, OnDestroy {
     } else {
       this.vaultService.create(charVault);
     }
-    this.router.navigate(['/admin/vaults']);
+    this.router.navigate([this.currentRoute]);
   }
 
   cancel() {
-    this.router.navigate(['/admin/vaults']);
+    this.router.navigate([this.currentRoute]);
   }
 
   delete() {
     if (confirm('Are you sure you wish to delete this vault?')) {
       this.vaultService.remove(this.id);
-      this.router.navigate(['/admin/vaults']);
+      this.router.navigate([this.currentRoute]);
     }
   }
 

@@ -24,7 +24,7 @@ import { ThemeService } from './services/theme.service';
 import { TreasuryNavbarListComponent } from './components/treasury-navbar-list/treasury-navbar-list.component';
 import { ToastaModule } from 'ngx-toasta';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
-
+import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/functions';
 
 @NgModule({
   imports: [
@@ -35,6 +35,7 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     NgxDatatableModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFireFunctionsModule,
     NgbModule.forRoot(),
     ToastaModule.forRoot(),
   ],
@@ -62,6 +63,7 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     ToastaModule,
     CustomFormsModule,
     NgxDatatableModule,
+    AngularFireFunctionsModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule.forRoot().ngModule
@@ -73,7 +75,8 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     FiltersService,
     UserService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    {provide: FunctionsRegionToken, useValue: 'asia-northeast1'}
   ]
 })
 export class SharedModule { }
