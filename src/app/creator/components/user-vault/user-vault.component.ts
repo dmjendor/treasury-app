@@ -3,13 +3,13 @@ import { Subscription } from 'rxjs';
 import { Vault } from 'shared/models/vault';
 import { AuthService } from 'shared/services/auth.service';
 import { AppUser } from 'shared/models/app-user';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { VaultService } from 'shared/services/vault.service';
 import { Theme } from 'shared/models/theme';
 import { ThemeService } from 'shared/services/theme.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { CurrencyService } from 'shared/services/currency.service';
 import { Currency } from 'shared/models/currency';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'user-vault',
@@ -38,6 +38,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     ];
 
     constructor(
+      private confirmationDialogService: ConfirmationDialogService,
       private currencyService: CurrencyService,
       private vaultService: VaultService,
       private themeService: ThemeService,
@@ -47,7 +48,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     }
 
     themeName(themeID) {
-      if (themeID && this.themeList.length > 0) {
+      if (themeID && this.themeList && this.themeList.length > 0) {
         for (let i = 0; i < this.themeList.length; i++) {
           if (this.themeList[i].key === themeID) {
             return this.themeList[i].name;
@@ -72,7 +73,16 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     }
 
     deleteVault(row) {
-      this.vaultService.remove(row.key);
+      const header: string = 'Please confirm..';
+      const body: string = 'Are you sure you wish to delete ' + row.name + '?  This action cannot be undone.';
+      this.confirmationDialogService.confirm(header, body)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.vaultService.remove(row.key);        }
+      })
+      .catch(() => {
+      });
+
     }
 
     onSelect({ selected }) {
@@ -102,7 +112,6 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
-
       this.userSubscription = this.authService.user$.subscribe(user => {
         this.userId = user.uid;
         this.vaultService.getVaultByOwner(this.userId)

@@ -25,6 +25,9 @@ import { TreasuryNavbarListComponent } from './components/treasury-navbar-list/t
 import { ToastaModule } from 'ngx-toasta';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/functions';
+import { ConfirmationDialogService } from './services/confirmation-dialog.service';
+import { ManagePermissionsComponent } from './components/manage-permissions/manage-permissions.component';
+import { PermissionFormComponent } from './components/permission-form/permission-form.component';
 
 @NgModule({
   imports: [
@@ -48,6 +51,11 @@ import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/
     TreasuryFormComponent,
     TreasuryNavbarListComponent,
     ConfirmationDialogComponent,
+    ManagePermissionsComponent,
+    PermissionFormComponent,
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent,
   ],
   exports: [
     DnCEditComponent,
@@ -57,6 +65,8 @@ import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/
     TreasuryFormComponent,
     ManageCurrenciesComponent,
     TreasuryNavbarListComponent,
+    PermissionFormComponent,
+    ManagePermissionsComponent,
     CommonModule,
     FormsModule,
     RouterModule,
@@ -71,6 +81,7 @@ import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/
   providers: [
     VaultService,
     CurrencyService,
+    ConfirmationDialogService,
     ThemeService,
     FiltersService,
     UserService,

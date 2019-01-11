@@ -1,0 +1,91 @@
+<div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form #permissionForm="ngForm" (ngSubmit)="save(permissionForm.value)">
+          <div class="row">
+            <div class="col-12">
+                <label for="user">User</label>
+                <input
+                  required
+                  #user="ngModel"
+                  [(ngModel)]="permission.user"
+                  id="user"
+                  name="user"
+                  type="text"
+                  class="form-control"
+                />
+                <div class="alert alert-danger" *ngIf="user.touched && user.invalid">
+                  User is required.
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="View">View Treasury</label>
+              <input
+                #view="ngModel"
+                [(ngModel)]="permission.view"
+                id="view"
+                name="view"
+                class="form-control"
+                type="checkbox">            
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="Coin">Edit Coin</label>
+              <input
+                #coin="ngModel"
+                [(ngModel)]="permission.coin"
+                id="coin"
+                name="coin"
+                class="form-control"
+                type="checkbox">            
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="gja">Edit Valuables</label>
+              <input
+                #gja="ngModel"
+                [(ngModel)]="permission.gja"
+                id="gja"
+                name="gja"
+                class="form-control"
+                type="checkbox">            
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="item">Edit Treasure</label>
+              <input
+                #item="ngModel"
+                [(ngModel)]="permission.item"
+                id="item"
+                name="item"
+                class="form-control"
+                type="checkbox">            
+            </div>
+          </div>
+          
+          <div class="row top-margin">
+            <div class="col-12">
+                <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                    <button class="btn btn-primary w-100">
+                      Save
+                    </button>
+                    <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+                      Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger w-100" (click)="delete()">
+                      Delete
+                    </button>
+                </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+  

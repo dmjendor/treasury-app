@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditVaultComponent } from './edit-vault.component';
+import { ManagePermissionsComponent } from './manage-permissions.component';
 
-describe('EditVaultComponent', () => {
-  let component: EditVaultComponent;
-  let fixture: ComponentFixture<EditVaultComponent>;
+describe('ManagePermissionsComponent', () => {
+  let component: ManagePermissionsComponent;
+  let fixture: ComponentFixture<ManagePermissionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditVaultComponent ]
+      declarations: [ ManagePermissionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditVaultComponent);
+    fixture = TestBed.createComponent(ManagePermissionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

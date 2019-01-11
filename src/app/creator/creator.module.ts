@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { UserVaultComponent } from './components/user-vault/user-vault.component';
 import { AuthGuard } from 'shared/services/auth-guard.service';
 import { CreateVaultComponent } from './components/create-vault/create-vault.component';
-import { EditVaultComponent } from './components/edit-vault/edit-vault.component';
 import { VaultFormComponent } from 'shared/components/vault-form/vault-form.component';
 
 @NgModule({
@@ -32,11 +31,10 @@ import { VaultFormComponent } from 'shared/components/vault-form/vault-form.comp
   ],
   declarations: [
     CreateVaultComponent,
-    UserVaultComponent,
-    EditVaultComponent
+    UserVaultComponent
   ],
   exports: [
-    EditVaultComponent
+
   ]
 })
 

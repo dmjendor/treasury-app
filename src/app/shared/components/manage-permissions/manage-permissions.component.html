@@ -1,0 +1,75 @@
+
+<ng-container class="row" *ngIf="vault.key !== null">
+    <div class="row">
+      <div class="col-12">
+        <hr />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+          <h5>Permissions</h5>
+      </div>
+    </div>
+    
+    <div class="col-12">
+      <ngx-datatable
+      width="100%"
+      class="bootstrap"
+      [rows]="permissions"
+      [columns]="columns"
+      [selected]="selected"
+      [selectionType]="'single'"
+      (activate)="onActivate($event)"
+      (select)='onSelect($event)'>
+      >
+      <ngx-datatable-column prop="user" name="Name" [flexGrow]="1">
+          <ng-template ngx-datatable-cell-template let-value="value">
+            {{getUserName(value)}}  
+          </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="View" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          <ng-template ngx-datatable-header-template let-column="column">
+              <span class="datatable-header-cell-label" title="View Permission">{{column.name}}</span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            <input type="checkbox" [checked]="value" disabled="disabled" />
+          </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Coin" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          <ng-template ngx-datatable-header-template let-column="column">
+              <span class="datatable-header-cell-label" title="Edit Coin Permission">{{column.name}}</span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            <input type="checkbox" [checked]="value" disabled="disabled" />
+          </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="gja" name="Valuables" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          <ng-template ngx-datatable-header-template let-column="column">
+              <span class="datatable-header-cell-label" title="Edit Valuables Permission">{{column.name}}</span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            <input type="checkbox" [checked]="value" disabled="disabled" />
+          </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="item" name="Treasure" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          <ng-template ngx-datatable-header-template let-column="column">
+              <span class="datatable-header-cell-label" title="Edit Treasure Permission">{{column.name}}</span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            <input type="checkbox" [checked]="value" disabled="disabled" />
+          </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+          <button type="button" class="btn btn-secondary btn-primary w-100" (click)="createPermission()">New</button>
+          <button type="button" class="btn btn-secondary btn-info w-100" (click)="editPermission()">Edit</button>
+          <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deletePermission()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  

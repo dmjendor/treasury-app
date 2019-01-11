@@ -22,12 +22,12 @@
     (select)='onSelect($event)'>
     >
     <ngx-datatable-column name="Name" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column prop="abbreviation" name="Abbrv" [headerClass]="'textCenter'" [cellClass]="'textRight'" [frozenRight]="true" [width]="80">
+    <ngx-datatable-column prop="abbreviation" name="Abbrv" [headerClass]="'textCenter'" [cellClass]="'textRight'" [width]="80">
         <ng-template ngx-datatable-cell-template let-value="value">
             {{value}}
           </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column prop="multiplier" name="Mult" [headerClass]="'textCenter'" [cellClass]="'textRight'" [frozenRight]="true" [width]="80">
+    <ngx-datatable-column prop="multiplier" name="Mult" [headerClass]="'textCenter'" [cellClass]="'textRight'" [width]="80">
         <ng-template ngx-datatable-cell-template let-value="value">
             {{value}}
           </ng-template>

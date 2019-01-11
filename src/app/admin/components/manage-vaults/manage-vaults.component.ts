@@ -3,7 +3,7 @@ import { VaultService } from 'shared/services/vault.service';
 import { Router } from '@angular/router';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'manage-vaults',
@@ -21,8 +21,8 @@ export class ManageVaultsComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
+    private confirmationDialogService: ConfirmationDialogService,
     private vaultService: VaultService,
-    private modalService: NgbModal,
     private router: Router
     ) {
     }
@@ -37,7 +37,16 @@ export class ManageVaultsComponent implements OnInit, OnDestroy {
   }
 
   deleteVault() {
-    this.vaultService.remove(this.selectedVault.key);
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete ' + this.selectedVault.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.vaultService.remove(this.selectedVault.key);
+      }
+    })
+    .catch(() => {
+    });
   }
 
   onSelect({ selected }) {

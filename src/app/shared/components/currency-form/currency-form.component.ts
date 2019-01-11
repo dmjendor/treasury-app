@@ -3,6 +3,7 @@ import { Currency } from 'shared/models/currency';
 import { Subscription } from 'rxjs';
 import { Vault } from 'shared/models/vault';
 import { CurrencyService } from 'app/shared/services/currency.service';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'currency-form',
@@ -23,7 +24,10 @@ export class CurrencyFormComponent {
   selected: any[];
 
 
-  constructor(private currencyService: CurrencyService) { }
+  constructor(
+    private currencyService: CurrencyService,
+    private confirmationDialogService: ConfirmationDialogService
+    ) { }
 
   save(currency) {
 
@@ -43,8 +47,19 @@ export class CurrencyFormComponent {
   }
 
   delete() {
-    this.currencyService.remove(this.currency.key);
-    this.emitter2.emit(false);
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the currency ' + this.currency.name + '?  This action cannot be undone.';
+      this.confirmationDialogService.confirm(header, body)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.currencyService.remove(this.currency.key);
+          this.emitter2.emit(false);
+        }
+      })
+      .catch(() => {
+
+      });
+
   }
 
 

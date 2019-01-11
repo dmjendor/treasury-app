@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnDestroy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { CurrencyService } from 'shared/services/currency.service';
 import { Router } from '@angular/router';
 import { Currency } from 'shared/models/currency';
 import { Subscription } from 'rxjs';
 import { Vault } from 'shared/models/vault';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'manage-currencies',
   templateUrl: './manage-currencies.component.html',
   styleUrls: ['./manage-currencies.component.css']
 })
-export class ManageCurrenciesComponent implements OnInit, OnDestroy, OnChanges {
+export class ManageCurrenciesComponent implements OnDestroy, OnChanges {
     @Input('vault') vault: Vault;
     @Input('selectedCurrency') selectedCurrency: Currency;
     @Input('edit') editMode: boolean;
@@ -29,6 +30,7 @@ export class ManageCurrenciesComponent implements OnInit, OnDestroy, OnChanges {
     ];
   constructor(
     private currencyService: CurrencyService,
+    private confirmationDialogService: ConfirmationDialogService,
     private router: Router
     ) { }
 
@@ -47,11 +49,21 @@ export class ManageCurrenciesComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   deleteCurrency() {
-    this.currencyService.remove(this.selectedCurrency.key);
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the currency ' + this.selectedCurrency.name + '?  This action cannot be undone.';
+      this.confirmationDialogService.confirm(header, body)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.currencyService.remove(this.selectedCurrency.key);
+        }
+      })
+      .catch(() => {
+        //
+      });
   }
 
   onSelect({ selected }) {
-    this.selectedCurrency = this.selected[0];
+    this.selectedCurrency = selected[0];
   }
 
   onActivate(event) {
@@ -66,18 +78,14 @@ export class ManageCurrenciesComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
-  async ngOnInit() {
-
-  }
-
   ngOnChanges() {
     if (this.vault.key) {
       this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
       .subscribe(cls => {
         this.currencies = cls as Currency[];
         this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
-        this.selected = [this.currencies[0]];
-        this.selectedCurrency = this.currencies[0];
+        this.selected = [];
+        // this.selectedCurrency = this.currencies[0];
       });
     }
   }

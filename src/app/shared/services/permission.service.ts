@@ -57,11 +57,19 @@ export class PermissionService {
       }));
   }
 
-  deleteVaultPermissions(vault: string) {
-
-    const callable = this.fns.httpsCallable('my-fn-name');
-    // this.data$ = callable({ name: 'some-data' });
-
+  getPermissionsByVault(vaultId: string) {
+    return this.db.list('/permissions',
+      ref => ref.orderByChild('vault')
+      .equalTo(vaultId))
+      .snapshotChanges()
+      .pipe(map(items => {            // <== new way of chaining
+        return items.map(a => {
+          const data = a.payload.val() as Permission;
+          const key = a.payload.key;
+          data.key  = key;
+          return data;
+        });
+      }));
   }
 
   initializeNewTreasury(user: string, vault: string) {

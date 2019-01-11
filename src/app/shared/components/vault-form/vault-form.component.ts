@@ -9,6 +9,8 @@ import { Currency } from 'shared/models/currency';
 import { CurrencyService } from 'shared/services/currency.service';
 import { ThemeService } from 'shared/services/theme.service';
 import { Theme } from 'shared/models/theme';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { Permission } from 'shared/models/permission';
 
 @Component({
   selector: 'vault-form',
@@ -23,12 +25,15 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   currencySub: Subscription;
   selectedCurrency: Currency;
   editCurrency: boolean = false;
+  selectedPermission: Permission;
+  editPermission: boolean = false;
   themeList: Theme[];
   themeSub: Subscription;
   id: string;
   currentRoute: string;
 
   constructor(
+    private confirmationDialogService: ConfirmationDialogService,
     private router: Router,
     private route: ActivatedRoute,
     private utilityService: UtilityService,
@@ -38,8 +43,6 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.currentRoute = this.route.snapshot.routeConfig.path.substr(0, this.route.snapshot.routeConfig.path.length - 4);
-
-    console.log(this.currentRoute);
     if (this.id) {
       this.vaultService.get(this.id)
       .valueChanges().pipe(take(1)).subscribe(p => {
@@ -78,13 +81,21 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    if (confirm('Are you sure you wish to delete this vault?')) {
-      this.vaultService.remove(this.id);
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete ' + this.vault.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.vaultService.remove(this.id);
+        this.router.navigate([this.currentRoute]);
+      }
+    })
+    .catch(() => {
       this.router.navigate([this.currentRoute]);
-    }
+    });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
 
   }
 

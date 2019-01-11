@@ -138,12 +138,25 @@
           </div>
         </form>
       </div>
-      <div class="col-6" *ngIf="!editCurrency">
-          <manage-currencies [vault]="vault" [(edit)]="editCurrency" [(selectedCurrency)]="selectedCurrency"></manage-currencies>
+      <div class="col-6">
+        <div class="row">
+            <div class="col-12" *ngIf="!editCurrency">
+              <manage-currencies [vault]="vault" [(edit)]="editCurrency" [(selectedCurrency)]="selectedCurrency"></manage-currencies>
+            </div>
+            <div class="col-12" *ngIf="editCurrency"> 
+              <currency-form  [vault]="vault" [(edit)]="editCurrency" [(selectedCurrency)]="selectedCurrency"></currency-form>
+            </div>
+        </div>
+          <div class="row">
+          <div class="col-12" *ngIf="!editPermission">
+            <manage-permissions [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></manage-permissions>
+          </div>
+          <div class="col-12" *ngIf="editPermission">
+            <permission-form [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></permission-form>
+          </div>
+        </div>
       </div>
-      <div class="col-6" *ngIf="editCurrency"> 
-        <currency-form  [vault]="vault" [(edit)]="editCurrency" [(selectedCurrency)]="selectedCurrency"></currency-form>
-      </div>
+      
     </div>
   </div>
   
