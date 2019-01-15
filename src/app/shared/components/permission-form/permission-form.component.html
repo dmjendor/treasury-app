@@ -5,18 +5,21 @@
           <div class="row">
             <div class="col-12">
                 <label for="user">User</label>
-                <input
-                  required
-                  #user="ngModel"
+                <div class="input-group">
+                    <input
                   [(ngModel)]="permission.user"
                   id="user"
                   name="user"
                   type="text"
-                  class="form-control"
+                  style="display:none"
                 />
-                <div class="alert alert-danger" *ngIf="user.touched && user.invalid">
-                  User is required.
-                </div>
+                <input #name="ngModel" [(ngModel)]="userName" name="name" type="text" class="form-control" [ngbTypeahead]="nameSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Name" *ngIf="!searchByEmail"/>
+                <input #name="ngModel" [(ngModel)]="userEmail" name="email" type="text" class="form-control" [ngbTypeahead]="emailSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Email" *ngIf="searchByEmail"/>
+                    <div class="input-group-append" id="button-addon4">
+                      <button class="btn btn-info" (click)="searchByEmail=false" [disabled]="!searchByEmail" type="button"><i class="fas fa-user"></i></button>
+                      <button class="btn btn-info" (click)="searchByEmail=true" [disabled]="searchByEmail" type="button"><i class="fas fa-at"></i></button>
+                    </div>
+                  </div>
             </div>
           </div>
           <div class="row">

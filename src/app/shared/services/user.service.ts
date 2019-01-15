@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireObject, AngularFireList } from '@angular/fire/database';
 import * as firebase from 'firebase';
 import { AppUser } from '../models/app-user';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,7 @@ export class UserService {
     this.user$ = this.db.list('/users', c => c.orderByChild('name'))
     .snapshotChanges();
   }
+
 
   getAll() {
     return this.user$.pipe(map(changes => {
