@@ -25,7 +25,7 @@ export class AuthService {
     return this.user$
       .pipe(switchMap(user => {
         if (user) {
-          localStorage.setItem('userId', user.uid);
+          sessionStorage.setItem('userId', user.uid);
           return this.userService.get(user.uid).valueChanges();
         } else {
           return of(null);

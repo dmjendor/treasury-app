@@ -59,11 +59,11 @@ export class UserVaultComponent implements OnInit, OnDestroy {
 
     currencyName(currencyID) {
       if (currencyID && this.currencyList && this.currencyList.length > 0) {
-      for (let i = 0; i < this.currencyList.length; i++) {
-        if (this.currencyList[i].key === currencyID) {
-          return this.currencyList[i].name;
+        for (let i = 0; i < this.currencyList.length; i++) {
+          if (this.currencyList[i].key === currencyID) {
+            return this.currencyList[i].name;
+          }
         }
-      }
       }
     }
 

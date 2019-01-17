@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="permission">
     <div class="row">
       <div class="col-12">
-        <form #permissionForm="ngForm" (ngSubmit)="save(permissionForm.value)">
+        <form #permissionForm="ngForm">
           <div class="row">
             <div class="col-12">
                 <label for="user">User</label>
@@ -13,12 +13,14 @@
                   type="text"
                   style="display:none"
                 />
-                <input #name="ngModel" [(ngModel)]="userName" name="name" type="text" class="form-control" [ngbTypeahead]="nameSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Name" *ngIf="!searchByEmail"/>
-                <input #name="ngModel" [(ngModel)]="userEmail" name="email" type="text" class="form-control" [ngbTypeahead]="emailSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Email" *ngIf="searchByEmail"/>
+                <input [(ngModel)]="userName" name="username" type="text" class="form-control" [ngbTypeahead]="nameSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Name" *ngIf="!searchByEmail"/>
+                <!--
+                   <input #name="ngModel" [(ngModel)]="userEmail" name="email" type="text" class="form-control" [ngbTypeahead]="emailSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Email" *ngIf="searchByEmail"/>
                     <div class="input-group-append" id="button-addon4">
                       <button class="btn btn-info" (click)="searchByEmail=false" [disabled]="!searchByEmail" type="button"><i class="fas fa-user"></i></button>
                       <button class="btn btn-info" (click)="searchByEmail=true" [disabled]="searchByEmail" type="button"><i class="fas fa-at"></i></button>
                     </div>
+                -->
                   </div>
             </div>
           </div>
@@ -68,14 +70,21 @@
                 id="item"
                 name="item"
                 class="form-control"
-                type="checkbox">            
+                type="checkbox">    
+                <input
+                #key="ngModel"
+                [(ngModel)]="permission.key"
+                id="key"
+                name="key"
+                style="display:none"
+                type="text">            
             </div>
           </div>
           
           <div class="row top-margin">
             <div class="col-12">
                 <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
-                    <button class="btn btn-primary w-100">
+                    <button class="btn btn-primary w-100" (click)="save()">
                       Save
                     </button>
                     <button type="button" class="btn btn-primary w-100" (click)="cancel()">

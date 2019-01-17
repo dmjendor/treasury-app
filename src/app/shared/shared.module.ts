@@ -28,6 +28,8 @@ import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/
 import { ConfirmationDialogService } from './services/confirmation-dialog.service';
 import { ManagePermissionsComponent } from './components/manage-permissions/manage-permissions.component';
 import { PermissionFormComponent } from './components/permission-form/permission-form.component';
+import { NoAccessComponent } from './components/no-access/no-access.component';
+import { TreasureGuard } from './services/treasure-guard.service';
 
 @NgModule({
   imports: [
@@ -53,6 +55,7 @@ import { PermissionFormComponent } from './components/permission-form/permission
     ConfirmationDialogComponent,
     ManagePermissionsComponent,
     PermissionFormComponent,
+    NoAccessComponent,
   ],
   entryComponents: [
     ConfirmationDialogComponent,
@@ -87,6 +90,7 @@ import { PermissionFormComponent } from './components/permission-form/permission
     UserService,
     AuthService,
     AuthGuard,
+    TreasureGuard,
     {provide: FunctionsRegionToken, useValue: 'asia-northeast1'}
   ]
 })

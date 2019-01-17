@@ -10,6 +10,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { ToastService } from 'shared/services/toast.service';
+import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'permission-form',
@@ -24,35 +26,39 @@ export class PermissionFormComponent implements OnInit, OnDestroy {
   @Input('edit') editMode: boolean;
   @Output('selectedPermissionChange') emitter1: EventEmitter<object> = new EventEmitter<object>();
   @Output('editChange') emitter2: EventEmitter<boolean> = new EventEmitter<boolean>();
-  permission = new Permission();
-  currencies: Permission[];
-  permissionSub: Subscription;
+  permission: Permission;
   selectedItems = [];
   users: AppUser[];
+  currentUser: AppUser;
   userName: string;
   userEmail: string;
   userSub: Subscription;
   searchByEmail: boolean = false;
+  id: string;
 
   constructor(
     private toast: ToastService,
+    private route: ActivatedRoute,
     private userService: UserService,
     private permissionService: PermissionService,
     private confirmationDialogService: ConfirmationDialogService
-    ) { }
+    ) {
 
-  save(permission: Permission) {
-    if (permission.hasOwnProperty('key')) {
-      this.permissionService.update(this.permission.key, permission);
+  }
+
+  save() {
+    console.log(this.permission.key);
+    if (this.permission.key !== null) {
+      const key =  this.permission.key;
+      delete this.permission.key; // remove key from object
+      this.permissionService.update(key, this.permission);
     } else {
-      permission.vault = this.vault.key;
-      if (permission.user !== '') {
-        this.permissionService.create(permission);
+      this.permission.vault = this.vault.key;
+      if (this.permission.user !== '') {
+        this.permissionService.create(this.permission);
       } else {
         this.toast.addToast('error', 'Error', 'No user selected.');
-
       }
-
     }
     this.emitter2.emit(false);
   }
@@ -79,6 +85,7 @@ export class PermissionFormComponent implements OnInit, OnDestroy {
   selected($e) {
     $e.preventDefault();
     this.userName = $e.item.name;
+    this.userEmail = $e.item.email;
     this.permission.user = $e.item.key;
   }
 
@@ -95,21 +102,28 @@ export class PermissionFormComponent implements OnInit, OnDestroy {
         });
       })
 
-  emailSearch = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .map(term => {
-        const matchRegExp = new RegExp(term, 'gi');
-        return term.length === 0 ? [] : this.users.filter(v => {
-          return this.selectedItems.indexOf(v) === -1 && matchRegExp.test(v.email);
-        });
-      })
+  // emailSearch = (text$: Observable<string>) =>
+  //   text$
+  //     .debounceTime(200)
+  //     .distinctUntilChanged()
+  //     .map(term => {
+  //       const matchRegExp = new RegExp(term, 'gi');
+  //       return term.length === 0 ? [] : this.users.filter(v => {
+  //         return this.selectedItems.indexOf(v) === -1 && matchRegExp.test(v.email);
+  //       });
+  //     })
 
   async ngOnInit() {
     this.userSub = this.userService.getAll()
     .subscribe(user => {
       this.users = user as AppUser[];
+      console.log(this.permission);
+      if (this.permission.key) {
+        this.currentUser = this.users.find((usr) => usr.key === this.permission.user);
+        this.userName = this.currentUser.name;
+      } else {
+        this.permission = new Permission();
+      }
     });
   }
 

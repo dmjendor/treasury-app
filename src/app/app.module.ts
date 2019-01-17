@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 import { CreatorModule } from './creator/creator.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TreasuryModule } from './treasury/treasury.module';
 
 
 @NgModule({
@@ -23,12 +24,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminModule,
     CoreModule,
     CreatorModule,
+    TreasuryModule,
     AngularFireModule.initializeApp(environment.firebase),
     RouterModule.forRoot([
        { path: '', redirectTo: 'home', pathMatch: 'full'},
        // { path: 'addMessage', component: HomeComponent },
        { path: 'home', component: HomeComponent}
-    ])
+    ], {onSameUrlNavigation: 'reload'})
   ],
   providers: [],
   bootstrap: [AppComponent]

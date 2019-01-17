@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-12">
+      <div class="card">
+          <div class="card-header">
+            <h4>Currency
+            <div class="pull-right">
+                <button type="button" title="Minimize Currency List" class="minimize btn btn-success"><i class="fas fa-chevron-up"></i></button>
+                &nbsp;
+                <button type="button" title="Reload Currency List" class="refresh btn btn-success" rel="coinList" ref="getCoin"><i class="fas fa-sync-alt"></i></button>
+              </div>
+            </h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let coin of  displayCoins">
+                {{currencyName(coin.currency)}}  
+                <span class="badge badge-primary badge-pill">{{coin.value}}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+  </div>
+</div>

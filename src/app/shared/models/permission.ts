@@ -1,5 +1,5 @@
 export interface PermissionData {
-    key: string;
+    key?: string;
     view: boolean;
     gja: boolean;
     item: boolean;

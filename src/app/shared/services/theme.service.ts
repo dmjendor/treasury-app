@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Theme } from 'shared/models/theme';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ThemeService {
-
+export class ThemeService implements OnInit {
+  currentTheme: Theme;
   themes$: Observable<any[]>;
 
   constructor(private db: AngularFireDatabase) {
@@ -36,6 +36,22 @@ export class ThemeService {
 
   get(themesID: string) {
     return this.db.object('/themes/' + themesID);
+  }
+
+  setCurrentTheme(themeId) {
+    if (!themeId) {
+      themeId = '-LVdBVohyKBcruIzCxRX';
+    }
+    this.get(themeId)
+      .valueChanges()
+      .pipe(take(1))
+      .subscribe(p => {
+        this.currentTheme = p as Theme;
+    });
+  }
+
+  ngOnInit() {
+    this.setCurrentTheme(null);
   }
 
 

@@ -1,5 +1,5 @@
 interface AppUserData {
-    key: string;
+    key?: string;
     name: string;
     email: string;
     role: string;
@@ -10,4 +10,5 @@ export class AppUser implements AppUserData {
     name = '';
     email = '';
     role = 'User';
+    constructor() {}
 }

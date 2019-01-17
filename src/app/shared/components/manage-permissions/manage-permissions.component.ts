@@ -51,8 +51,9 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   deletePermission() {
+    const user = this.users.find((usr) => usr.key === this.selectedPermissions.user);
     const header: string = 'Please confirm..';
-    const body: string = 'Are you sure you wish to delete the permissions for ' + '?  This action cannot be undone.';
+    const body: string = 'Are you sure you wish to delete the permissions for ' + user.name + '?  This action cannot be undone.';
       this.confirmationDialogService.confirm(header, body)
       .then((confirmed) => {
         if (confirmed) {
@@ -69,14 +70,10 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   onActivate(event) {
-    // console.log('Activate Event', event);
+
   }
 
   filter(query: string) {
-      // const filteredProducts = (query) ?
-      // this.permissions.filter(p => p.name.toLowerCase().includes(query.toLowerCase())) :
-      // this.permissions;
-    // this.initializeTable(filteredProducts);
 
   }
 
@@ -92,9 +89,7 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
       this.permissionsSub = this.permissionsService.getPermissionsByVault(this.vault.key)
       .subscribe(cls => {
         this.permissions = cls as Permission[];
-        // this.permissions.sort((a, b) => (a.user > b.user) ? 1 : ((b.user > a.user) ? -1 : 0));
         this.selected = [];
-        // this.selectedPermissions = this.permissions[0];
       });
     }
   }

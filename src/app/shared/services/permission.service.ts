@@ -72,6 +72,24 @@ export class PermissionService {
       }));
   }
 
+  checkTreasuryAccess(vaultId: string, userId: string): Observable<boolean> {
+    return this.getPermissionsByVault(vaultId).map(cls => {
+      if (cls.length > 0) {
+        for (let i = 0; i < cls.length; i++) {
+          if (cls[i].user === userId) {
+            return true;
+          } else {
+            if (i === cls.length) {
+              return false;
+            }
+          }
+        }
+      } else {
+        return false;
+      }
+    });
+  }
+
   initializeNewTreasury(user: string, vault: string) {
     this.create(
         {

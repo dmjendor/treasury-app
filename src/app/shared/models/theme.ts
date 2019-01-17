@@ -1,5 +1,5 @@
 export interface ThemeData {
-    key: string;
+    key?: string;
     active: boolean;
     name: string;
     file: string;

@@ -1,5 +1,5 @@
 interface CurrencyData {
-    key: string;
+    key?: string;
     abbreviation: string;
     multiplier: number;
     name: string;

@@ -1,5 +1,5 @@
 export interface VaultData {
-    key: string;
+    key?: string;
     active: boolean;
     name: string;
     baseCurrency: string;

@@ -20,7 +20,7 @@ import { AuthGuard } from 'shared/services/auth-guard.service';
     BsNavbarComponent,
     HomeComponent,
     LoginComponent,
-    UserAccountComponent,
+    UserAccountComponent
   ],
   exports: [
     BsNavbarComponent,

@@ -1,9 +1,12 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
   <div class="container">
     <div class="branding">
+      <h4>
         <a class="navbar-brand" routerLink="/">
           <span class="fas fa-dice-d20"></span>
         </a>
+        <span *ngIf="vault">{{vault.name}}</span>
+      </h4>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

@@ -1,0 +1,10 @@
+<div class="container" *ngIf="vault">
+  <div class="row">
+    <div class="col-6">
+      <display-currency [vault]="vault"></display-currency>
+    </div>
+    <div class="col-6">
+      <edit-currency [vault]="vault"></edit-currency>
+    </div>
+  </div>
+</div>
