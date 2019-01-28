@@ -1,4 +1,4 @@
-<link *ngIf="currentTheme()" rel="stylesheet" [href]="currentTheme()" />  
+<link *ngIf="themeService.currentTheme" rel="stylesheet" [href]="themeService?.currentTheme | sanitizer" />
 <bs-navbar></bs-navbar>
 
 <main role="main" class="container">

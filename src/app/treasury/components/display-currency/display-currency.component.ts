@@ -20,7 +20,6 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
   coinSub: Subscription;
   currencies: Currency[];
   currencySub: Subscription;
-  vaultId: string;
 
   constructor(
     private coinService: TreasuryCurrencyService,
@@ -29,7 +28,6 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
     private route: ActivatedRoute
 
     ) {
-    this.vaultId = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnChanges() {
@@ -66,13 +64,14 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
   }
 
   updateCoinList() {
+    this.displayCoins = [];
     if (this.coins) {
       const grouped = this.utilityService.groupBy(this.coins, cn => cn.currency);
       this.currencies.forEach((item) => {
         const cns = grouped.get(item.key);
         if (cns) {
           const reduc = cns.reduce(function(previousValue: Coin, currentValue: Coin) {
-            const val = previousValue.value + currentValue.value;
+            const val = (previousValue.value * 1) + (currentValue.value * 1);
             currentValue.value = val;
             return currentValue;
           });
@@ -90,9 +89,9 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
     .subscribe(currency => {
       this.currencies = currency as Currency[];
       this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
-      this.coinSub = this.coinService.getCoinRecordsByVault(this.vaultId)
+      this.coinSub = this.coinService.getCoinRecordsByVault(this.vault.key)
       .subscribe(coin => {
-        this.coins = coin as Coin[];
+        this.coins = coin.filter((cn) => cn.archived === false) as Coin[];
         this.updateCoinList();
       });
     });

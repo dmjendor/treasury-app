@@ -30,6 +30,8 @@ import { ManagePermissionsComponent } from './components/manage-permissions/mana
 import { PermissionFormComponent } from './components/permission-form/permission-form.component';
 import { NoAccessComponent } from './components/no-access/no-access.component';
 import { TreasureGuard } from './services/treasure-guard.service';
+import { CoinInputFormComponent } from './components/coin-input-form/coin-input-form.component';
+import { SanitizerPipe } from './pipes/sanitizer.pipe';
 
 @NgModule({
   imports: [
@@ -56,11 +58,14 @@ import { TreasureGuard } from './services/treasure-guard.service';
     ManagePermissionsComponent,
     PermissionFormComponent,
     NoAccessComponent,
+    CoinInputFormComponent,
+    SanitizerPipe,
   ],
   entryComponents: [
     ConfirmationDialogComponent,
   ],
   exports: [
+    CoinInputFormComponent,
     DnCEditComponent,
     OptionQuantityComponent,
     VaultFormComponent,
@@ -74,6 +79,7 @@ import { TreasureGuard } from './services/treasure-guard.service';
     FormsModule,
     RouterModule,
     ToastaModule,
+    SanitizerPipe,
     CustomFormsModule,
     NgxDatatableModule,
     AngularFireFunctionsModule,

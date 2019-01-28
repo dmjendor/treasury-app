@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, RoutesRecognized, NavigationEnd, NavigationStart } from '@angular/router';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { VaultService } from 'shared/services/vault.service';
 import { take } from 'rxjs/operators';
 import { Vault } from 'shared/models/vault';
@@ -11,8 +11,9 @@ import { ThemeService } from 'shared/services/theme.service';
   templateUrl: './treasury-display.component.html',
   styleUrls: ['./treasury-display.component.css']
 })
-export class TreasuryDisplayComponent implements OnInit, OnDestroy {
+export class TreasuryDisplayComponent implements OnInit, OnDestroy, OnChanges {
   routeSub: Subscription;
+  splitTreasure: boolean = false;
   treasuryId: string;
   vault: Vault;
 
@@ -30,6 +31,10 @@ export class TreasuryDisplayComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+  }
+
+  ngOnChanges() {
+    console.log(this.splitTreasure);
   }
 
   ngOnDestroy() {

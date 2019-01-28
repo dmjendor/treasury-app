@@ -1,17 +1,21 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Theme } from 'shared/models/theme';
 import { map, take } from 'rxjs/operators';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService implements OnInit {
-  currentTheme: Theme;
+  currentTheme: string;
   themes$: Observable<any[]>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private db: AngularFireDatabase,
+    private zone: NgZone
+    ) {
     this.themes$ = this.db.list('/themes', c => c.orderByChild('name'))
     .snapshotChanges();
    }
@@ -46,7 +50,11 @@ export class ThemeService implements OnInit {
       .valueChanges()
       .pipe(take(1))
       .subscribe(p => {
-        this.currentTheme = p as Theme;
+        const ct = p as Theme;
+        this.zone.run(() => {
+          this.currentTheme = '/assets/styles/' + ct.file;
+          sessionStorage.setItem('currentTheme', this.currentTheme);
+        });
     });
   }
 

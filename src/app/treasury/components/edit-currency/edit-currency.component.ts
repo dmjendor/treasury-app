@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
 import { Currency } from 'shared/models/currency';
@@ -10,19 +10,35 @@ import { CurrencyService } from 'shared/services/currency.service';
   styleUrls: ['./edit-currency.component.css']
 })
 export class EditCurrencyComponent implements OnInit {
-  @Input('vault') vault: Vault;
+  @Input() vault: Vault;
+  @Output('splitChange') emitter1: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input('split') set setSplitValue(value) {
+    this.split = value;
+  }
+  split: boolean;
+  partyNum: number = null;
+  consolidateTitle: string =  'Consolidate coin split into highest denominations?';
+  splitTitle: string = 'Keep a full share of the coin in the party treasury after split?';
+
   currencySub: Subscription;
   currencies: Currency[];
   constructor(
     private currencyService: CurrencyService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
     .subscribe(currency => {
       this.currencies = currency as Currency[];
       this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
     });
   }
+
+  splitCoin() {
+    console.log('splitting');
+    sessionStorage.setItem('partyNum', String(this.partyNum));
+    this.emitter1.emit(true);
+  }
+
 
 }

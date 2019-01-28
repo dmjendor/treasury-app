@@ -1,0 +1,10 @@
+<div class="input-group">
+  <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-sm">{{currency.abbreviation}}</span>
+    </div>
+  <input type="text" class="form-control" name="value" [(ngModel)]="coin.value" [placeholder]="currency.name">
+  <span class="input-group-append">
+    <button class="btn btn-success addCurrency" (click)="addCurrency()" type="button"><i class="fas fa-plus"></i></button>
+    <button class="btn btn-danger subtractCurrency" (click)="subtractCurrency()" type="button"><i class="fas fa-minus"></i></button>
+  </span>
+</div>

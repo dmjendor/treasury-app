@@ -9,15 +9,9 @@
               </h4>
             </div>
             <div class="card-body">
-              <div class="row" *ngFor="let currency of currencies">
+              <div class="row top-margin-small" *ngFor="let currency of currencies">
                 <div class="col-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control" [id]="currency.key" [name]="currency.key" [placeholder]="currency.name">
-                        <span class="input-group-btn">
-                          <button class="btn btn-success addCurrency" [value]="currency.key" type="button"><i class="fas fa-plus"></i></button>
-                          <button class="btn btn-danger subtractCurrency" [value]="currency.key" type="button"><i class="fas fa-minus"></i></button>
-                        </span>
-                      </div>
+                  <coin-input-form [currency]="currency"></coin-input-form>
                 </div>
               </div>
               <div class="row">
@@ -25,20 +19,34 @@
                     <div class="form-group">
                       <label for="partyNum">Party Split</label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="partyNum" name="partyNum" placeholder="# in Party">
-                        <span class="input-group-btn">
-                          <button id="splitPartyCoin" name="splitPartyCoin" class="btn btn-success">Split</button>
+                        <input type="text" class="form-control" [(ngModel)]="partyNum" id="partyNum" name="partyNum" placeholder="# in Party">
+                        <span class="input-group-append">
+                          <button id="splitPartyCoin" name="splitPartyCoin" class="btn btn-success" (click)="splitCoin()" [disabled]="partyNum<2">Split</button>
                         </span>
                       </div>
                     </div>
                   </div>
+              </div>
+              <div class="row">
                   <div class="col-6">
-                      <label>Include Treasury in Split?</label>  
+                      <label [title]="splitTitle">Include Treasury in Split?</label>  
                       <div class="form-group">
                           <span class="switch">
-                            <input type="checkbox" class="switch" id="split" [(ngModel)]="vault.split" name="split">
-                            <label for="split" *ngIf="vault.split">On</label>
-                            <label for="split" *ngIf="!vault.split">Off</label>
+                            <input type="checkbox" class="switch" id="split" [(ngModel)]="vault.treasurySplit" name="split" [title]="splitTitle">
+                            <label for="split" *ngIf="vault.treasurySplit" [title]="splitTitle">On</label>
+                            <label for="split" *ngIf="!vault.treasurySplit" [title]="splitTitle">Off</label>
+                          </span>
+                        </div>
+                        
+                        
+                  </div>
+                  <div class="col-6">
+                      <label [title]="consolidateTitle">Consolidate Coin?</label>  
+                      <div class="form-group">
+                          <span class="switch">
+                            <input type="checkbox" class="switch" id="merge" [(ngModel)]="vault.mergeSplit" name="merge" [title]="consolidateTitle">
+                            <label for="merge" *ngIf="vault.mergeSplit" [title]="consolidateTitle">On</label>
+                            <label for="merge" *ngIf="!vault.mergeSplit" [title]="consolidateTitle">Off</label>
                           </span>
                         </div>
                         
@@ -47,7 +55,7 @@
               </div>
             </div>
             <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
+             &nbsp;
             </div>
           </div>
     </div>

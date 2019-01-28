@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+              <h4>Treasury Coin Split
+                <div class="pull-right">
+                  <button type="button" title="Minimize Treasury Split" class="minimize btn btn-success"><i class="fas fa-chevron-up"></i></button>
+                </div>
+              </h4>
+            </div>
+            <div class="card-body">
+              <ng-container>
+                <p>The Treasury Coin is being split {{ partyNum }} ways.</p>
+                <p>Each player receives:</p>
+                <ul>
+                  <li *ngFor="let coin of splitCoins">{{coin.name}}: {{coin.value}}</li>
+                </ul>
+              </ng-container>
+              <ng-container *ngIf="vault.treasurySplit">
+                <p>The Treasury receives:</p>
+                <ul>
+                  <li *ngFor="let coin of tSplitCoins">{{coin.name}}: {{coin.value}}</li>
+                </ul>
+              </ng-container>              
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary" (click)="close()">Close</button>
+            </div>
+            
+          </div>
+    </div>
+  </div>

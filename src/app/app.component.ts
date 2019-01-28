@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewChecked } from '@angular/core';
 import { AuthService } from 'shared/services/auth.service';
 import { Router } from '@angular/router';
 import { UserService } from 'shared/services/user.service';
 import { ThemeService } from 'shared/services/theme.service';
-import { Theme } from 'shared/models/theme';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +11,12 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  routerSub: Subscription;
+  routeChanged: boolean = false;
 
   constructor(
-    private themeService: ThemeService,
+    public themeService: ThemeService,
     private userService: UserService,
-    private sanitizer: DomSanitizer,
     private auth: AuthService,
     private router: Router) {
       auth.user$.subscribe(user => {
@@ -29,11 +29,5 @@ export class AppComponent {
           }
         }
       });
-  }
-
-  currentTheme() {
-    if (this.themeService.currentTheme) {
-      return this.sanitizer.bypassSecurityTrustResourceUrl('/assets/styles/' + this.themeService.currentTheme.file);
-    }
   }
 }

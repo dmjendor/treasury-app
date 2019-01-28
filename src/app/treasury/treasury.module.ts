@@ -7,6 +7,7 @@ import { TreasureGuard } from 'shared/services/treasure-guard.service';
 import { DisplayCurrencyComponent } from './components/display-currency/display-currency.component';
 import { EditCurrencyComponent } from './components/edit-currency/edit-currency.component';
 import { TreasuryCurrencyService } from './services/treasury-currency.service';
+import { SplitCurrencyComponent } from './components/split-currency/split-currency.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { TreasuryCurrencyService } from './services/treasury-currency.service';
   declarations: [
     DisplayCurrencyComponent,
     EditCurrencyComponent,
-    TreasuryDisplayComponent
+    TreasuryDisplayComponent,
+    SplitCurrencyComponent
   ],
   providers: [
     TreasuryCurrencyService

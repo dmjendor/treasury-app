@@ -4,7 +4,8 @@
       <display-currency [vault]="vault"></display-currency>
     </div>
     <div class="col-6">
-      <edit-currency [vault]="vault"></edit-currency>
+      <edit-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="!splitTreasure"></edit-currency>
+      <split-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="splitTreasure"></split-currency>
     </div>
   </div>
 </div>
