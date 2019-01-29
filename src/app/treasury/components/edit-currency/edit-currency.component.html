@@ -4,11 +4,16 @@
             <div class="card-header">
               <h4>Add Currency
                 <div class="pull-right">
-                  <button type="button" title="Minimize Currency List" class="minimize btn btn-success"><i class="fas fa-chevron-up"></i></button>
+                  <button type="button" 
+                    title="Minimize Currency List" 
+                    class="minimize btn btn-success"
+                    (click)="toggleDisplay()">
+                    <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                  </button>
                 </div>
               </h4>
             </div>
-            <div class="card-body">
+            <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
               <div class="row top-margin-small" *ngFor="let currency of currencies">
                 <div class="col-12">
                   <coin-input-form [currency]="currency"></coin-input-form>

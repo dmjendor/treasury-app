@@ -22,6 +22,7 @@ export class ManageCurrenciesComponent implements OnDestroy, OnChanges {
     currencySub: Subscription;
     selected: any[];
     newCurrency = new Currency();
+    showDisplay: boolean = false;
 
     columns = [
       { prop: 'name', name: 'Name' },
@@ -33,6 +34,10 @@ export class ManageCurrenciesComponent implements OnDestroy, OnChanges {
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router
     ) { }
+
+    toggleDisplay() {
+      this.showDisplay = !this.showDisplay;
+    }
 
   createDefaultCurrencies() {
     this.currencyService.createDefaults(this.vault.key);

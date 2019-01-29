@@ -19,7 +19,7 @@ export class EditCurrencyComponent implements OnInit {
   partyNum: number = null;
   consolidateTitle: string =  'Consolidate coin split into highest denominations?';
   splitTitle: string = 'Keep a full share of the coin in the party treasury after split?';
-
+  showDisplay: boolean = false;
   currencySub: Subscription;
   currencies: Currency[];
   constructor(
@@ -32,6 +32,10 @@ export class EditCurrencyComponent implements OnInit {
       this.currencies = currency as Currency[];
       this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
     });
+  }
+
+  toggleDisplay() {
+    this.showDisplay = !this.showDisplay;
   }
 
   splitCoin() {

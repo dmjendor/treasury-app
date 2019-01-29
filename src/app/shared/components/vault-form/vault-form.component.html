@@ -3,7 +3,7 @@
       <div class="col-6">
         <form #vaultForm="ngForm" (ngSubmit)="save(vaultForm.value)">
           <div class="form-group row">
-            <div class="col-8">
+            <div class="col-6">
                 <label for="name">Name</label>
                 <input
                   required
@@ -19,15 +19,27 @@
                 </div>
             </div>
             <div class="col-2">
-              <label for="split" title="Party Coin Split">Split</label>
+              <label for="split" [title]="splitTitle">Split</label>
               <input
                 #split="ngModel"
-                [(ngModel)]="vault.split"
+                [title]="splitTitle"
+                [(ngModel)]="vault.treasurySplit"
                 id="split"
                 name="split"
                 type="checkbox"
                 class="form-control">
             </div>
+            <div class="col-2">
+                <label for="merge" [title]="mergeTitle">Merge</label>
+                <input
+                  #merge="ngModel"
+                  [title]="mergeTitle"
+                  [(ngModel)]="vault.mergeSplit"
+                  id="merge"
+                  name="split"
+                  type="checkbox"
+                  class="form-control">
+              </div>
             <div class="col-2">
               <label for="active">Active</label>
               <input
@@ -148,11 +160,19 @@
             </div>
         </div>
           <div class="row">
-          <div class="col-12" *ngIf="!editPermission">
-            <manage-permissions [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></manage-permissions>
+            <div class="col-12" *ngIf="!editPermission">
+              <manage-permissions [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></manage-permissions>
+            </div>
+            <div class="col-12" *ngIf="editPermission">
+              <permission-form [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></permission-form>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-12" *ngIf="!editBags">
+              <manage-vault-bags [vault]="vault" [(edit)]="editBags" [(selectedBag)]="selectedBag"></manage-vault-bags>
           </div>
-          <div class="col-12" *ngIf="editPermission">
-            <permission-form [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></permission-form>
+          <div class="col-12" *ngIf="editBags">
+              <vault-bags-form [vault]="vault" [(edit)]="editBags" [(selectedBag)]="selectedBag"></vault-bags-form>
           </div>
         </div>
       </div>

@@ -1,0 +1,72 @@
+<div class="container" *ngIf="bag">
+  <div class="row">
+    <div class="col-12">
+      <hr />
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-12">
+        <h5>Create Container</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <form #bagForm="ngForm">
+          <div class="row">
+            <div class="col-12">
+                <label for="name">Name</label>
+                <div class="input-group">
+                    <input
+                      required
+                      #name="ngModel"
+                      [(ngModel)]="bag.name"
+                      id="name"
+                      name="name"
+                      type="text"
+                      class="form-control"
+                      class="form-control" 
+                      aria-label="Type or select bag name">
+                    <div class="input-group-append" ngbDropdown>
+                      <button type="button" 
+                        class="btn btn-info dropdown-toggle"                        
+                        aria-haspopup="true" 
+                        ngbDropdownToggle
+                        role="group"
+                        aria-expanded="false">...or Select</button>
+                      <div class="dropdown-menu" ngbDropdownMenu>
+                        <button class="dropdown-item" *ngFor="let dBag of defaultBags" (click)="selectBag(dBag.name)" >{{dBag.name}}</button>
+                      </div>
+                    </div>
+
+                <!--
+                   <input #name="ngModel" [(ngModel)]="userEmail" name="email" type="text" class="form-control" [ngbTypeahead]="emailSearch" (selectItem)="selected($event)" [resultFormatter]="formatter" autofocus placeholder="User Email" *ngIf="searchByEmail"/>
+                    <div class="input-group-append" id="button-addon4">
+                      <button class="btn btn-info" (click)="searchByEmail=false" [disabled]="!searchByEmail" type="button"><i class="fas fa-user"></i></button>
+                      <button class="btn btn-info" (click)="searchByEmail=true" [disabled]="searchByEmail" type="button"><i class="fas fa-at"></i></button>
+                    </div>
+                -->
+                  </div>
+            </div>
+          </div>
+
+          
+          <div class="row top-margin">
+            <div class="col-12">
+                <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                    <button class="btn btn-primary w-100" (click)="save()">
+                      Save
+                    </button>
+                    <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+                      Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger w-100" (click)="delete()">
+                      Delete
+                    </button>
+                </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+  

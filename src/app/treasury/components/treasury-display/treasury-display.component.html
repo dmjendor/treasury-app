@@ -1,11 +1,28 @@
 <div class="container" *ngIf="vault">
   <div class="row">
     <div class="col-6">
-      <display-currency [vault]="vault"></display-currency>
+      <div class="row">
+        <div class="col-12">
+            <display-currency [vault]="vault"></display-currency>
+        </div>
+        <div class="col-12">
+          <display-valuables></display-valuables>
+        </div>
+        <div class="col-12">
+          <display-treasure></display-treasure>
+        </div>
+      </div>
+      
     </div>
     <div class="col-6">
-      <edit-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="!splitTreasure"></edit-currency>
-      <split-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="splitTreasure"></split-currency>
+      <div class="row">
+        <div class="col-12">
+            <edit-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="!splitTreasure"></edit-currency>
+            <split-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="splitTreasure"></split-currency>
+        </div>
+        <div class="col-12"></div>
+        <div class="col-12"></div>
+      </div>
     </div>
   </div>
 </div>

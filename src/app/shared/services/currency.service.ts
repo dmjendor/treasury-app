@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Currency } from 'shared/models/currency';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ export class CurrencyService {
 
   currencies$: Observable<any[]>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private http: HttpClient,
+    private db: AngularFireDatabase
+    ) {
     this.currencies$ = this.db.list('/currency', c => c.orderByChild('name'))
     .snapshotChanges();
    }
@@ -72,6 +76,10 @@ export class CurrencyService {
 
   get(currencyID: string) {
     return this.db.object('/currency/' + currencyID);
+  }
+
+  getSnapshot(vaultId) {
+    return this.http.get('https://treasury-app.firebaseio.com/currency.json?orderBy="vault"&equalTo="' + vaultId + '"');
   }
 
   getCurrenciesByVault(vaultId: string) {

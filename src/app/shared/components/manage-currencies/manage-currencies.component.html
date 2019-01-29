@@ -1,7 +1,16 @@
 <ng-container class="row" *ngIf="vault.key !== null">
   <div class="row">
     <div class="col-12">
-        <h5>Currencies</h5>
+        <h5>Currencies
+          <div class="pull-right">
+            <button type="button" 
+              title="Minimize Currencies" 
+              class="minimize btn btn-success"
+              (click)="toggleDisplay()">
+              <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+            </button>
+          </div>
+        </h5>
     </div>
   </div>
   
@@ -10,7 +19,7 @@
       <button class="btn btn-primary btn-large w-100" title="Creates common fantasy currencies, Copper, Silver, Gold and Platinum" (click)="createDefaultCurrencies()">Create Default Currencies</button>
     </div>
   </div>
-  <div class="col-12">
+  <div class="col-12" *ngIf="!showDisplay">
     <ngx-datatable
     width="100%"
     class="bootstrap"

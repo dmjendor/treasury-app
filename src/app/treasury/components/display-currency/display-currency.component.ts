@@ -20,6 +20,7 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
   coinSub: Subscription;
   currencies: Currency[];
   currencySub: Subscription;
+  showDisplay: boolean = false;
 
   constructor(
     private coinService: TreasuryCurrencyService,
@@ -53,6 +54,10 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
    // this.updateCoinList();
   }
 
+  toggleDisplay() {
+    this.showDisplay = !this.showDisplay;
+  }
+
   currencyName(currencyID) {
     if (currencyID && this.currencies && this.currencies.length > 0) {
       for (let i = 0; i < this.currencies.length; i++) {
@@ -82,7 +87,6 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
       });
     }
   }
-
 
   createSubscriptions() {
     this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)

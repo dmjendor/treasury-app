@@ -6,9 +6,11 @@
       ".indexOn": "owner"
     },
     "currency": {
+      ".read": "true",
       ".indexOn": "vault"
     },
     "coin": {
+      ".read": "true",
       ".indexOn": ["vault","currency","changeBy"]
     },
     "permissions": {

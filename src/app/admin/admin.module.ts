@@ -7,7 +7,9 @@ import { ManageVaultsComponent } from './components/manage-vaults/manage-vaults.
 import { VaultFormComponent } from 'shared/components/vault-form/vault-form.component';
 import { ManageThemesComponent } from './components/manage-themes/manage-themes.component';
 import { ThemeFormComponent } from './components/theme-form/theme-form.component';
-
+import { ManageBagsComponent } from './components/manage-bags/manage-bags.component';
+import { DefaultBagService } from './services/default-bag.service';
+import { BagFormComponent } from './components/bag-form/bag-form.component';
 
 @NgModule({
   imports: [
@@ -38,15 +40,34 @@ import { ThemeFormComponent } from './components/theme-form/theme-form.component
       component: ManageThemesComponent,
       canActivate: [AuthGuard, AdminAuthGuard]
     },
+    {
+      path: 'admin/bags/new',
+      component: BagFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/bags/:id',
+      component: BagFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/bags',
+      component: ManageBagsComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+
     ])
   ],
   declarations: [
     ManageVaultsComponent,
     ManageThemesComponent,
-    ThemeFormComponent
+    ThemeFormComponent,
+    ManageBagsComponent,
+    BagFormComponent
   ],
   providers: [
-    AdminAuthGuard
+    AdminAuthGuard,
+    DefaultBagService
   ]
 })
 export class AdminModule { }

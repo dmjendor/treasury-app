@@ -5,6 +5,7 @@ import { Coin } from 'shared/models/coin';
 import { map } from 'rxjs/operators';
 import { CurrencyService } from 'shared/services/currency.service';
 import { Currency } from 'shared/models/currency';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class TreasuryCurrencyService {
   coins$: Observable<any[]>;
 
   constructor(
-    private currencyService: CurrencyService,
+    private http: HttpClient,
     private db: AngularFireDatabase
     ) {
     this.coins$ = this.db.list('/coin', c => c.orderByChild('name'))
@@ -22,11 +23,11 @@ export class TreasuryCurrencyService {
    }
 
   create(obj: Coin) {
-    return this.db.list('/coin').push(obj);
+    this.db.list('/coin').push(obj);
   }
 
   update(coinID: string, obj: Coin) {
-    return this.db.object('/coin/' + coinID).update(obj);
+    this.db.object('/coin/' + coinID).update(obj);
   }
 
   remove(coinID: string) {
@@ -56,5 +57,15 @@ export class TreasuryCurrencyService {
           return data;
         });
       }));
+  }
+
+  getSnapShot(vaultId) {
+    return this.http.get('https://treasury-app.firebaseio.com/coin.json?orderBy="vault"&equalTo="' + vaultId + '"');
+  }
+
+  createTreasurySplit(coins: Coin[]) {
+    coins.forEach((coin, index) => {
+        this.db.list('/coin/').push(coin);
+    });
   }
 }

@@ -11,7 +11,7 @@ import { CreatorModule } from './creator/creator.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TreasuryModule } from './treasury/treasury.module';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,6 +19,7 @@ import { TreasuryModule } from './treasury/treasury.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
     AdminModule,

@@ -8,6 +8,9 @@ import { DisplayCurrencyComponent } from './components/display-currency/display-
 import { EditCurrencyComponent } from './components/edit-currency/edit-currency.component';
 import { TreasuryCurrencyService } from './services/treasury-currency.service';
 import { SplitCurrencyComponent } from './components/split-currency/split-currency.component';
+import { DisplayValuablesComponent } from './components/display-valuables/display-valuables.component';
+import { EditValuablesComponent } from './components/edit-valuables/edit-valuables.component';
+import { DisplayTreasureComponent } from './components/display-treasure/display-treasure.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,10 @@ import { SplitCurrencyComponent } from './components/split-currency/split-curren
     DisplayCurrencyComponent,
     EditCurrencyComponent,
     TreasuryDisplayComponent,
-    SplitCurrencyComponent
+    SplitCurrencyComponent,
+    DisplayValuablesComponent,
+    EditValuablesComponent,
+    DisplayTreasureComponent
   ],
   providers: [
     TreasuryCurrencyService

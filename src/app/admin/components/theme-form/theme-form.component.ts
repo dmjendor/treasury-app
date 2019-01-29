@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilityService } from 'shared/services/utility.service';
 import { ThemeService } from 'shared/services/theme.service';

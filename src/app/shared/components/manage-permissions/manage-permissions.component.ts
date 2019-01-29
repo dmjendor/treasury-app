@@ -26,6 +26,7 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
   newPermissions = new Permission();
   userSub: Subscription;
   users: AppUser[];
+  showDisplay: boolean = false;
 
   columns = [
     { prop: 'user', name: 'User' },
@@ -40,6 +41,9 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
     private confirmationDialogService: ConfirmationDialogService
     ) { }
 
+  toggleDisplay() {
+    this.showDisplay = !this.showDisplay;
+  }
   createPermission() {
     this.emitter1.emit(this.newPermissions);
     this.emitter2.emit(true);

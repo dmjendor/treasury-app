@@ -1,0 +1,47 @@
+<ng-container class="row" *ngIf="vault.key !== null">
+    <div class="row">
+        <div class="col-12">
+          <hr />
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-12">
+          <h5>Containers
+            <div class="pull-right">
+              <button type="button" 
+                title="Minimize Containers" 
+                class="minimize btn btn-success"
+                (click)="toggleDisplay()">
+                <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+              </button>
+            </div>
+          </h5>
+      </div>
+    </div>
+    
+    <div class="col-12" *ngIf="!showDisplay">
+      <ngx-datatable
+      width="100%"
+      class="bootstrap"
+      [rows]="bags"
+      [columns]="columns"
+      [selected]="selected"
+      [selectionType]="'single'"
+      (activate)="onActivate($event)"
+      (select)='onSelect($event)'>
+      >
+      <ngx-datatable-column name="Name" [flexGrow]="1"></ngx-datatable-column>
+    </ngx-datatable>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+          <button type="button" class="btn btn-secondary btn-primary w-100" (click)="createBag()">New</button>
+          <button type="button" class="btn btn-secondary btn-info w-100" (click)="editBag()">Edit</button>
+          <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deleteBag()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  

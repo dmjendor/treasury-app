@@ -11,7 +11,7 @@ import { Coin } from 'shared/models/coin';
   templateUrl: './split-currency.component.html',
   styleUrls: ['./split-currency.component.css']
 })
-export class SplitCurrencyComponent implements OnInit, OnDestroy, AfterContentInit {
+export class SplitCurrencyComponent implements OnInit, AfterContentInit {
   @Input('vault') vault: Vault;
   @Output('splitChange') emitter1: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input('split') set setSplitValue(value) {
@@ -19,10 +19,9 @@ export class SplitCurrencyComponent implements OnInit, OnDestroy, AfterContentIn
   }
   split: boolean;
   partyNum: number = 0;
-  coins: Coin[];
-  mergedTotal: number;
+  coins: Coin[] = [];
   coinSub: Subscription;
-  currencies: Currency[];
+  currencies: Currency[] = [];
   splitCoins: any[] = [];
   tSplitCoins: any[] = [];
   currencySub: Subscription;
@@ -39,28 +38,26 @@ export class SplitCurrencyComponent implements OnInit, OnDestroy, AfterContentIn
     }
   }
 
-  ngOnDestroy() {
-    if (this.coinSub) {
-      this.coinSub.unsubscribe();
-    }
-    if (this.currencySub) {
-      this.currencySub.unsubscribe();
-    }
-  }
-
   ngAfterContentInit() {
-    this.createSubscriptions();
-  }
-
-  createSubscriptions() {
-    this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
-    .subscribe(currency => {
-      this.currencies = currency as Currency[];
+    this.getCurrencies().toPromise().then((data) => {
+      // convert the currency objects into an array with the key as a value
+      Object.entries(data).forEach(([key, value]) => {
+        const curr = value as Currency;
+        curr['key'] = key;
+        this.currencies.push(curr);
+      });
+      // sort the currencies by multiplier decending
       this.currencies.sort((a, b) => (a.multiplier < b.multiplier) ? 1 : ((b.multiplier < a.multiplier) ? -1 : 0));
-      this.coinSub = this.coinService.getCoinRecordsByVault(this.vault.key)
-      .subscribe(coin => {
-        // filter out all archived results
-        this.coins = coin.filter((cn) => cn.archived === false) as Coin[];
+      this.getCoins().toPromise().then((data2) => {
+        // convert the coin objects into an array with the key as a value
+        Object.entries(data2).forEach(([key, value]) => {
+          const coin = value as Coin;
+          coin['key'] = key;
+          if (!coin.archived) {
+            this.coins.push(coin);
+          }
+        });
+
         if (this.vault.mergeSplit) {
           this.mergeSplit();
         } else {
@@ -70,14 +67,20 @@ export class SplitCurrencyComponent implements OnInit, OnDestroy, AfterContentIn
     });
   }
 
+  getCoins() {
+    return this.coinService.getSnapShot(this.vault.key);
+  }
+
+  getCurrencies() {
+    return this.currencyService.getSnapshot(this.vault.key);
+  }
+
   straightSplit() {
-    // create a frozen copy of the coin array to prevent infinite recursion
-    const currentCoinBatch = JSON.parse(JSON.stringify(this.coins));
     for (let q = 0; q < this.currencies.length; q++) {
       let curTotS = 0;
-      for (let i = 0; i < currentCoinBatch.length; i++) {
-        if (this.currencies[q].key === currentCoinBatch[i].currency) {
-          curTotS += Math.floor(currentCoinBatch[i].value);
+      for (let i = 0; i < this.coins.length; i++) {
+        if (this.currencies[q].key === this.coins[i].currency) {
+          curTotS += Math.floor(this.coins[i].value);
         }
       }
       const tTot = curTotS;
@@ -89,35 +92,20 @@ export class SplitCurrencyComponent implements OnInit, OnDestroy, AfterContentIn
       }
       this.splitCoins.push({name: this.currencies[q].name, value: splitTotal, key: this.currencies[q].key});
     }
-    for (let r = 0; r < currentCoinBatch.length; r++) {
-      currentCoinBatch[r].archived = true;
-    }
+    this.archiveCoin();
     if (this.vault.treasurySplit) {
-      for (let o = 0; o < this.tSplitCoins.length; o++) {
-        // currentCoinBatch[i].archived = true;
-        const coin =
-          {
-            archived: false,
-            changeby: sessionStorage.getItem('userId'),
-            value: this.tSplitCoins[o].value,
-            vault: this.vault.key,
-            currency: this.tSplitCoins[o].key
-            } as Coin;
-        console.log(coin);
-      }
+      this.createTreasurySplit();
     }
   }
 
   mergeSplit() {
-    // create a frozen copy of the coin array to prevent infinite recursion
-    const currentCoinBatch = JSON.parse(JSON.stringify(this.coins));
-    this.mergedTotal = 0;
-    for (let i = 0; i < currentCoinBatch.length; i++) {
-      const curr = this.currencies.find((cncy) => cncy.key === currentCoinBatch[i].currency);
-      this.mergedTotal += currentCoinBatch[i].value * curr.multiplier;
+    let mergedTotal = 0;
+    for (let i = 0; i < this.coins.length; i++) {
+      const curr = this.currencies.find((cncy) => cncy.key === this.coins[i].currency);
+      mergedTotal += this.coins[i].value * curr.multiplier;
     }
-    let splitTotal = this.mergedTotal / this.partyNum;
-    const splitMod = (this.mergedTotal % this.partyNum);
+    let splitTotal = mergedTotal / this.partyNum;
+    const splitMod = (mergedTotal % this.partyNum);
     for (let q = 0; q < this.currencies.length; q++) {
       const curTot = Math.floor(splitTotal / this.currencies[q].multiplier);
       splitTotal = splitTotal % this.currencies[q].multiplier;
@@ -130,25 +118,36 @@ export class SplitCurrencyComponent implements OnInit, OnDestroy, AfterContentIn
       }
       this.splitCoins.push({name: this.currencies[q].name, value: curTot, key: this.currencies[q].key});
     }
-    for (let r = 0; r < currentCoinBatch.length; r++) {
-      currentCoinBatch[r].archived = true;
-      this.coinService.update(currentCoinBatch[r].key, currentCoinBatch[r]);
-    }
+    this.archiveCoin();
     if (this.vault.treasurySplit) {
-      for (let o = 0; o < this.tSplitCoins.length; o++) {
-        const coin =
-          {
-            archived: false,
-            changeby: sessionStorage.getItem('userId'),
-            value: this.tSplitCoins[o].value,
-            vault: this.vault.key,
-            currency: this.tSplitCoins[o].key
-            } as Coin;
-        console.log(coin);
-        this.coinService.create(coin);
+      this.createTreasurySplit();
+    }
+
+  }
+
+  archiveCoin() {
+    for (let r = 0; r < this.coins.length; r++) {
+      this.coins[r].archived = true;
+      this.coinService.update(this.coins[r].key, this.coins[r]);
+    }
+  }
+
+  createTreasurySplit() {
+    const coinArray = [] as Coin[];
+    for (let o = 0; o < this.tSplitCoins.length; o++) {
+      if (this.tSplitCoins[o].value > 0) {
+        const coin = {
+          archived: false,
+          changeby: sessionStorage.getItem('userId'),
+          value: this.tSplitCoins[o].value,
+          vault: this.vault.key,
+          currency: this.tSplitCoins[o].key
+        } as Coin;
+        coinArray.push(coin);
       }
     }
 
+    this.coinService.createTreasurySplit(coinArray);
   }
 
   close() {

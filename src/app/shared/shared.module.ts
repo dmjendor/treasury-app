@@ -32,6 +32,9 @@ import { NoAccessComponent } from './components/no-access/no-access.component';
 import { TreasureGuard } from './services/treasure-guard.service';
 import { CoinInputFormComponent } from './components/coin-input-form/coin-input-form.component';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
+import { BagService } from './services/bag.service';
+import { ManageVaultBagsComponent } from './components/manage-vault-bags/manage-vault-bags.component';
+import { VaultBagsFormComponent } from './components/vault-bags-form/vault-bags-form.component';
 
 @NgModule({
   imports: [
@@ -60,6 +63,8 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     NoAccessComponent,
     CoinInputFormComponent,
     SanitizerPipe,
+    ManageVaultBagsComponent,
+    VaultBagsFormComponent,
   ],
   entryComponents: [
     ConfirmationDialogComponent,
@@ -75,6 +80,8 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     TreasuryNavbarListComponent,
     PermissionFormComponent,
     ManagePermissionsComponent,
+    ManageVaultBagsComponent,
+    VaultBagsFormComponent,
     CommonModule,
     FormsModule,
     RouterModule,
@@ -88,6 +95,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     NgbModule.forRoot().ngModule
   ],
   providers: [
+    BagService,
     VaultService,
     CurrencyService,
     ConfirmationDialogService,

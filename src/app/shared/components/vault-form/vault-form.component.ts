@@ -11,6 +11,7 @@ import { ThemeService } from 'shared/services/theme.service';
 import { Theme } from 'shared/models/theme';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 import { Permission } from 'shared/models/permission';
+import { Bag } from 'shared/models/bag';
 
 @Component({
   selector: 'vault-form',
@@ -27,10 +28,16 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   editCurrency: boolean = false;
   selectedPermission: Permission;
   editPermission: boolean = false;
+  selectedBag: Bag;
+  editBags: boolean = false;
+
   themeList: Theme[];
   themeSub: Subscription;
   id: string;
   currentRoute: string;
+
+  splitTitle: string = 'Give treasury a share during coin split.';
+  mergeTitle: string = 'Merge Coin Split to Highest Denomination';
 
   constructor(
     private confirmationDialogService: ConfirmationDialogService,
