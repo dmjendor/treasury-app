@@ -1,3 +1,49 @@
-<p>
-  edit-valuables works!
-</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+              <h4>Add Valuables
+                <div class="pull-right">
+                  <button type="button" 
+                    title="Minimize Add Valuables" 
+                    class="minimize btn btn-success"
+                    (click)="toggleDisplay()">
+                    <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                  </button>
+                </div>
+              </h4>
+            </div>
+            <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
+              <div class="row top-margin-small" >
+                <div class="col-12">
+                  <div class="input-group">
+                    <select class="form-control" name="location" [(ngModel)]="valuable.location">
+                      <option value="">Select a Location</option>
+                      <option *ngFor="let bag of bags" [value]="bag.key">{{bag.name}}</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary">Edit Bags</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row top-margin-small">
+                <div class="col-4">
+                    <input type="text" name="name" [(ngModel)]="valuable.name" class="form-control" placeholder="Name" aria-placeholder="Name">
+                </div>
+                <div class="col-4">
+                    <input type="text" name="value" [(ngModel)]="valuable.value" class="form-control" [placeholder]="displayValue()" aria-placeholder="Value">
+                </div>
+                <div class="col-4">
+                  <div class="input-group">
+                    <input type="text" name="quantity" [(ngModel)]="valuable.quantity" class="form-control" placeholder="Qty" aria-placeholder="Quantity">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" (click)="addValuable()">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>

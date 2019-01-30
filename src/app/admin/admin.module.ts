@@ -10,6 +10,8 @@ import { ThemeFormComponent } from './components/theme-form/theme-form.component
 import { ManageBagsComponent } from './components/manage-bags/manage-bags.component';
 import { DefaultBagService } from './services/default-bag.service';
 import { BagFormComponent } from './components/bag-form/bag-form.component';
+import { ManageValuablesComponent } from './components/manage-valuables/manage-valuables.component';
+import { ValuablesFormComponent } from './components/valuables-form/valuables-form.component';
 
 @NgModule({
   imports: [
@@ -55,7 +57,21 @@ import { BagFormComponent } from './components/bag-form/bag-form.component';
       component: ManageBagsComponent,
       canActivate: [AuthGuard, AdminAuthGuard]
     },
-
+    {
+      path: 'admin/valuables/new',
+      component: ValuablesFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/valuables/:id',
+      component: ValuablesFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/valuables',
+      component: ManageValuablesComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
     ])
   ],
   declarations: [
@@ -63,7 +79,9 @@ import { BagFormComponent } from './components/bag-form/bag-form.component';
     ManageThemesComponent,
     ThemeFormComponent,
     ManageBagsComponent,
-    BagFormComponent
+    BagFormComponent,
+    ManageValuablesComponent,
+    ValuablesFormComponent
   ],
   providers: [
     AdminAuthGuard,

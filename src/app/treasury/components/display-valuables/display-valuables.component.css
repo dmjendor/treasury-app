@@ -1,0 +1,7 @@
+button.btn.btn-sm {
+    margin-right: 5px;
+}
+
+button.pull-right.btn.btn-sm {
+    margin-top: -5px;
+}

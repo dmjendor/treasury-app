@@ -39,7 +39,6 @@ export class EditCurrencyComponent implements OnInit {
   }
 
   splitCoin() {
-    console.log('splitting');
     sessionStorage.setItem('partyNum', String(this.partyNum));
     this.emitter1.emit(true);
   }

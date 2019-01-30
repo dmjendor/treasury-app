@@ -6,7 +6,7 @@
             <display-currency [vault]="vault"></display-currency>
         </div>
         <div class="col-12">
-          <display-valuables></display-valuables>
+          <display-valuables [vault]="vault"></display-valuables>
         </div>
         <div class="col-12">
           <display-treasure></display-treasure>
@@ -20,8 +20,10 @@
             <edit-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="!splitTreasure"></edit-currency>
             <split-currency [vault]="vault" [(split)]="splitTreasure" *ngIf="splitTreasure"></split-currency>
         </div>
-        <div class="col-12"></div>
-        <div class="col-12"></div>
+        <div class="col-12 top-margin">
+          <edit-valuables [vault]="vault"></edit-valuables>
+        </div>
+        <div class="col-12 top-margin"></div>
       </div>
     </div>
   </div>

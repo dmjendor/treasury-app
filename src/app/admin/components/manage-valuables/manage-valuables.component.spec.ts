@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BagListComponent } from './bag-list.component';
+import { ManageValuablesComponent } from './manage-valuables.component';
 
-describe('BagListComponent', () => {
-  let component: BagListComponent;
-  let fixture: ComponentFixture<BagListComponent>;
+describe('ManageValuablesComponent', () => {
+  let component: ManageValuablesComponent;
+  let fixture: ComponentFixture<ManageValuablesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BagListComponent ]
+      declarations: [ ManageValuablesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BagListComponent);
+    fixture = TestBed.createComponent(ManageValuablesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

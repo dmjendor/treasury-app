@@ -4,13 +4,15 @@ interface BagData {
     timestamp: Date;
     name: string;
     vault: string;
+    hidden?: boolean;
 }
 
-export class Bag implements BagData {0;
+export class Bag implements BagData {
     key = null;
     changeby = '';
     timestamp = new Date();
     name = '';
     vault = '';
+    hidden = false;
     constructor() {}
 }
