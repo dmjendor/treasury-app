@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DefaultValuable } from 'shared/models/defaultvaluable';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilityService } from 'shared/services/utility.service';
-import { DefaultValuablesService } from 'admin/services/default-valuables.service';
+import { DefaultValuablesService } from 'shared/services/default-valuables.service';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 

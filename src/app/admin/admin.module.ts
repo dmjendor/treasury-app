@@ -8,15 +8,26 @@ import { VaultFormComponent } from 'shared/components/vault-form/vault-form.comp
 import { ManageThemesComponent } from './components/manage-themes/manage-themes.component';
 import { ThemeFormComponent } from './components/theme-form/theme-form.component';
 import { ManageBagsComponent } from './components/manage-bags/manage-bags.component';
-import { DefaultBagService } from './services/default-bag.service';
 import { BagFormComponent } from './components/bag-form/bag-form.component';
 import { ManageValuablesComponent } from './components/manage-valuables/manage-valuables.component';
 import { ValuablesFormComponent } from './components/valuables-form/valuables-form.component';
+import { ManageTreasuresComponent } from './components/manage-treasures/manage-treasures.component';
+import { TreasureFormComponent } from './components/treasure-form/treasure-form.component';
+import { ManageModifiersComponent } from './components/manage-modifiers/manage-modifiers.component';
+import { ManageEditionsComponent } from './components/manage-editions/manage-editions.component';
+import { EditionFormComponent } from './components/edition-form/edition-form.component';
+import { AdminConsoleComponent } from './components/admin-console/admin-console.component';
+import { ModifierFormComponent } from './components/modifier-form/modifier-form.component';
 
 @NgModule({
   imports: [
     SharedModule,
     RouterModule.forChild([
+    {
+      path: 'admin',
+      component: AdminConsoleComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
     {
       path: 'admin/vaults/:id',
       component: VaultFormComponent,
@@ -72,6 +83,21 @@ import { ValuablesFormComponent } from './components/valuables-form/valuables-fo
       component: ManageValuablesComponent,
       canActivate: [AuthGuard, AdminAuthGuard]
     },
+    {
+      path: 'admin/treasures/new',
+      component: TreasureFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/treasures/:id',
+      component: TreasureFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/treasures',
+      component: ManageTreasuresComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
     ])
   ],
   declarations: [
@@ -81,11 +107,17 @@ import { ValuablesFormComponent } from './components/valuables-form/valuables-fo
     ManageBagsComponent,
     BagFormComponent,
     ManageValuablesComponent,
-    ValuablesFormComponent
+    ValuablesFormComponent,
+    ManageTreasuresComponent,
+    TreasureFormComponent,
+    ManageModifiersComponent,
+    ManageEditionsComponent,
+    EditionFormComponent,
+    AdminConsoleComponent,
+    ModifierFormComponent
   ],
   providers: [
-    AdminAuthGuard,
-    DefaultBagService
+    AdminAuthGuard
   ]
 })
 export class AdminModule { }

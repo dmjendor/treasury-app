@@ -1,0 +1,33 @@
+<ngb-tabset type="pills" #tabs [activeId]="selectedTab">
+  <ngb-tab title="Vaults" id="vaults">
+    <ng-template ngbTabContent>
+      <manage-vaults></manage-vaults>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Themes" id="themes">
+    <ng-template ngbTabContent>
+      <manage-themes></manage-themes>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Bags" id="bags">
+    <ng-template ngbTabContent>
+      <manage-bags></manage-bags>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Valuables" id="valuables">
+    <ng-template ngbTabContent>
+      <manage-valuables></manage-valuables>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Treasure" id="treasure">
+    <ng-template ngbTabContent>
+      <manage-treasures></manage-treasures>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Editions" id="editions">
+    <ng-template ngbTabContent>
+      <manage-editions></manage-editions>
+    </ng-template>
+  </ngb-tab>
+                              
+</ngb-tabset>

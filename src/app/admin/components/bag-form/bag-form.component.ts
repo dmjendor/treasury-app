@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UtilityService } from 'shared/services/utility.service';
 import { take } from 'rxjs/operators';
 import { DefaultBag } from 'shared/models/defaultbag';
-import { DefaultBagService } from 'admin/services/default-bag.service';
+import { DefaultBagService } from 'shared/services/default-bag.service';
 
 @Component({
   selector: 'bag-form',
@@ -40,17 +40,17 @@ export class BagFormComponent {
     } else {
       this.bagService.create(bag);
     }
-    this.router.navigate(['/admin/bags']);
+    this.router.navigate(['/admin'],  {queryParams: {tab: 'bags'}});
   }
 
   cancel() {
-    this.router.navigate(['/admin/bags']);
+    this.router.navigate(['/admin'],  {queryParams: {tab: 'bags'}});
   }
 
   delete() {
     if (confirm('Are you sure you wish to delete this bag?')) {
       this.bagService.remove(this.id);
-      this.router.navigate(['/admin/bags']);
+      this.router.navigate(['/admin'],  {queryParams: {tab: 'bags'}});
     }
   }
 }

@@ -5,7 +5,7 @@ export interface ValuableData {
     value: number;
     quantity: number;
     location: string;
-    timestamp: Date;
+    timestamp: number;
     changeby: string;
     archived: boolean;
 }
@@ -17,7 +17,7 @@ export class Valuable implements ValuableData {
     value = null;
     quantity = null;
     location = '';
-    timestamp = new Date();
+    timestamp = null;
     changeby = '';
     archived = false;
     constructor() {}

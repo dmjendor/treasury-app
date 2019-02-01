@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { ThemeService } from 'shared/services/theme.service';
 
 @Component({
-  selector: 'app-treasury-display',
+  selector: 'treasury-display',
   templateUrl: './treasury-display.component.html',
   styleUrls: ['./treasury-display.component.css']
 })

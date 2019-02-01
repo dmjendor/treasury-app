@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 import { BagService } from 'shared/services/bag.service';
 import { Router } from '@angular/router';
 import { DefaultBag } from 'shared/models/defaultbag';
-import { DefaultBagService } from 'admin/services/default-bag.service';
+import { DefaultBagService } from 'shared/services/default-bag.service';
 
 @Component({
-  selector: 'app-manage-bags',
+  selector: 'manage-bags',
   templateUrl: './manage-bags.component.html',
   styleUrls: ['./manage-bags.component.css']
 })
@@ -33,7 +33,7 @@ export class ManageBagsComponent implements OnInit, OnDestroy {
   }
 
   editBag() {
-    localStorage.setItem('returnUrl', '/admin/bags');
+    localStorage.setItem('returnUrl', '/admin?tab=bags');
     this.router.navigate(['/admin/bags/' + this.selectedBag.key]);
   }
 

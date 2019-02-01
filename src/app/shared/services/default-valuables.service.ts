@@ -40,18 +40,4 @@ export class DefaultValuablesService {
     return this.db.object('/defaultvaluables/' + valuableID);
   }
 
-  // getValuablesByVault(vaultId: string) {
-  //   return this.db.list('/valuables',
-  //     ref => ref.orderByChild('vault')
-  //     .equalTo(vaultId))
-  //     .snapshotChanges()
-  //     .pipe(map(items => {            // <== new way of chaining
-  //       return items.map(a => {
-  //         const data = a.payload.val() as Valuable;
-  //         const key = a.payload.key;
-  //         data.key  = key;
-  //         return data;
-  //       });
-  //     }));
-  // }
 }

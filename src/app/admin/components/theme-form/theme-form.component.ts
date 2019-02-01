@@ -6,7 +6,7 @@ import { Theme } from 'shared/models/theme';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-theme-form',
+  selector: 'theme-form',
   templateUrl: './theme-form.component.html',
   styleUrls: ['./theme-form.component.css']
 })
@@ -40,17 +40,17 @@ export class ThemeFormComponent {
     } else {
       this.themeService.create(theme);
     }
-    this.router.navigate(['/admin/themes']);
+    this.router.navigate(['/admin'],  {queryParams: {tab: 'themes'}});
   }
 
   cancel() {
-    this.router.navigate(['/admin/themes']);
+    this.router.navigate(['/admin'],  {queryParams: {tab: 'themes'}});
   }
 
   delete() {
     if (confirm('Are you sure you wish to delete this theme?')) {
       this.themeService.remove(this.id);
-      this.router.navigate(['/admin/themes']);
+      this.router.navigate(['/admin'],  {queryParams: {tab: 'themes'}});
     }
   }
 }

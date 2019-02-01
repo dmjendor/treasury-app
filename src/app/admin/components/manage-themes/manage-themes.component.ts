@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-manage-themes',
+  selector: 'manage-themes',
   templateUrl: './manage-themes.component.html',
   styleUrls: ['./manage-themes.component.css']
 })

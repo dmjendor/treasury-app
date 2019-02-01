@@ -10,6 +10,9 @@ import { Bag } from 'shared/models/bag';
 import { CurrencyService } from 'shared/services/currency.service';
 import { Currency } from 'shared/models/currency';
 import { take } from 'rxjs/operators';
+import { Coin } from 'shared/models/coin';
+import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
+import { CommerceService } from 'shared/services/commerce.service';
 
 @Component({
   selector: 'display-valuables',
@@ -32,7 +35,9 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
     private bagService: BagService,
     private utilityService: UtilityService,
     private currencyService: CurrencyService,
-    private valuableService: ValuablesService
+    private commerceService: CommerceService,
+    private valuableService: ValuablesService,
+    private coinService: TreasuryCurrencyService
     ) {
   }
 
@@ -57,9 +62,7 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
 
   currencyDisplay(value) {
     if (this.currency) {
-      const x = (value / this.currency.multiplier);
-      const retVal = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return  retVal + ' ' + this.currency.abbreviation;
+      return this.currencyService.formatDisplay(this.currency, value);
     }
   }
 
@@ -89,15 +92,28 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
   }
 
   decreaseQty(item) {
-
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.valuableService.update(item.key, item);
+    } else {
+      this.valuableService.remove(item.key);
+    }
   }
 
   buyItem(item) {
-
+    item.quantity++;
+    this.valuableService.update(item.key, item);
+    this.commerceService.buySell(item, this.vault, true);
   }
 
   sellItem(item) {
-
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.valuableService.update(item.key, item);
+    } else {
+      this.valuableService.remove(item.key);
+    }
+    this.commerceService.buySell(item, this.vault, true);
   }
 
   bagSplit(bag) {

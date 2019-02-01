@@ -35,6 +35,16 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { BagService } from './services/bag.service';
 import { ManageVaultBagsComponent } from './components/manage-vault-bags/manage-vault-bags.component';
 import { VaultBagsFormComponent } from './components/vault-bags-form/vault-bags-form.component';
+import { EditTreasureComponent } from './components/edit-treasure/edit-treasure.component';
+import { TreasureService } from './services/treasure.service';
+import { CommerceService } from './services/commerce.service';
+import { EditCurrencyComponent } from './components/edit-currency/edit-currency.component';
+import { EditValuablesComponent } from './components/edit-valuables/edit-valuables.component';
+import { DefaultBagService } from './services/default-bag.service';
+import { DefaultValuablesService } from './services/default-valuables.service';
+import { DefaultTreasureService } from './services/default-treasure.service';
+import { ModifierService } from './services/modifier.service';
+import { EditionService } from './services/edition.service';
 
 @NgModule({
   imports: [
@@ -65,6 +75,9 @@ import { VaultBagsFormComponent } from './components/vault-bags-form/vault-bags-
     SanitizerPipe,
     ManageVaultBagsComponent,
     VaultBagsFormComponent,
+    EditTreasureComponent,
+    EditCurrencyComponent,
+    EditValuablesComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
@@ -82,6 +95,9 @@ import { VaultBagsFormComponent } from './components/vault-bags-form/vault-bags-
     ManagePermissionsComponent,
     ManageVaultBagsComponent,
     VaultBagsFormComponent,
+    EditTreasureComponent,
+    EditCurrencyComponent,
+    EditValuablesComponent,
     CommonModule,
     FormsModule,
     RouterModule,
@@ -102,6 +118,13 @@ import { VaultBagsFormComponent } from './components/vault-bags-form/vault-bags-
     ThemeService,
     FiltersService,
     UserService,
+    TreasureService,
+    CommerceService,
+    DefaultBagService,
+    DefaultValuablesService,
+    DefaultTreasureService,
+    ModifierService,
+    EditionService,
     AuthService,
     AuthGuard,
     TreasureGuard,

@@ -9,7 +9,7 @@
           <display-valuables [vault]="vault"></display-valuables>
         </div>
         <div class="col-12">
-          <display-treasure></display-treasure>
+          <display-treasure [vault]="vault"></display-treasure>
         </div>
       </div>
       
@@ -23,7 +23,9 @@
         <div class="col-12 top-margin">
           <edit-valuables [vault]="vault"></edit-valuables>
         </div>
-        <div class="col-12 top-margin"></div>
+        <div class="col-12 top-margin">
+          <edit-treasure [vault]="vault"></edit-treasure>
+        </div>
       </div>
     </div>
   </div>

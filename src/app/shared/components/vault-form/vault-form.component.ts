@@ -35,7 +35,7 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   themeSub: Subscription;
   id: string;
   currentRoute: string;
-
+  rtParams: Object = {};
   splitTitle: string = 'Give treasury a share during coin split.';
   mergeTitle: string = 'Merge Coin Split to Highest Denomination';
 
@@ -50,6 +50,10 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.currentRoute = this.route.snapshot.routeConfig.path.substr(0, this.route.snapshot.routeConfig.path.length - 4);
+    if (this.currentRoute.includes('admin')) {
+      this.currentRoute = 'admin';
+      this.rtParams = {queryParams: {tab: 'vaults'}};
+    }
     if (this.id) {
       this.vaultService.get(this.id)
       .valueChanges().pipe(take(1)).subscribe(p => {
@@ -80,11 +84,11 @@ export class VaultFormComponent implements OnInit, OnDestroy {
     } else {
       this.vaultService.create(charVault);
     }
-    this.router.navigate([this.currentRoute]);
+    this.router.navigate([this.currentRoute], this.rtParams);
   }
 
   cancel() {
-    this.router.navigate([this.currentRoute]);
+    this.router.navigate([this.currentRoute], this.rtParams);
   }
 
   delete() {
@@ -94,11 +98,11 @@ export class VaultFormComponent implements OnInit, OnDestroy {
     .then((confirmed) => {
       if (confirmed) {
         this.vaultService.remove(this.id);
-        this.router.navigate([this.currentRoute]);
+        this.router.navigate([this.currentRoute], this.rtParams);
       }
     })
     .catch(() => {
-      this.router.navigate([this.currentRoute]);
+      this.router.navigate([this.currentRoute], this.rtParams);
     });
   }
 

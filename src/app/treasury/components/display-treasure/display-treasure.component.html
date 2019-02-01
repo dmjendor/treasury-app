@@ -1,3 +1,44 @@
-<p>
-  display-treasure works!
-</p>
+<div class="row top-margin">
+  <div class="col-12">
+      <div class="card">
+          <div class="card-header">
+            <h4>Treasure
+              <div class="pull-right">
+                <button type="button" 
+                  title="Minimize Treasure List" 
+                  class="minimize btn btn-success"
+                  (click)="toggleDisplay()">
+                  <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                </button>
+              </div>
+            </h4>
+          </div>
+          <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
+            <div class="row top-margin" *ngFor="let bag of bags">
+              <div class="col-12">
+                  <h5>{{bag.name}}
+                      <button type="button" 
+                      title="Minimize {{bag.name}}" 
+                      class="pull-right btn btn-success btn-sm"
+                      (click)="toggleBag(bag)">
+                      <i class="fas" [ngClass]="{'fa-chevron-up':bag.hidden, 'fa-chevron-down':!bag.hidden}"></i>
+                    </button>
+                  </h5>
+                  <ul [id]="bag.key" [ngClass]="{'hidden-body':bag.hidden}" class="list-group" (dragover)="allowDrop($event)" (drop)="drop($event)">
+                    <li class="list-group-item " *ngFor="let treasure of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="treasure.key">
+                      <button class="btn btn-success btn-sm" (click)="increaseQty(treasure)"><i class="fas fa-plus"></i></button>
+                      <button class="btn btn-danger btn-sm" (click)="decreaseQty(treasure)"><i class="fas fa-minus"></i></button>
+                      <button class="btn btn-success btn-sm" (click)="buyItem(treasure)"><i class="fas fa-dollar-sign"></i></button>
+                      <button class="btn btn-danger btn-sm" (click)="sellItem(treasure)"><i class="fas fa-dollar-sign"></i></button>
+                      {{treasure.name}}&nbsp;<span class="text-success">({{currencyDisplay(treasure.value)}})</span>
+                      <span class="badge badge-primary badge-pill pull-right">{{treasure.quantity}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="bagSplit(bag.key).length===0">...</li>
+                  </ul>
+              </div>
+
+            </div>              
+          </div>
+        </div>
+  </div>
+</div>

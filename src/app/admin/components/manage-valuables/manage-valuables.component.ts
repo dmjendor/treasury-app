@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { DefaultValuablesService } from 'admin/services/default-valuables.service';
+import { DefaultValuablesService } from 'shared/services/default-valuables.service';
 import { DefaultValuable } from 'shared/models/defaultvaluable';
 
 @Component({
-  selector: 'app-manage-valuables',
+  selector: 'manage-valuables',
   templateUrl: './manage-valuables.component.html',
   styleUrls: ['./manage-valuables.component.css']
 })
@@ -16,8 +16,9 @@ export class ManageValuablesComponent implements OnInit, OnDestroy {
   selected: any;
   columns = [
     { prop: 'name', name: 'Name' },
-    { prop: 'lowvalue', name: 'Low Value' },
-    { prop: 'highvalue', name: 'High Value' },
+    { name: 'lowvalue'},
+    { name: 'highvalue'},
+    { name: 'parent' },
     { name: 'Active' }
   ];
 
@@ -31,17 +32,24 @@ export class ManageValuablesComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/valuables/new']);
   }
 
+  getParentName(key: string) {
+    if (this.valuables && key) {
+      const val = this.valuables.find(vl => vl.key === key);
+      return val.name;
+    }
+  }
+
   editValuable() {
     localStorage.setItem('returnUrl', '/admin/valuables');
-    // this.router.navigate(['/admin/valuables/' + this.selectedValuable.key]);
+    this.router.navigate(['/admin/valuables/' + this.selectedValuable.key]);
   }
 
   deleteValuable() {
-    // this.valuableService.remove(this.selectedValuable.key);
+    this.valuableService.remove(this.selectedValuable.key);
   }
 
   onSelect({ selected }) {
-    // this.selectedValuable = this.selected[0];
+    this.selectedValuable = this.selected[0];
   }
 
   onActivate(event) {
@@ -70,7 +78,7 @@ export class ManageValuablesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.valuableSub.unsubscribe();
+     this.valuablesSub.unsubscribe();
   }
 }
 

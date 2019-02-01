@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Vault } from 'shared/models/vault';
 import { BagService } from 'app/shared/services/bag.service';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
-import { DefaultBagService } from 'admin/services/default-bag.service';
+import { DefaultBagService } from 'shared/services/default-bag.service';
 import { DefaultBag } from 'shared/models/defaultbag';
 
 

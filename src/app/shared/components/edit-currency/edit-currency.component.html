@@ -19,7 +19,7 @@
                   <coin-input-form [currency]="currency"></coin-input-form>
                 </div>
               </div>
-              <div class="row">
+              <div class="row top-margin">
                   <div class="col-6">
                     <div class="form-group">
                       <label for="partyNum">Party Split</label>
@@ -34,28 +34,20 @@
               </div>
               <div class="row">
                   <div class="col-6">
-                      <label [title]="splitTitle">Include Treasury in Split?</label>  
-                      <div class="form-group">
-                          <span class="switch">
-                            <input type="checkbox" class="switch" id="split" [(ngModel)]="vault.treasurySplit" name="split" [title]="splitTitle">
-                            <label for="split" *ngIf="vault.treasurySplit" [title]="splitTitle">On</label>
-                            <label for="split" *ngIf="!vault.treasurySplit" [title]="splitTitle">Off</label>
-                          </span>
-                        </div>
-                        
-                        
+                    <label [title]="splitTitle">Include Treasury in Split?</label>  
+                    <span class="switch">
+                      <input type="checkbox" class="switch" id="split" [(ngModel)]="vault.treasurySplit" name="split" [title]="splitTitle">
+                      <label for="split" *ngIf="vault.treasurySplit" [title]="splitTitle">On</label>
+                      <label for="split" *ngIf="!vault.treasurySplit" [title]="splitTitle">Off</label>
+                    </span>
                   </div>
                   <div class="col-6">
-                      <label [title]="consolidateTitle">Consolidate Coin?</label>  
-                      <div class="form-group">
-                          <span class="switch">
-                            <input type="checkbox" class="switch" id="merge" [(ngModel)]="vault.mergeSplit" name="merge" [title]="consolidateTitle">
-                            <label for="merge" *ngIf="vault.mergeSplit" [title]="consolidateTitle">On</label>
-                            <label for="merge" *ngIf="!vault.mergeSplit" [title]="consolidateTitle">Off</label>
-                          </span>
-                        </div>
-                        
-                        
+                    <label [title]="consolidateTitle">Consolidate Coin?</label>  
+                    <span class="switch">
+                      <input type="checkbox" class="switch" id="merge" [(ngModel)]="vault.mergeSplit" name="merge" [title]="consolidateTitle">
+                      <label for="merge" *ngIf="vault.mergeSplit" [title]="consolidateTitle">On</label>
+                      <label for="merge" *ngIf="!vault.mergeSplit" [title]="consolidateTitle">Off</label>
+                    </span>
                   </div>
               </div>
             </div>

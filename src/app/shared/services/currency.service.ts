@@ -82,6 +82,12 @@ export class CurrencyService {
     return this.http.get('https://treasury-app.firebaseio.com/currency.json?orderBy="vault"&equalTo="' + vaultId + '"');
   }
 
+  formatDisplay(currency, value) {
+    const x = (value / currency.multiplier);
+    const retVal = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return  retVal + ' ' + currency.abbreviation;
+  }
+
   getCurrenciesByVault(vaultId: string) {
     return this.db.list('/currency',
       ref => ref.orderByChild('vault')

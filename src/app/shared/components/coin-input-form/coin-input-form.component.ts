@@ -19,13 +19,13 @@ export class CoinInputFormComponent implements AfterContentInit {
 
 
   addCurrency() {
-    this.coin.timestamp = new Date();
+    this.coin.timestamp = Date.now();
     this.coinService.create(this.coin);
     this.coin.value = null;
   }
 
   subtractCurrency() {
-    this.coin.timestamp = new Date();
+    this.coin.timestamp = Date.now();
     this.coin.value = this.coin.value * -1;
     this.coinService.create(this.coin);
     this.coin.value = null;

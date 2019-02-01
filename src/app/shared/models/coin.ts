@@ -3,17 +3,17 @@ interface CoinData {
     changeby: string;
     currency: string;
     archived: boolean;
-    timestamp: Date;
+    timestamp: number;
     value: number;
     vault: string;
 }
 
-export class Coin implements CoinData {0;
+export class Coin implements CoinData {
     key = null;
     changeby = '';
     currency = '';
     archived = false;
-    timestamp = new Date();
+    timestamp = null;
     value = 0;
     vault = '';
     constructor() {}

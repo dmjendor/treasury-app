@@ -9,8 +9,13 @@
       (activate)="onActivate($event)"
       (select)='onSelect($event)'>
       <ngx-datatable-column name="Name" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Low Value"></ngx-datatable-column>
-      <ngx-datatable-column name="High Value"></ngx-datatable-column>
+      <ngx-datatable-column name="lowvalue"></ngx-datatable-column>
+      <ngx-datatable-column name="highvalue"></ngx-datatable-column>
+      <ngx-datatable-column name="Parent">
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            {{getParentName(value)}}
+          </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column name="Active" [frozenRight]="true" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
           <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
             <input type="checkbox" [checked]="value" disabled="disabled" />

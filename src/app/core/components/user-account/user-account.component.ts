@@ -5,7 +5,7 @@ import { UserService } from 'shared/services/user.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-user-account',
+  selector: 'user-account',
   templateUrl: './user-account.component.html',
   styleUrls: ['./user-account.component.css']
 })

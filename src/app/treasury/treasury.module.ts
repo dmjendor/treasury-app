@@ -5,11 +5,9 @@ import { TreasuryDisplayComponent } from './components/treasury-display/treasury
 import { NoAccessComponent } from 'shared/components/no-access/no-access.component';
 import { TreasureGuard } from 'shared/services/treasure-guard.service';
 import { DisplayCurrencyComponent } from './components/display-currency/display-currency.component';
-import { EditCurrencyComponent } from './components/edit-currency/edit-currency.component';
 import { TreasuryCurrencyService } from './services/treasury-currency.service';
 import { SplitCurrencyComponent } from './components/split-currency/split-currency.component';
 import { DisplayValuablesComponent } from './components/display-valuables/display-valuables.component';
-import { EditValuablesComponent } from './components/edit-valuables/edit-valuables.component';
 import { DisplayTreasureComponent } from './components/display-treasure/display-treasure.component';
 
 @NgModule({
@@ -24,11 +22,9 @@ import { DisplayTreasureComponent } from './components/display-treasure/display-
   ],
   declarations: [
     DisplayCurrencyComponent,
-    EditCurrencyComponent,
     TreasuryDisplayComponent,
     SplitCurrencyComponent,
     DisplayValuablesComponent,
-    EditValuablesComponent,
     DisplayTreasureComponent
   ],
   providers: [
