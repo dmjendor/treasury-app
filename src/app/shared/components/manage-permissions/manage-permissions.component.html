@@ -2,11 +2,6 @@
 <ng-container class="row" *ngIf="vault.key !== null">
     <div class="row">
       <div class="col-12">
-        <hr />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
           <h5>Permissions
             <div class="pull-right">
                 <button type="button" 
@@ -75,8 +70,8 @@
       <div class="col-12">
         <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
           <button type="button" class="btn btn-secondary btn-primary w-100" (click)="createPermission()">New</button>
-          <button type="button" class="btn btn-secondary btn-info w-100" (click)="editPermission()">Edit</button>
-          <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deletePermission()">Delete</button>
+          <button type="button" class="btn btn-secondary btn-info w-100" (click)="editPermission()" [disabled]="!selectedPermissions">Edit</button>
+          <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deletePermission()" [disabled]="!selectedPermissions">Delete</button>
         </div>
       </div>
     </div>

@@ -7,6 +7,8 @@ import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.s
 import { UserService } from 'shared/services/user.service';
 import { User } from 'firebase';
 import { AppUser } from 'shared/models/app-user';
+import { ToastaService } from 'ngx-toasta';
+import { ToastService } from 'shared/services/toast.service';
 
 @Component({
   selector: 'manage-permissions',
@@ -36,6 +38,7 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
     { name: 'Item'}
   ];
   constructor(
+    private toast: ToastService,
     private userService: UserService,
     private permissionsService: PermissionService,
     private confirmationDialogService: ConfirmationDialogService
@@ -58,6 +61,7 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
     const user = this.users.find((usr) => usr.key === this.selectedPermissions.user);
     const header: string = 'Please confirm..';
     const body: string = 'Are you sure you wish to delete the permissions for ' + user.name + '?  This action cannot be undone.';
+    if (user.key !== sessionStorage.getItem('userId')) {
       this.confirmationDialogService.confirm(header, body)
       .then((confirmed) => {
         if (confirmed) {
@@ -67,6 +71,9 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
       .catch(() => {
         //
       });
+    } else {
+      this.toast.addToast('error', 'Error', 'You cannot delete your own permissions.');
+    }
   }
 
   onSelect({ selected }) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,13 +12,16 @@ import { Theme } from 'shared/models/theme';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 import { Permission } from 'shared/models/permission';
 import { Bag } from 'shared/models/bag';
+import { Edition } from 'shared/models/edition';
+import { EditionService } from 'shared/services/edition.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'vault-form',
   templateUrl: './vault-form.component.html',
   styleUrls: ['./vault-form.component.css']
 })
-export class VaultFormComponent implements OnInit, OnDestroy {
+export class VaultFormComponent implements OnDestroy {
   vaultList: Vault[];
   vault = new Vault();
   vaultSub: Subscription;
@@ -30,9 +33,11 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   editPermission: boolean = false;
   selectedBag: Bag;
   editBags: boolean = false;
-
   themeList: Theme[];
   themeSub: Subscription;
+  selectedTheme = new Theme();
+  editionList: Edition[];
+  editionSub: Subscription;
   id: string;
   currentRoute: string;
   rtParams: Object = {};
@@ -40,14 +45,17 @@ export class VaultFormComponent implements OnInit, OnDestroy {
   mergeTitle: string = 'Merge Coin Split to Highest Denomination';
 
   constructor(
-    private confirmationDialogService: ConfirmationDialogService,
     private router: Router,
     private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    private vaultService: VaultService,
+    private themeService: ThemeService,
+    private editionService: EditionService,
     private utilityService: UtilityService,
     private currencyService: CurrencyService,
-    private vaultService: VaultService,
-    private themeService: ThemeService
+    private confirmationDialogService: ConfirmationDialogService
   ) {
+    this.selectedTheme.file = 'cerulean.min.css'; // setting starting theme.
     this.id = this.route.snapshot.paramMap.get('id');
     this.currentRoute = this.route.snapshot.routeConfig.path.substr(0, this.route.snapshot.routeConfig.path.length - 4);
     if (this.currentRoute.includes('admin')) {
@@ -58,18 +66,26 @@ export class VaultFormComponent implements OnInit, OnDestroy {
       this.vaultService.get(this.id)
       .valueChanges().pipe(take(1)).subscribe(p => {
         this.vault = p as Vault;
+        this.themeService.setCurrentTheme(this.vault.theme);
         this.vault.key = this.id;
+        this.themeSub = this.themeService.getAll()
+        .subscribe(theme => {
+          this.themeList = theme as Theme[];
+          this.selectedTheme = this.themeList.find((thm) => thm.key === this.vault.theme);
+          console.log(this.selectedTheme);
+        });
       });
       this.currencySub = this.currencyService.getCurrenciesByVault(this.id)
       .subscribe(currency => {
         this.currencies = currency as Currency[];
         this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
-
       });
 
-      this.themeSub = this.themeService.getAll()
-      .subscribe(theme => {
-        this.themeList = theme as Theme[];
+
+
+      this.editionSub = this.editionService.getAll()
+      .subscribe(edition => {
+        this.editionList = edition as Edition[];
       });
     }
   }
@@ -106,13 +122,14 @@ export class VaultFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-
+  themePreview() {
+    this.themeService.setCurrentTheme(this.vault.theme);
   }
 
   ngOnDestroy() {
     this.currencySub.unsubscribe();
     this.themeSub.unsubscribe();
+    this.editionSub.unsubscribe();
   }
 
 

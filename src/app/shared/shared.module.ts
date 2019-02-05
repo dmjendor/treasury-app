@@ -45,6 +45,8 @@ import { DefaultValuablesService } from './services/default-valuables.service';
 import { DefaultTreasureService } from './services/default-treasure.service';
 import { ModifierService } from './services/modifier.service';
 import { EditionService } from './services/edition.service';
+import { BagsModalViewComponent } from './components/bags-modal-view/bags-modal-view.component';
+import { BagsModalFormComponent } from './components/bags-modal-form/bags-modal-form.component';
 
 @NgModule({
   imports: [
@@ -77,10 +79,13 @@ import { EditionService } from './services/edition.service';
     VaultBagsFormComponent,
     EditTreasureComponent,
     EditCurrencyComponent,
-    EditValuablesComponent
+    EditValuablesComponent,
+    BagsModalViewComponent,
+    BagsModalFormComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
+    BagsModalViewComponent
   ],
   exports: [
     CoinInputFormComponent,
@@ -98,6 +103,8 @@ import { EditionService } from './services/edition.service';
     EditTreasureComponent,
     EditCurrencyComponent,
     EditValuablesComponent,
+    BagsModalViewComponent,
+    BagsModalFormComponent,
     CommonModule,
     FormsModule,
     RouterModule,

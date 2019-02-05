@@ -48,8 +48,8 @@
     <div class="col-12">
       <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
         <button type="button" class="btn btn-secondary btn-primary w-100" (click)="createCurrency()">New</button>
-        <button type="button" class="btn btn-secondary btn-info w-100" (click)="editCurrency()">Edit</button>
-        <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deleteCurrency()">Delete</button>
+        <button type="button" class="btn btn-secondary btn-info w-100" (click)="editCurrency()" [disabled]="!selectedCurrency">Edit</button>
+        <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deleteCurrency()" [disabled]="!selectedCurrency">Delete</button>
       </div>
     </div>
   </div>

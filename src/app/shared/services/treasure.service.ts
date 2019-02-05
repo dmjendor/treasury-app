@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Treasure } from 'shared/models/treasure';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class TreasureService {
   treasure$: Observable<any[]>;
 
   constructor(
+    private http: HttpClient,
     private db: AngularFireDatabase,
     ) {
     this.treasure$ = this.db.list('/treasure', c => c.orderByChild('name'))
@@ -52,6 +54,10 @@ export class TreasureService {
           return data;
         });
       }));
+  }
+
+  checkBagContents(bagId: string) {
+    return this.http.get('https://treasury-app.firebaseio.com/treasure.json?orderBy="location"&equalTo="' + bagId + '"');
   }
 
 }

@@ -1,23 +1,36 @@
 {
   "rules": {
-    ".read": "auth.uid != null",
+    ".read": "true",
     ".write": "auth.uid != null",
     "vaults": {
       ".indexOn": "owner"
     },
     "currency": {
-      ".read": "true",
       ".indexOn": "vault"
     },
     "coin": {
-      ".read": "true",
-      ".indexOn": ["vault","currency","changeBy"]
+      ".indexOn": ["vault","currency"]
     },
     "permissions": {
-      ".indexOn": "vault"
+      ".indexOn": ["vault","user"]
     },
     "themes": {
 
+    },
+    "defaulttreasures":{
+      ".indexOn": ["edition","parent"]
+    },
+    "defaultvaluables":{
+      ".indexOn": ["edition","parent"]
+    },
+    "bags": {
+      ".indexOn": ["vault"]
+    },
+    "treasure": {
+      ".indexOn": ["vault","location","changeBy"]
+    },
+    "valuables": {
+      ".indexOn": ["vault","location","changeBy"]
     },
     "users": {
 

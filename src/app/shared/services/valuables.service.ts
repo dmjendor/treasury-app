@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Valuable } from 'shared/models/valuable';
 import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class ValuablesService {
   valuables$: Observable<any[]>;
 
   constructor(
+    private http: HttpClient,
     private db: AngularFireDatabase,
     ) {
     this.valuables$ = this.db.list('/valuables', c => c.orderByChild('name'))
@@ -54,4 +56,7 @@ export class ValuablesService {
       }));
   }
 
+  checkBagContents(bagId: string) {
+    return this.http.get('https://treasury-app.firebaseio.com/valuables.json?orderBy="location"&equalTo="' + bagId + '"');
+  }
 }

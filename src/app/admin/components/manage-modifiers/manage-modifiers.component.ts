@@ -5,6 +5,7 @@ import { DefaultTreasureService } from 'shared/services/default-treasure.service
 import { Router } from '@angular/router';
 import { Modifier } from 'shared/models/modifier';
 import { ModifierService } from 'shared/services/modifier.service';
+
 @Component({
   selector: 'manage-modifiers',
   templateUrl: './manage-modifiers.component.html',
@@ -14,6 +15,8 @@ export class ManageModifiersComponent implements OnInit, OnDestroy {
   modifiers: Modifier[];
   modifiersSub: Subscription;
   selectedModifier: Modifier;
+  treasureSub: Subscription;
+  treasures: DefaultTreasure[];
   selected: any;
   columns = [
     { prop: 'name', name: 'Name' },
@@ -23,6 +26,7 @@ export class ManageModifiersComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
+    private treasureService: DefaultTreasureService,
     private modifierService: ModifierService,
     private router: Router
     ) {
@@ -33,8 +37,8 @@ export class ManageModifiersComponent implements OnInit, OnDestroy {
   }
 
   getParentName(key: string) {
-    if (this.modifiers && key) {
-      const val = this.modifiers.find(vl => vl.key === key);
+    if (this.treasures && key) {
+      const val = this.treasures.find(vl => vl.key === key);
       return val.name;
     }
   }
@@ -75,10 +79,16 @@ export class ManageModifiersComponent implements OnInit, OnDestroy {
       this.selected = [this.modifiers[0]];
       this.selectedModifier = this.modifiers[0];
     });
+
+    this.treasureSub = this.treasureService.getAll()
+    .subscribe(ts => {
+      this.treasures = ts as DefaultTreasure[];
+    });
   }
 
   ngOnDestroy() {
      this.modifiersSub.unsubscribe();
+     this.treasureSub.unsubscribe();
   }
 }
 

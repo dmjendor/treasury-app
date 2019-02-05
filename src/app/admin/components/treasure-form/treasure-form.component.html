@@ -60,7 +60,21 @@
               </select>
           </div>
         </div>
-
+        <div class="row top-margin">
+            <div class="col-12">
+              <label for="parent">Edition</label>
+                <select
+                  required
+                  #edition="ngModel"
+                  [(ngModel)]="treasure.edition"
+                  id="edition"
+                  name="edition"
+                  class="form-control">
+                  <option value="">None</option>
+                  <option *ngFor="let ed of editions" [value]="ed.key">{{ed.name}}</option>
+                </select>
+            </div>
+          </div>
         <div class="row top-margin">
           <div class="col-12">
               <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 

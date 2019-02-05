@@ -17,16 +17,17 @@
               <div class="row top-margin-small" >
                 <div class="col-12">
                   <div class="input-group">
-                    <select class="form-control" name="location" [(ngModel)]="valuable.location">
+                    <select class="form-control" name="location" [(ngModel)]="valuable.location" (change)="selectBag(valuable.location)">
                       <option value="">Select a Location</option>
                       <option *ngFor="let bag of bags" [value]="bag.key">{{bag.name}}</option>
                     </select>
                     <div class="input-group-append">
-                      <button class="btn btn-primary">Edit Bags</button>
+                      <button class="btn btn-primary" (click)="editBags()">Edit Bags</button>
                     </div>
                   </div>
                 </div>
               </div>
+              <hr />
               <div class="row top-margin-small">
                 <div class="col-4">
                     <input type="text" name="name" [(ngModel)]="valuable.name" class="form-control" placeholder="Name" aria-placeholder="Name">
@@ -42,6 +43,10 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <hr />
+              <div class="row top-margin-small">
+                <div class="col-12"><strong>Quick Add</strong></div>
               </div>
               <div class="row top-margin-small">
                 <div class="col-8">

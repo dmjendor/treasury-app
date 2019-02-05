@@ -5,6 +5,10 @@ import { Bag } from 'shared/models/bag';
 import { Subscription } from 'rxjs';
 import { Vault } from 'shared/models/vault';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { ToastService } from 'shared/services/toast.service';
+import { TreasureService } from 'shared/services/treasure.service';
+import { ValuablesService } from 'shared/services/valuables.service';
+import { UtilityService } from 'shared/services/utility.service';
 
 
 @Component({
@@ -29,9 +33,13 @@ export class ManageVaultBagsComponent implements OnDestroy, OnChanges {
     { prop: 'name', name: 'Name' }
   ];
 constructor(
+  private router: Router,
+  private toast: ToastService,
   private bagService: BagService,
+  private utilityService: UtilityService,
+  private treasureService: TreasureService,
+  private valuablesService: ValuablesService,
   private confirmationDialogService: ConfirmationDialogService,
-  private router: Router
   ) { }
 
 toggleDisplay() {
@@ -51,14 +59,27 @@ editBag() {
 deleteBag() {
   const header: string = 'Please confirm..';
   const body: string = 'Are you sure you wish to delete the bag ' + this.selectedBag.name + '?  This action cannot be undone.';
-    this.confirmationDialogService.confirm(header, body)
-    .then((confirmed) => {
-      if (confirmed) {
-        this.bagService.remove(this.selectedBag.key);
-      }
-    })
-    .catch(() => {
-      //
+  this.treasureService.checkBagContents(this.selectedBag.key).toPromise().then((treasure) => {
+    if (this.utilityService.isEmpty(treasure)) {
+      this.valuablesService.checkBagContents(this.selectedBag.key).toPromise().then((valuable) => {
+        if (this.utilityService.isEmpty(valuable)) {
+          this.confirmationDialogService.confirm(header, body)
+          .then((confirmed) => {
+            if (confirmed) {
+              this.bagService.remove(this.selectedBag.key);
+              this.emitter2.emit(false);
+            }
+          })
+          .catch(() => {
+
+          });
+        } else {
+          this.toast.addToast('error', 'Error', 'You cannot delete a bag while it contains valuables.');
+        }
+      });
+    } else {
+     this.toast.addToast('error', 'Error', 'You cannot delete a bag while it contains treasure.');
+    }
   });
 }
 

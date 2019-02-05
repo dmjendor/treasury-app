@@ -4,6 +4,7 @@ interface DefaultValuableData {
     lowvalue: number;
     highvalue: number;
     parent: string;
+    edition: string;
     active: boolean;
 }
 
@@ -13,6 +14,7 @@ export class DefaultValuable implements DefaultValuableData {
     lowvalue = null;
     highvalue = null;
     parent = '';
+    edition = '-LXtHATL6RaLGCrn-MWE';
     active = true;
     constructor() {}
 }

@@ -39,4 +39,19 @@ export class DefaultTreasureService {
   get(treasureID: string) {
     return this.db.object('/defaulttreasures/' + treasureID);
   }
+
+  getTreasuresByEdition(editionId: string) {
+    return this.db.list('/defaulttreasures',
+      ref => ref.orderByChild('edition')
+      .equalTo(editionId))
+      .snapshotChanges()
+      .pipe(map(items => {            // <== new way of chaining
+        return items.map(a => {
+          const data = a.payload.val() as DefaultTreasure;
+          const key = a.payload.key;
+          data.key  = key;
+          return data;
+        });
+      }));
+  }
 }

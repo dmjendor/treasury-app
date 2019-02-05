@@ -9,6 +9,7 @@ export interface VaultData {
     ibMarkup: number;
     isMarkup: number;
     owner: string;
+    edition: string;
     treasurySplit: boolean;
     mergeSplit: boolean;
     theme: string;
@@ -25,6 +26,7 @@ export class Vault implements VaultData {
     ibMarkup = 0;
     isMarkup = 0;
     owner = '';
+    edition = '';
     treasurySplit = true;
     mergeSplit = false;
     theme = '0';

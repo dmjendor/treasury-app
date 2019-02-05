@@ -1,3 +1,52 @@
-<p>
-  edition-form works!
-</p>
+<div class="container" *ngIf="edition">
+  <div class="row">
+    <div class="col-6">
+      <form #editionForm="ngForm" (ngSubmit)="save(editionForm.value)">
+        <div class="form-group row">
+          <div class="col-10">
+              <label for="name">Name</label>
+              <input
+                required
+                #name="ngModel"
+                [(ngModel)]="edition.name"
+                id="name"
+                name="name"
+                type="text"
+                class="form-control"
+              />
+              <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+                Name is required.
+              </div>
+          </div>
+
+          <div class="col-2">
+            <label for="active">Active</label>
+            <input
+              #active="ngModel"
+              [(ngModel)]="edition.active"
+              id="active"
+              name="active"
+              type="checkbox"
+              class="form-control">
+          </div>
+        </div>
+        <div class="row top-margin">
+          <div class="col-12">
+              <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                  <button class="btn btn-primary w-100">
+                    Save
+                  </button>
+                  <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+                    Cancel
+                  </button>
+                  <button type="button" class="btn btn-danger w-100" (click)="delete()">
+                    Delete
+                  </button>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

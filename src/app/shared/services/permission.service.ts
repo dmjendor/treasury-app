@@ -45,7 +45,7 @@ export class PermissionService {
   getPermissionsByUser() {
     return this.db.list('/permissions',
       ref => ref.orderByChild('user')
-      .equalTo(localStorage.getItem('userId')))
+      .equalTo(sessionStorage.getItem('userId')))
       .snapshotChanges()
       .pipe(map(items => {            // <== new way of chaining
         return items.map(a => {

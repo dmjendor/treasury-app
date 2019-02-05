@@ -11,6 +11,8 @@ import { take } from 'rxjs/operators';
 import { DefaultValuablesService } from 'shared/services/default-valuables.service';
 import { DefaultValuable } from 'shared/models/defaultvaluable';
 import { ToastService } from 'shared/services/toast.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.component';
 
 @Component({
   selector: 'edit-valuables',
@@ -20,6 +22,7 @@ import { ToastService } from 'shared/services/toast.service';
 export class EditValuablesComponent implements OnInit, OnDestroy {
   @Input() vault: Vault;
   valuable = new Valuable();
+  selectedBag: string;
   currency: Currency;
   showDisplay: boolean = false;
   bagSub: Subscription;
@@ -34,6 +37,7 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
   constructor(
     private toast: ToastService,
     private bagService: BagService,
+    private modalService: NgbModal,
     private currencyService: CurrencyService,
     private valuableService: ValuablesService,
     private defaultValuableService: DefaultValuablesService
@@ -77,6 +81,10 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
     this.showDisplay = !this.showDisplay;
   }
 
+  selectBag(bagId: string) {
+    this.selectedBag = bagId;
+  }
+
   addValuable() {
     if (this.valuable.location) {
       this.valuable.vault = this.vault.key;
@@ -86,6 +94,7 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
       this.valuable.timestamp = new Date();
       this.valuableService.create(this.valuable).then((response) => {
         this.valuable = new Valuable();
+        this.valuable.location = this.selectedBag;
       });
     } else {
       this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
@@ -110,6 +119,7 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
       this.valuable.timestamp = Date.now();
       this.valuableService.create(this.valuable).then((response) => {
         this.valuable = new Valuable();
+        this.valuable.location = this.selectedBag;
       });
     } else {
       this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
@@ -144,4 +154,9 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
     this.step3 = '-1';
   }
 
+
+  editBags() {
+    const activeModal = this.modalService.open(BagsModalViewComponent, {ariaLabelledBy: 'Edit Bags', });
+    activeModal.componentInstance.vault = this.vault;
+  }
 }

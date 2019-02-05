@@ -77,7 +77,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="gbMarkup">Valuable Object Buy Markup</label>
+              <label for="gbMarkup">Valuables Buy Markup</label>
               <input
                 #gbMarkup="ngModel"
                 [(ngModel)]="vault.gbMarkup"
@@ -87,7 +87,7 @@
                 class="form-control">
             </div>
             <div class="col-6">
-              <label for="active">Valuable Object Sell Markup</label>
+              <label for="active">Valuables Sell Markup</label>
               <input
                 #gsMarkup="ngModel"
                 [(ngModel)]="vault.gsMarkup"
@@ -127,8 +127,20 @@
                 [(ngModel)]="vault.theme"
                 id="theme"
                 name="theme"
+                (change)="themePreview()"
                 class="form-control">
                   <option *ngFor="let theme of themeList" [value]="theme.key">{{theme.name}}</option>
+                </select>
+            </div>
+            <div class="col-6">
+              <label for="active">Game/Edition</label>
+              <select
+                #edition="ngModel"
+                [(ngModel)]="vault.edition"
+                id="edition"
+                name="edition"
+                class="form-control">
+                  <option *ngFor="let edition of editionList" [value]="edition.key">{{edition.name}}</option>
                 </select>
             </div>
           </div>
@@ -150,6 +162,11 @@
           </div>
         </form>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <hr />
+        </div>
+      </div>
       <div class="col-6">
         <div class="row">
             <div class="col-12" *ngIf="!editCurrency">
@@ -159,14 +176,24 @@
               <currency-form  [vault]="vault" [(edit)]="editCurrency" [(selectedCurrency)]="selectedCurrency"></currency-form>
             </div>
         </div>
-          <div class="row">
-            <div class="col-12" *ngIf="!editPermission">
-              <manage-permissions [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></manage-permissions>
+        <div class="row">
+            <div class="col-12">
+              <hr />
             </div>
-            <div class="col-12" *ngIf="editPermission">
-              <permission-form [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></permission-form>
-            </div>
+          </div>
+        <div class="row">
+          <div class="col-12" *ngIf="!editPermission">
+            <manage-permissions [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></manage-permissions>
+          </div>
+          <div class="col-12" *ngIf="editPermission">
+            <permission-form [vault]="vault" [(edit)]="editPermission" [(selectedPermission)]="selectedPermission"></permission-form>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <hr />
+          </div>
+          </div>
         <div class="row">
           <div class="col-12" *ngIf="!editBags">
               <manage-vault-bags [vault]="vault" [(edit)]="editBags" [(selectedBag)]="selectedBag"></manage-vault-bags>

@@ -98,6 +98,36 @@ import { ModifierFormComponent } from './components/modifier-form/modifier-form.
       component: ManageTreasuresComponent,
       canActivate: [AuthGuard, AdminAuthGuard]
     },
+    {
+      path: 'admin/editions/new',
+      component: EditionFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/editions/:id',
+      component: EditionFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/editions',
+      component: ManageEditionsComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/modifiers/new',
+      component: ModifierFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/modifiers/:id',
+      component: ModifierFormComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+      path: 'admin/modifiers',
+      component: ManageModifiersComponent,
+      canActivate: [AuthGuard, AdminAuthGuard]
+    },
     ])
   ],
   declarations: [

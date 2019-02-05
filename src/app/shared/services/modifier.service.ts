@@ -39,4 +39,19 @@ export class ModifierService {
     return this.db.object('/modifiers/' + modifierID);
   }
 
+  getModifiersByEdition(editionId: string) {
+    return this.db.list('/modifiers',
+      ref => ref.orderByChild('edition')
+      .equalTo(editionId))
+      .snapshotChanges()
+      .pipe(map(items => {            // <== new way of chaining
+        return items.map(a => {
+          const data = a.payload.val() as Modifier;
+          const key = a.payload.key;
+          data.key  = key;
+          return data;
+        });
+      }));
+  }
+
 }

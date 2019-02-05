@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DefaultTreasure } from 'shared/models/defaulttreasure';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilityService } from 'shared/services/utility.service';
 import { DefaultTreasureService } from 'shared/services/default-treasure.service';
 import { take } from 'rxjs/operators';
+import { Edition } from 'shared/models/edition';
+import { EditionService } from 'shared/services/edition.service';
 
 @Component({
   selector: 'treasure-form',
   templateUrl: './treasure-form.component.html',
   styleUrls: ['./treasure-form.component.css']
 })
-export class TreasureFormComponent implements OnInit {
+export class TreasureFormComponent implements OnInit, OnDestroy {
   id: string;
   treasure = new DefaultTreasure();
   treasuresSub: Subscription;
   treasures: DefaultTreasure[];
+  editionSub: Subscription;
+  editions: Edition[];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
+    private editionService: EditionService,
     private utilityService: UtilityService,
     private treasureService: DefaultTreasureService
   ) {
@@ -37,6 +42,16 @@ export class TreasureFormComponent implements OnInit {
     .subscribe(cls => {
       this.treasures = cls as DefaultTreasure[];
     });
+
+    this.editionSub = this.editionService.getAll()
+    .subscribe(eds => {
+      this.editions = eds as Edition[];
+    });
+  }
+
+  ngOnDestroy() {
+    this.treasuresSub.unsubscribe();
+    this.editionSub.unsubscribe();
   }
 
   toTitleCase(string) {

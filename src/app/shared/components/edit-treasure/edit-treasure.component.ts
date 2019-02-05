@@ -13,6 +13,8 @@ import { DefaultTreasureService } from 'shared/services/default-treasure.service
 import { DefaultTreasure } from 'shared/models/defaulttreasure';
 import { ModifierService } from 'shared/services/modifier.service';
 import { Modifier } from 'shared/models/modifier';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.component';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
   step1: string = '-1';
   step2: string = '-1';
   step3: string = '-1';
+  selectedBag: string;
   bags: Bag[];
   defaultTreasureSub: Subscription;
   defaultTreasure: DefaultTreasure[];
@@ -40,6 +43,7 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
   constructor(
     private toast: ToastService,
     private bagService: BagService,
+    private modalService: NgbModal,
     private currencyService: CurrencyService,
     private treasureService: TreasureService,
     private modifierService: ModifierService,
@@ -59,12 +63,12 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
       this.currency.key = this.vault.commonCurrency;
     });
 
-    this.defaultTreasureSub = this.defaultTreasureService.getAll()
+    this.defaultTreasureSub = this.defaultTreasureService.getTreasuresByEdition(this.vault.edition)
     .subscribe(dval => {
       this.defaultTreasure = dval as DefaultTreasure[];
     });
 
-    this.modifierSub = this.modifierService.getAll()
+    this.modifierSub = this.modifierService.getModifiersByEdition(this.vault.edition)
     .subscribe(mod => {
       this.modifiers = mod as Modifier[];
     });
@@ -97,6 +101,10 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
     this.showDisplay = !this.showDisplay;
   }
 
+  selectBag(bagId: string) {
+    this.selectedBag = bagId;
+  }
+
   addTreasure() {
     if (this.treasure.location) {
       this.treasure.vault = this.vault.key;
@@ -104,9 +112,9 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
       this.treasure.value = Math.floor(this.treasure.value * this.currency.multiplier);
       this.treasure.changeby = sessionStorage.getItem('userId');
       this.treasure.timestamp = Date.now();
-      console.log(this.treasure.timestamp);
       this.treasureService.create(this.treasure).then((response) => {
         this.treasure = new Treasure();
+        this.treasure.location = this.selectedBag;
       });
     } else {
       this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
@@ -136,6 +144,7 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
       this.treasure.timestamp = Date.now();
       this.treasureService.create(this.treasure).then((response) => {
         this.treasure = new Treasure();
+        this.treasure.location = this.selectedBag;
       });
     } else {
       this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
@@ -174,6 +183,11 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
   changeStep1() {
     this.step2 = '-1';
     this.step3 = '-1';
+  }
+
+  editBags() {
+    const activeModal = this.modalService.open(BagsModalViewComponent, {ariaLabelledBy: 'Edit Bags', });
+    activeModal.componentInstance.vault = this.vault;
   }
 
 }
