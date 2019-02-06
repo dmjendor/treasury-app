@@ -13,7 +13,7 @@ import { CurrencyService } from 'shared/services/currency.service';
   templateUrl: './display-currency.component.html',
   styleUrls: ['./display-currency.component.css']
 })
-export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit, OnChanges, OnDestroy {
+export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
   @Input('vault') vault: Vault;
   coins: Coin[];
   displayCoins: Coin[] = [];
@@ -21,6 +21,7 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
   currencies: Currency[];
   currencySub: Subscription;
   showDisplay: boolean = false;
+  oldVault: string;
 
   constructor(
     private coinService: TreasuryCurrencyService,
@@ -31,27 +32,39 @@ export class DisplayCurrencyComponent implements AfterViewInit, AfterContentInit
     ) {
   }
 
+  async ngOnInit() {
+    this.createSubscriptions();
+  }
+
   ngOnChanges() {
-    if (this.vault.key) {
-      this.updateCoinList();
+    if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
+      this.destroySubscriptions().then((init) => {
+        this.createSubscriptions();
+      });
     }
   }
 
   ngOnDestroy() {
-    if (this.coinSub) {
+    this.destroySubscriptions();
+  }
+
+  destroySubscriptions() {
+    const coinPromise = new Promise((resolve, reject) => {
       this.coinSub.unsubscribe();
-    }
-    if (this.currencySub) {
+      resolve();
+      reject();
+    });
+    const currencyPromise = new Promise((resolve, reject) => {
       this.currencySub.unsubscribe();
-    }
-  }
+      resolve();
+      reject();
+    });
 
-  ngAfterContentInit() {
-    this.createSubscriptions();
-  }
-
-  ngAfterViewInit() {
-   // this.updateCoinList();
+    return coinPromise.then((a) => {
+      currencyPromise.then((c) => {
+        return true;
+      });
+    });
   }
 
   toggleDisplay() {

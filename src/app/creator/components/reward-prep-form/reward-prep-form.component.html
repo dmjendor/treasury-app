@@ -1,0 +1,73 @@
+<form #prepForm>
+  <div class="row">
+    <div class="col-12">
+      <label for="name">Name</label>
+      <input
+        required
+        #name="ngModel"
+        [(ngModel)]="rewardprep.name"
+        id="name"
+        name="name"
+        type="text"
+        class="form-control"
+      />
+      <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+        Name is required.
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="rewardprep.key">
+    <div class="col-6">
+      <div class="row top-margin">
+        <div class="col-12">
+          <display-prep-coin></display-prep-coin>
+        </div>
+      </div>
+      <div class="row top-margin">
+        <div class="col-12">
+          <display-prep-valuables></display-prep-valuables>
+        </div>
+      </div>
+      <div class="row top-margin">
+        <div class="col-12">
+            <display-prep-treasure></display-prep-treasure>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row top-margin">
+        <div class="col-12">
+          <edit-prep-coin></edit-prep-coin>
+        </div>
+      </div>
+      <div class="row top-margin">
+        <div class="col-12">
+          <edit-prep-valuables></edit-prep-valuables>
+        </div>
+      </div>
+      <div class="row top-margin">
+        <div class="col-12">
+            <edit-prep-treasure></edit-prep-treasure>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row top-margin">
+    <div class="col-12">
+        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+            <button class="btn btn-primary w-100" *ngIf="!rewardprep.key" (click)="create()">
+              Create
+            </button>
+            <button class="btn btn-primary w-100" *ngIf="rewardprep.key" (click)="save()">
+              Save
+            </button>
+            <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-danger w-100" (click)="delete()">
+              Delete
+            </button>
+        </div>
+    </div>
+  </div>
+</form>

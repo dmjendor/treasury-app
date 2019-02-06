@@ -1,0 +1,32 @@
+<div class="row top-margin">
+  <div class="col-12">
+    <a class="btn btn-lg btn-info btn-block"
+      routerLink="/rewardprep/new">
+      <span>Create Reward Prep</span>
+    </a>
+  </div>
+</div>
+<div class="row" *ngIf="rewardprep">
+    <div class="col-12">
+        <ngx-datatable
+        class="bootstrap"
+        [columnMode]="'force'"
+        [rows]="rewardprep"
+        [limit]="25"
+        [rowHeight]="'auto'"
+        [columns]="prepColumns"
+        [selected]="prepSelected"
+        [selectionType]="'single'"
+        (activate)="onPrepActivate($event)"
+        (select)='onPrepSelect($event)'>
+        >
+        
+          <ngx-datatable-column name="Name"></ngx-datatable-column>
+          <ngx-datatable-column name="Vault">
+              <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                  {{vaultName(value)}}
+                </ng-template>
+            </ngx-datatable-column>          
+        </ngx-datatable>
+  </div>
+</div>

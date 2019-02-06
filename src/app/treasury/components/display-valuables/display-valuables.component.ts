@@ -19,7 +19,7 @@ import { CommerceService } from 'shared/services/commerce.service';
   templateUrl: './display-valuables.component.html',
   styleUrls: ['./display-valuables.component.css']
 })
-export class DisplayValuablesComponent implements OnInit, OnDestroy {
+export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   @Input('vault') vault: Vault;
   valuables: Valuable[];
   valuableSub: Subscription;
@@ -28,6 +28,7 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
   currencySub: Subscription;
   currency: Currency;
   droppedItem: Valuable;
+  oldVault: string;
   showDisplay: boolean = false;
 
   constructor(
@@ -41,7 +42,15 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
     ) {
   }
 
-  async ngOnInit() {
+  ngOnChanges() {
+    if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
+      this.destroySubscriptions().then((init) => {
+        this.createSubscriptions();
+      });
+    }
+  }
+
+  createSubscriptions() {
     this.currencySub = this.currencyService.get(this.vault.commonCurrency)
     .valueChanges().pipe(take(1)).subscribe(p => {
       this.currency = p as Currency;
@@ -55,8 +64,41 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
 
     this.valuableSub = this.valuableService.getValuablesByVault(this.vault.key)
       .subscribe(val => {
+        this.oldVault = this.vault.key;
         this.valuables = val as Valuable[];
     });
+  }
+
+  destroySubscriptions() {
+    const valuablesPromise = new Promise((resolve, reject) => {
+      this.valuableSub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    const bagPromise = new Promise((resolve, reject) => {
+      this.bagSub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    const currencyPromise = new Promise((resolve, reject) => {
+      this.currencySub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    return valuablesPromise.then((a) => {
+      bagPromise.then((b) => {
+        currencyPromise.then((c) => {
+          return true;
+        });
+      });
+    });
+  }
+
+  async ngOnInit() {
+    this.createSubscriptions();
   }
 
 
@@ -67,15 +109,7 @@ export class DisplayValuablesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.valuableSub) {
-      this.valuableSub.unsubscribe();
-    }
-    if (this.bagSub) {
-      this.bagSub.unsubscribe();
-    }
-    if (this.currencySub) {
-      this.currencySub.unsubscribe();
-    }
+    this.destroySubscriptions();
   }
 
   toggleDisplay() {

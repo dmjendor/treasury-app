@@ -72,7 +72,6 @@ export class VaultFormComponent implements OnDestroy {
         .subscribe(theme => {
           this.themeList = theme as Theme[];
           this.selectedTheme = this.themeList.find((thm) => thm.key === this.vault.theme);
-          console.log(this.selectedTheme);
         });
       });
       this.currencySub = this.currencyService.getCurrenciesByVault(this.id)

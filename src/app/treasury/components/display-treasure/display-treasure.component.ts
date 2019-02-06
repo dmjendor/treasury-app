@@ -20,7 +20,7 @@ import { CommerceService } from 'shared/services/commerce.service';
   templateUrl: './display-treasure.component.html',
   styleUrls: ['./display-treasure.component.css']
 })
-export class DisplayTreasureComponent implements OnInit, OnDestroy {
+export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
   @Input('vault') vault: Vault;
   treasures: Treasure[];
   treasureSub: Subscription;
@@ -29,6 +29,7 @@ export class DisplayTreasureComponent implements OnInit, OnDestroy {
   currencySub: Subscription;
   currency: Currency;
   droppedItem: Treasure;
+  oldVault: string;
   showDisplay: boolean = false;
 
   constructor(
@@ -42,7 +43,7 @@ export class DisplayTreasureComponent implements OnInit, OnDestroy {
     ) {
   }
 
-  async ngOnInit() {
+  initializeSubscriptions() {
     this.currencySub = this.currencyService.get(this.vault.commonCurrency)
     .valueChanges().pipe(take(1)).subscribe(p => {
       this.currency = p as Currency;
@@ -60,24 +61,55 @@ export class DisplayTreasureComponent implements OnInit, OnDestroy {
     });
   }
 
+  destroySubscriptions() {
+    const treasurePromise = new Promise((resolve, reject) => {
+      this.treasureSub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    const bagPromise = new Promise((resolve, reject) => {
+      this.bagSub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    const currencyPromise = new Promise((resolve, reject) => {
+      this.currencySub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    return treasurePromise.then((a) => {
+      bagPromise.then((b) => {
+        currencyPromise.then((c) => {
+          return true;
+        });
+      });
+    });
+  }
+
+  async ngOnInit() {
+    this.initializeSubscriptions();
+  }
+
+  ngOnDestroy() {
+    this.destroySubscriptions();
+  }
+
+  ngOnChanges() {
+    if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
+      this.destroySubscriptions().then((init) => {
+        this.initializeSubscriptions();
+      });
+    }
+  }
 
   currencyDisplay(value) {
     if (this.currency) {
       const x = (value / this.currency.multiplier);
       const retVal = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       return  retVal + ' ' + this.currency.abbreviation;
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.treasureSub) {
-      this.treasureSub.unsubscribe();
-    }
-    if (this.bagSub) {
-      this.bagSub.unsubscribe();
-    }
-    if (this.currencySub) {
-      this.currencySub.unsubscribe();
     }
   }
 

@@ -19,16 +19,16 @@ export class Vault implements VaultData {
     key = null;
     active = true;
     name = '';
-    baseCurrency = '0';
-    commonCurrency = '0';
+    baseCurrency = null;
+    commonCurrency = null;
     gbMarkup = 0;
     gsMarkup = 0;
     ibMarkup = 0;
     isMarkup = 0;
     owner = '';
-    edition = '';
+    edition = null;
     treasurySplit = true;
     mergeSplit = false;
-    theme = '0';
+    theme = '-LVdBangNq0NFiPl3AMi';
     constructor() {}
 }

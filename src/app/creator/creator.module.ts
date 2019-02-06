@@ -6,6 +6,14 @@ import { UserVaultComponent } from './components/user-vault/user-vault.component
 import { AuthGuard } from 'shared/services/auth-guard.service';
 import { CreateVaultComponent } from './components/create-vault/create-vault.component';
 import { VaultFormComponent } from 'shared/components/vault-form/vault-form.component';
+import { RewardPrepListComponent } from './components/reward-prep-list/reward-prep-list.component';
+import { RewardPrepFormComponent } from './components/reward-prep-form/reward-prep-form.component';
+import { DisplayPrepCoinComponent } from './components/display-prep-coin/display-prep-coin.component';
+import { DisplayPrepValuablesComponent } from './components/display-prep-valuables/display-prep-valuables.component';
+import { DisplayPrepTreasureComponent } from './components/display-prep-treasure/display-prep-treasure.component';
+import { EditPrepTreasureComponent } from './components/edit-prep-treasure/edit-prep-treasure.component';
+import { EditPrepValuablesComponent } from './components/edit-prep-valuables/edit-prep-valuables.component';
+import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coin.component';
 
 @NgModule({
   imports: [
@@ -27,11 +35,34 @@ import { VaultFormComponent } from 'shared/components/vault-form/vault-form.comp
         component: UserVaultComponent,
         canActivate: [AuthGuard]
       },
+      {
+        path: 'rewardprep/new',
+        component: RewardPrepFormComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'rewardprep/:id',
+        component: RewardPrepFormComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'rewardprep',
+        component: UserVaultComponent,
+        canActivate: [AuthGuard]
+      },
     ])
   ],
   declarations: [
     CreateVaultComponent,
-    UserVaultComponent
+    UserVaultComponent,
+    RewardPrepListComponent,
+    RewardPrepFormComponent,
+    DisplayPrepCoinComponent,
+    DisplayPrepValuablesComponent,
+    DisplayPrepTreasureComponent,
+    EditPrepTreasureComponent,
+    EditPrepValuablesComponent,
+    EditPrepCoinComponent
   ],
   exports: [
 

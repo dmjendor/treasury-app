@@ -12,11 +12,9 @@
                   id="name"
                   name="name"
                   type="text"
+                  [ngClass]="{'is-invalid':name.invalid}"
                   class="form-control"
                 />
-                <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
-                  Name is required.
-                </div>
             </div>
             <div class="col-2">
               <label for="split" [title]="splitTitle">Split</label>
@@ -55,10 +53,12 @@
             <div class="col-6">
               <label for="baseCurrency">Base Currency</label>
               <select
+                required
                 #baseCurrency="ngModel"
                 [(ngModel)]="vault.baseCurrency"
                 id="baseCurrency"
                 name="baseCurrency"
+                [ngClass]="{'is-invalid':baseCurrency.invalid}"
                 class="form-control">
                   <option *ngFor="let currency of currencies" [value]="currency.key">{{currency.name}}</option>
                 </select>
@@ -66,10 +66,12 @@
             <div class="col-6">
               <label for="commonCurrency">Common Currency</label>
               <select
-                #baseCurrency="ngModel"
+                required
+                #commonCurrency="ngModel"
                 [(ngModel)]="vault.commonCurrency"
                 id="commonCurrency"
                 name="commonCurrency"
+                [ngClass]="{'is-invalid':commonCurrency.invalid}"
                 class="form-control">
                   <option *ngFor="let currency of currencies" [value]="currency.key">{{currency.name}}</option>
                 </select>
@@ -116,7 +118,8 @@
                 id="isMarkup"
                 name="isMarkup"
                 type="text"
-                class="form-control">
+                class="form-control"
+                >
             </div>
           </div>
           <div class="row">
@@ -135,10 +138,12 @@
             <div class="col-6">
               <label for="active">Game/Edition</label>
               <select
+                required
                 #edition="ngModel"
                 [(ngModel)]="vault.edition"
                 id="edition"
                 name="edition"
+                [ngClass]="{'is-invalid':edition.invalid}"
                 class="form-control">
                   <option *ngFor="let edition of editionList" [value]="edition.key">{{edition.name}}</option>
                 </select>
@@ -148,7 +153,7 @@
           <div class="row top-margin">
             <div class="col-12">
                 <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
-                    <button class="btn btn-primary w-100">
+                    <button class="btn btn-primary w-100" [disabled]="vaultForm.invalid">
                       Save
                     </button>
                     <button type="button" class="btn btn-primary w-100" (click)="cancel()">

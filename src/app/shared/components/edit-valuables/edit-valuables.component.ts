@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
 import { ValuablesService } from 'shared/services/valuables.service';
@@ -19,7 +19,7 @@ import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.compo
   templateUrl: './edit-valuables.component.html',
   styleUrls: ['./edit-valuables.component.css']
 })
-export class EditValuablesComponent implements OnInit, OnDestroy {
+export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() vault: Vault;
   valuable = new Valuable();
   selectedBag: string;
@@ -33,6 +33,7 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
   bags: Bag[];
   defaultValuableSub: Subscription;
   defaultValuables: DefaultValuable[];
+  oldVault: string;
 
   constructor(
     private toast: ToastService,
@@ -44,6 +45,22 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
+    this.createSubscriptions();
+  }
+
+  ngOnChanges() {
+    if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
+      this.destroySubscriptions().then((init) => {
+        this.createSubscriptions();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroySubscriptions();
+  }
+
+  createSubscriptions() {
     this.bagSub = this.bagService.getBagsByVault(this.vault.key)
     .subscribe(bag => {
       this.bags = bag as Bag[];
@@ -54,6 +71,7 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
     .valueChanges().pipe(take(1)).subscribe(p => {
       this.currency = p as Currency;
       this.currency.key = this.vault.commonCurrency;
+      this.oldVault = this.vault.key;
     });
 
     this.defaultValuableSub = this.defaultValuableService.getAll()
@@ -62,13 +80,29 @@ export class EditValuablesComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    if (this.bagSub) {
-      this.bagSub.unsubscribe();
-    }
-    if (this.currencySub) {
+  destroySubscriptions() {
+    const currencyPromise  = new Promise((resolve, reject) => {
       this.currencySub.unsubscribe();
-    }
+      resolve();
+      reject();
+    });
+    const bagPromise  = new Promise((resolve, reject) => {
+      this.bagSub.unsubscribe();
+      resolve();
+      reject();
+    });
+    const defaultValuablePromise  = new Promise((resolve, reject) => {
+      this.defaultValuableSub.unsubscribe();
+      resolve();
+      reject();
+    });
+    return currencyPromise.then((a) => {
+      bagPromise.then((b) => {
+        defaultValuablePromise.then((c) => {
+          return true;
+        });
+      });
+    });
   }
 
   displayValue() {

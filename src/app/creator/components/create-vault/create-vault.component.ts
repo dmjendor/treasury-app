@@ -59,7 +59,7 @@ export class CreateVaultComponent  implements OnInit, OnDestroy {
     promise.then((data: Vault) => {
       this.toast.addToast('success', 'Success', 'New Treasury created successfully.');
       this.permissionService.initializeNewTreasury(this.userId, data.key);
-      this.router.navigate(['/vaults']);
+      this.router.navigate(['/vaults/' + data.key]);
     }).catch((error) => {
       this.toast.addToast('error', 'Error', 'An error occured creating the new vault.');
       this.router.navigate(['/vaults']);

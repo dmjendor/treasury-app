@@ -17,24 +17,28 @@ import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.s
   styleUrls: ['./user-vault.component.css']
 })
 export class UserVaultComponent implements OnInit, OnDestroy {
+  userId: string = sessionStorage.getItem('userId');
   itemCount: number;
-  selected: any[];
+  vaultSelected: any[];
+  prepSelected: any[];
   appUser: AppUser;
+
   vault$;
   vault: Vault[];
   vaultSub: Subscription;
   selectedVault: Vault;
+
   themeList: Theme[];
   themeSub: Subscription;
   currencyList: Currency[];
   currencySub: Subscription;
-  userId: string;
+
   userSubscription: Subscription;
 
-    columns = [
+    vaultColumns = [
       { prop: 'name' },
       { name: 'Theme'},
-      { name: 'Active' }
+      { name: 'Active'}
     ];
 
     constructor(
@@ -85,11 +89,11 @@ export class UserVaultComponent implements OnInit, OnDestroy {
 
     }
 
-    onSelect({ selected }) {
-      this.selectedVault = this.selected[0];
+    onVaultSelect({ selected }) {
+      this.selectedVault = this.vaultSelected[0];
     }
 
-    onActivate(event) {
+    onVaultActivate(event) {
       // console.log('Activate Event', event);
     }
 
@@ -112,14 +116,11 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
-      this.userSubscription = this.authService.user$.subscribe(user => {
-        this.userId = user.uid;
-        this.vaultService.getVaultByOwner(this.userId)
-        .subscribe(vault => {
-          this.vault = vault as Vault[];
-          this.selected = [vault[0]];
-          this.selectedVault = vault[0] as Vault;
-        });
+      this.vaultSub = this.vaultService.getVaultByOwner(this.userId)
+      .subscribe(vault => {
+        this.vault = vault as Vault[];
+        this.vaultSelected = [vault[0]];
+        this.selectedVault = vault[0] as Vault;
       });
 
       this.themeSub = this.themeService.getAll()
@@ -131,12 +132,10 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       .subscribe(currency => {
         this.currencyList = currency as Currency[];
       });
-
-      this.authService.appUser$.subscribe(appUser => this.appUser = appUser);
     }
 
     ngOnDestroy() {
-      this.userSubscription.unsubscribe();
+      this.vaultSub.unsubscribe();
       this.themeSub.unsubscribe();
       this.currencySub.unsubscribe();
     }

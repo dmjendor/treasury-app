@@ -1,40 +1,49 @@
-    <div class="form-group row">
-      <div class="col-6">
-          <label for="name">Name</label>
-          <input
-            required
-            #name="ngModel"
-            [(ngModel)]="vault.name"
-            id="name"
-            name="name"
-            type="text"
-            class="form-control"
-          />
-          <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
-            Name is required.
-          </div>
-      </div>
-      <div class="col-2">
-        <label for="split" title="Party Coin Split">Split</label>
-        <input
-          #split="ngModel"
-          [(ngModel)]="vault.treasurySplit"
-          id="split"
-          name="split"
-          type="checkbox"
-          class="form-control">
-      </div>
-      <div class="col-2">
-        <label for="active">Active</label>
-        <input
-          #active="ngModel"
-          [(ngModel)]="vault.active"
-          id="active"
-          name="active"
-          type="checkbox"
-          class="form-control">
-      </div>
+<div class="form-group row">
+  <div class="col-6">
+      <label for="name">Name</label>
+      <input
+        required
+        #name="ngModel"
+        [(ngModel)]="vault.name"
+        id="name"
+        name="name"
+        type="text"
+        class="form-control"
+      />
+  </div>
+  <div class="col-2">
+    <label for="split" [title]="splitTitle">Split</label>
+    <input
+      #split="ngModel"
+      [title]="splitTitle"
+      [(ngModel)]="vault.treasurySplit"
+      id="split"
+      name="split"
+      type="checkbox"
+      class="form-control">
+  </div>
+  <div class="col-2">
+      <label for="merge" [title]="mergeTitle">Merge</label>
+      <input
+        #merge="ngModel"
+        [title]="mergeTitle"
+        [(ngModel)]="vault.mergeSplit"
+        id="merge"
+        name="split"
+        type="checkbox"
+        class="form-control">
     </div>
+  <div class="col-2">
+    <label for="active">Active</label>
+    <input
+      #active="ngModel"
+      [(ngModel)]="vault.active"
+      id="active"
+      name="active"
+      type="checkbox"
+      class="form-control">
+  </div>
+</div>
     <div class="row" *ngIf="currencies && currencies.length>0">
       <div class="col-6">
         <label for="baseCurrency">Base Currency</label>

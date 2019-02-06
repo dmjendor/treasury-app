@@ -22,6 +22,8 @@ export class TreasuryFormComponent implements OnChanges, OnDestroy {
   currencies: Currency[];
   themeSub: Subscription;
   themeList: Theme[];
+  splitTitle: string = 'Give treasury a share during coin split.';
+  mergeTitle: string = 'Merge Coin Split to Highest Denomination';
 
   constructor(
     private route: ActivatedRoute,

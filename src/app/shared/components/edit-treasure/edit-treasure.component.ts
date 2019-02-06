@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, OnDestroy, OnChanges } from '@angular/core';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
 import { TreasureService } from 'shared/services/treasure.service';
@@ -22,7 +22,7 @@ import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.compo
   templateUrl: './edit-treasure.component.html',
   styleUrls: ['./edit-treasure.component.css']
 })
-export class EditTreasureComponent implements OnInit, OnDestroy {
+export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
   @Input() vault: Vault;
   treasure = new Treasure();
   currency: Currency;
@@ -38,6 +38,7 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
   defaultTreasure: DefaultTreasure[];
   modifierSub: Subscription;
   modifiers: Modifier[];
+  oldVault: string;
   selectedMods: any[] = [];
 
   constructor(
@@ -50,7 +51,24 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
     private defaultTreasureService: DefaultTreasureService
   ) { }
 
+
   async ngOnInit() {
+    this.createSubscriptions();
+  }
+
+  ngOnChanges() {
+    if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
+      this.destroySubscriptions().then((init) => {
+        this.createSubscriptions();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroySubscriptions();
+  }
+
+  createSubscriptions() {
     this.bagSub = this.bagService.getBagsByVault(this.vault.key)
     .subscribe(bag => {
       this.bags = bag as Bag[];
@@ -61,6 +79,7 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
     .valueChanges().pipe(take(1)).subscribe(p => {
       this.currency = p as Currency;
       this.currency.key = this.vault.commonCurrency;
+      this.oldVault = this.vault.key;
     });
 
     this.defaultTreasureSub = this.defaultTreasureService.getTreasuresByEdition(this.vault.edition)
@@ -74,21 +93,40 @@ export class EditTreasureComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    if (this.bagSub) {
-      this.bagSub.unsubscribe();
-    }
-    if (this.currencySub) {
+  destroySubscriptions() {
+    const currencyPromise = new Promise((resolve, reject) => {
       this.currencySub.unsubscribe();
-    }
+      resolve();
+      reject();
+    });
 
-    if (this.defaultTreasureSub) {
+    const bagPromise = new Promise((resolve, reject) => {
+      this.bagSub.unsubscribe();
+      resolve();
+      reject();
+    });
+
+    const defaultTreasurePromise = new Promise((resolve, reject) => {
       this.defaultTreasureSub.unsubscribe();
-    }
+      resolve();
+      reject();
+    });
 
-    if (this.modifierSub) {
+    const modifierPromise = new Promise((resolve, reject) => {
       this.modifierSub.unsubscribe();
-    }
+      resolve();
+      reject();
+    });
+
+    return currencyPromise.then((a) => {
+      bagPromise.then((b) => {
+        defaultTreasurePromise.then((c) => {
+          modifierPromise.then((d) => {
+            return true;
+          });
+        });
+      });
+    });
   }
 
   displayValue() {
