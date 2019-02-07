@@ -7,6 +7,7 @@ import { DefaultTreasureService } from 'shared/services/default-treasure.service
 import { take } from 'rxjs/operators';
 import { Edition } from 'shared/models/edition';
 import { EditionService } from 'shared/services/edition.service';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'treasure-form',
@@ -21,11 +22,13 @@ export class TreasureFormComponent implements OnInit, OnDestroy {
   editionSub: Subscription;
   editions: Edition[];
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private editionService: EditionService,
     private utilityService: UtilityService,
-    private treasureService: DefaultTreasureService
+    private treasureService: DefaultTreasureService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
@@ -72,9 +75,17 @@ export class TreasureFormComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    if (confirm('Are you sure you wish to delete this treasure?')) {
-      this.treasureService.remove(this.id);
-      this.router.navigate(['/admin'],  {queryParams: {tab: 'treasures'}});
-    }
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the treasure ' + this.treasure.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.treasureService.remove(this.id);
+        this.router.navigate(['/admin'],  {queryParams: {tab: 'treasures'}});
+      }
+    })
+    .catch(() => {
+
+    });
   }
 }

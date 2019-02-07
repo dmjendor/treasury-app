@@ -50,7 +50,6 @@ export class TreasuryDisplayComponent implements OnInit, OnDestroy, OnChanges {
         .valueChanges().pipe(take(1)).subscribe(p => {
           this.vault = p as Vault;
           this.vault.key = this.treasuryId;
-          console.log('Nav: ' + this.vault.key);
           this.themeService.setCurrentTheme(this.vault.theme);
         });
     }

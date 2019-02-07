@@ -1,3 +1,26 @@
-<p>
-  display-prep-coin works!
-</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+              <h4>Currency
+                <div class="pull-right">
+                  <button type="button" 
+                    title="Minimize Currency List" 
+                    class="minimize btn btn-success"
+                    (click)="toggleDisplay()">
+                    <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                  </button>
+                </div>
+              </h4>
+            </div>
+            <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let coin of  displayPrepCoins">
+                  {{currencyName(coin.currency)}}  
+                  <span class="badge badge-primary badge-pill">{{coin.value}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+    </div>
+  </div>

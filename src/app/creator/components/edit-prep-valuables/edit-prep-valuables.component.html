@@ -1,3 +1,85 @@
-<p>
-  edit-prep-valuables works!
-</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+              <h4>Add Valuables
+                <div class="pull-right">
+                  <button type="button" 
+                    title="Minimize Add Valuables" 
+                    class="minimize btn btn-success"
+                    (click)="toggleDisplay()">
+                    <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                  </button>
+                </div>
+              </h4>
+            </div>
+            <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
+              <div class="row top-margin-small" >
+                <div class="col-12">
+                  <div class="input-group">
+                    <select class="form-control" name="location" [(ngModel)]="valuable.location" (change)="selectBag(valuable.location)">
+                      <option value="">Select a Location</option>
+                      <option *ngFor="let bag of bags" [value]="bag.key">{{bag.name}}</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" (click)="editBags()">Edit Bags</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="row top-margin-small">
+                <div class="col-4">
+                    <input type="text" name="name" [(ngModel)]="valuable.name" class="form-control" placeholder="Name" aria-placeholder="Name">
+                </div>
+                <div class="col-4">
+                    <input type="text" name="value" [(ngModel)]="valuable.value" class="form-control" [placeholder]="displayValue()" aria-placeholder="Value">
+                </div>
+                <div class="col-4">
+                  <div class="input-group">
+                    <input type="text" name="quantity" [(ngModel)]="valuable.quantity" class="form-control" placeholder="Qty" aria-placeholder="Quantity">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" (click)="addValuable()">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="row top-margin-small">
+                <div class="col-12"><strong>Quick Add</strong></div>
+              </div>
+              <div class="row top-margin-small">
+                <div class="col-8">
+                  <div class="row">
+                    <div class="col-12">
+                      <select class="form-control" name="step1" [(ngModel)]="step1" (change)="changeStep1()">
+                        <option value="-1">Select Quick Add Option</option>
+                        <option *ngFor="let val1 of filterStep1()" [value]="val1.key">{{val1.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <select class="form-control" name="step2" [(ngModel)]="step2" (change)="changeStep2()">
+                        <option value="-1">...</option>
+                        <option *ngFor="let val2 of filterStep2()" [value]="val2.key">{{val2.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <select class="form-control" name="step3" [(ngModel)]="step3">
+                          <option value="-1">...</option>
+                          <option *ngFor="let val3 of filterStep3()" [value]="val3.key">{{val3.name}} {{showQuickValueRange(val3)}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-success h-100 w-100" (click)="quickAdd()">Add Item</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>

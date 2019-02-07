@@ -1,3 +1,26 @@
-<p>
-  edit-prep-coin works!
-</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+              <h4>Add Currency
+                <div class="pull-right">
+                  <button type="button" 
+                    title="Minimize Add Currencies"
+                    class="minimize btn btn-success"
+                    (click)="toggleDisplay()">
+                    <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                  </button>
+                </div>
+              </h4>
+            </div>
+            <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
+              <div class="row top-margin-small" *ngFor="let currency of currencies">
+                <div class="col-12">
+                  <prep-coin-input-form [currency]="currency"></prep-coin-input-form>
+                </div>
+              </div>
+              
+              
+          </div>
+    </div>
+  </div>

@@ -5,6 +5,7 @@ import { UtilityService } from 'shared/services/utility.service';
 import { DefaultValuablesService } from 'shared/services/default-valuables.service';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'valuables-form',
@@ -17,10 +18,12 @@ export class ValuablesFormComponent implements OnInit {
   valuablesSub: Subscription;
   valuables: DefaultValuable[];
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private utilityService: UtilityService,
-    private valuableService: DefaultValuablesService
+    private valuableService: DefaultValuablesService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
@@ -57,9 +60,17 @@ export class ValuablesFormComponent implements OnInit {
   }
 
   delete() {
-    if (confirm('Are you sure you wish to delete this valuable?')) {
-      this.valuableService.remove(this.id);
-      this.router.navigate(['/admin/valuables']);
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the valuable ' + this.valuable.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.valuableService.remove(this.id);
+        this.router.navigate(['/admin/valuables']);
     }
+    })
+    .catch(() => {
+
+    });
   }
 }

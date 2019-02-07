@@ -9,6 +9,7 @@ import { UtilityService } from 'shared/services/utility.service';
 import { DefaultTreasureService } from 'shared/services/default-treasure.service';
 import { take } from 'rxjs/operators';
 import { ModifierService } from 'shared/services/modifier.service';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-modifier-form',
@@ -23,12 +24,14 @@ export class ModifierFormComponent implements OnInit {
   editionSub: Subscription;
   editions: Edition[];
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private editionService: EditionService,
     private utilityService: UtilityService,
     private modifierService: ModifierService,
-    private treasureService: DefaultTreasureService
+    private treasureService: DefaultTreasureService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
@@ -70,9 +73,17 @@ export class ModifierFormComponent implements OnInit {
   }
 
   delete() {
-    if (confirm('Are you sure you wish to delete this modifier?')) {
-      this.modifierService.remove(this.id);
-      this.router.navigate(['/admin'],  {queryParams: {tab: 'treasures'}});
-    }
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the modifier ' + this.modifier.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.modifierService.remove(this.id);
+        this.router.navigate(['/admin'],  {queryParams: {tab: 'treasures'}});
+      }
+    })
+    .catch(() => {
+
+    });
   }
 }

@@ -49,7 +49,9 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       private authService: AuthService,
       private router: Router
     ) {
+      console.log(this.appUser);
     }
+
 
     themeName(themeID) {
       if (themeID && this.themeList && this.themeList.length > 0) {
@@ -116,12 +118,19 @@ export class UserVaultComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+
+      this.authService.appUser$.subscribe(appUser => {
+        this.appUser = appUser;
+        this.themeService.setCurrentTheme(this.appUser.theme);
+      });
+
       this.vaultSub = this.vaultService.getVaultByOwner(this.userId)
       .subscribe(vault => {
         this.vault = vault as Vault[];
         this.vaultSelected = [vault[0]];
         this.selectedVault = vault[0] as Vault;
       });
+
 
       this.themeSub = this.themeService.getAll()
       .subscribe(theme => {

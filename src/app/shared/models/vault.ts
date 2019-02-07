@@ -12,6 +12,7 @@ export interface VaultData {
     edition: string;
     treasurySplit: boolean;
     mergeSplit: boolean;
+    rewardPrep: boolean;
     theme: string;
 }
 
@@ -29,6 +30,7 @@ export class Vault implements VaultData {
     edition = null;
     treasurySplit = true;
     mergeSplit = false;
+    rewardPrep = false;
     theme = '-LVdBangNq0NFiPl3AMi';
     constructor() {}
 }

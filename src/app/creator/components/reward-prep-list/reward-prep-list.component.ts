@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 import { RewardPrepService } from 'shared/services/reward-prep.service';
 import { VaultService } from 'shared/services/vault.service';
@@ -12,10 +12,9 @@ import { Router } from '@angular/router';
   templateUrl: './reward-prep-list.component.html',
   styleUrls: ['./reward-prep-list.component.css']
 })
-export class RewardPrepListComponent implements OnInit, OnDestroy {
+export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() vault: Vault;
   userId: string = sessionStorage.getItem('userId');
-  itemCount: number;
-  vaultSelected: any[];
   prepSelected: any[];
 
   vaultSub: Subscription;
@@ -24,7 +23,7 @@ export class RewardPrepListComponent implements OnInit, OnDestroy {
   rewardprep: RewardPrep[];
   rewardPrepSub: Subscription;
   selectedPrep: RewardPrep;
-
+  oldVault: string;
   prepColumns = [
     { prop: 'name' },
     { name: 'Vault'}
@@ -38,6 +37,46 @@ export class RewardPrepListComponent implements OnInit, OnDestroy {
     ) {
     }
 
+
+    async ngOnInit() {
+      this.createSubscriptions();
+    }
+
+    ngOnChanges() {
+      if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
+        this.destroySubscriptions().then((init) => {
+          this.createSubscriptions();
+        });
+      }
+    }
+    ngOnDestroy() {
+      this.destroySubscriptions();
+    }
+
+    createSubscriptions() {
+      this.vaultSub = this.vaultService.getVaultByOwner(this.userId)
+      .subscribe(vlt => {
+        this.vaultList = vlt as Vault[];
+        this.rewardPrepSub = this.rewardPrepService.getRewardPrepsByOwner(this.userId)
+        .subscribe(prep => {
+          this.rewardprep = prep as RewardPrep[];
+          this.oldVault = this.vault.key;
+        });
+      });
+    }
+
+    destroySubscriptions() {
+      const rewardPrepPromise  = new Promise((resolve, reject) => {
+        this.rewardPrepSub.unsubscribe();
+        resolve();
+        reject();
+      });
+
+      return rewardPrepPromise.then((a) => {
+        return true;
+      });
+    }
+
     vaultName(vaultID) {
       if (vaultID && this.vaultList && this.vaultList.length > 0) {
         for (let i = 0; i < this.vaultList.length; i++) {
@@ -48,12 +87,16 @@ export class RewardPrepListComponent implements OnInit, OnDestroy {
       }
     }
 
+    applyPrep(row) {
+
+    }
+
     editPrep(row) {
       localStorage.setItem('returnUrl', '/vaults');
       this.router.navigate(['/rewardprep/' + row.key]);
     }
 
-    deleteVault(row) {
+    deletePrep(row) {
       const header: string = 'Please confirm..';
       const body: string = 'Are you sure you wish to delete ' + row.name + '?  This action cannot be undone.';
       this.confirmationDialogService.confirm(header, body)
@@ -92,21 +135,6 @@ export class RewardPrepListComponent implements OnInit, OnDestroy {
       }
     }
 
-    async ngOnInit() {
-      this.vaultService.getVaultByOwner(this.userId)
-        .subscribe(vault => {
-          this.vaultList = vault as Vault[];
-        });
-
-      this.rewardPrepSub = this.rewardPrepService.getRewardPrepsByOwner(this.userId)
-      .subscribe(prep => {
-        this.rewardprep = prep as RewardPrep[];
-      });
-    }
-
-    ngOnDestroy() {
-      this.rewardPrepSub.unsubscribe();
-    }
 
 
   }

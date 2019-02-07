@@ -16,7 +16,7 @@ export class PrepTreasureService {
     private http: HttpClient,
     private db: AngularFireDatabase
     ) {
-    this.preptreasure$ = this.db.list('/preptreasure', c => c.orderByChild('name'))
+    this.preptreasure$ = this.db.list('/preptreasures', c => c.orderByChild('name'))
     .snapshotChanges();
    }
 
@@ -47,7 +47,7 @@ export class PrepTreasureService {
   }
 
   getPrepTreasureByReward(rewardId: string) {
-    return this.db.list('/preptreasure',
+    return this.db.list('/preptreasures',
       ref => ref.orderByChild('reward')
       .equalTo(rewardId))
       .snapshotChanges()

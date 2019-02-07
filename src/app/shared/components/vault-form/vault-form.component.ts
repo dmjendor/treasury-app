@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,7 +14,6 @@ import { Permission } from 'shared/models/permission';
 import { Bag } from 'shared/models/bag';
 import { Edition } from 'shared/models/edition';
 import { EditionService } from 'shared/services/edition.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'vault-form',
@@ -35,19 +34,18 @@ export class VaultFormComponent implements OnDestroy {
   editBags: boolean = false;
   themeList: Theme[];
   themeSub: Subscription;
-  selectedTheme = new Theme();
   editionList: Edition[];
   editionSub: Subscription;
   id: string;
   currentRoute: string;
   rtParams: Object = {};
   splitTitle: string = 'Give treasury a share during coin split.';
-  mergeTitle: string = 'Merge Coin Split to Highest Denomination';
+  mergeTitle: string = 'Merge Coin Split to Highest Denomination.';
+  prepTitle: string = 'Prepare rewards for distribution in advance.';
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
     private vaultService: VaultService,
     private themeService: ThemeService,
     private editionService: EditionService,
@@ -55,7 +53,6 @@ export class VaultFormComponent implements OnDestroy {
     private currencyService: CurrencyService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
-    this.selectedTheme.file = 'cerulean.min.css'; // setting starting theme.
     this.id = this.route.snapshot.paramMap.get('id');
     this.currentRoute = this.route.snapshot.routeConfig.path.substr(0, this.route.snapshot.routeConfig.path.length - 4);
     if (this.currentRoute.includes('admin')) {
@@ -71,7 +68,6 @@ export class VaultFormComponent implements OnDestroy {
         this.themeSub = this.themeService.getAll()
         .subscribe(theme => {
           this.themeList = theme as Theme[];
-          this.selectedTheme = this.themeList.find((thm) => thm.key === this.vault.theme);
         });
       });
       this.currencySub = this.currencyService.getCurrenciesByVault(this.id)
@@ -79,9 +75,6 @@ export class VaultFormComponent implements OnDestroy {
         this.currencies = currency as Currency[];
         this.currencies.sort((a, b) => (a.multiplier > b.multiplier) ? 1 : ((b.multiplier > a.multiplier) ? -1 : 0));
       });
-
-
-
       this.editionSub = this.editionService.getAll()
       .subscribe(edition => {
         this.editionList = edition as Edition[];
@@ -93,11 +86,11 @@ export class VaultFormComponent implements OnDestroy {
     return this.utilityService.toTitleCase(string);
   }
 
-  save(charVault) {
+  save() {
     if (this.id) {
-      this.vaultService.update(this.id, charVault);
+      this.vaultService.update(this.id, this.vault);
     } else {
-      this.vaultService.create(charVault);
+      this.vaultService.create(this.vault);
     }
     this.router.navigate([this.currentRoute], this.rtParams);
   }

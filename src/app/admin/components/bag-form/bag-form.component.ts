@@ -4,6 +4,7 @@ import { UtilityService } from 'shared/services/utility.service';
 import { take } from 'rxjs/operators';
 import { DefaultBag } from 'shared/models/defaultbag';
 import { DefaultBagService } from 'shared/services/default-bag.service';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'bag-form',
@@ -17,7 +18,8 @@ export class BagFormComponent {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private utilityService: UtilityService,
-    private bagService: DefaultBagService
+    private bagService: DefaultBagService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
@@ -48,9 +50,17 @@ export class BagFormComponent {
   }
 
   delete() {
-    if (confirm('Are you sure you wish to delete this bag?')) {
-      this.bagService.remove(this.id);
-      this.router.navigate(['/admin'],  {queryParams: {tab: 'bags'}});
-    }
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the bag ' + this.bag.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.bagService.remove(this.id);
+        this.router.navigate(['/admin'],  {queryParams: {tab: 'bags'}});
+      }
+    })
+    .catch(() => {
+
+    });
   }
 }

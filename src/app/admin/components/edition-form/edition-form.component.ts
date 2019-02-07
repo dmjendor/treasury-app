@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UtilityService } from 'shared/services/utility.service';
 import { EditionService } from 'shared/services/edition.service';
 import { take } from 'rxjs/operators';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 
 @Component({
   selector: 'edition-form',
@@ -17,7 +18,8 @@ export class EditionFormComponent {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private utilityService: UtilityService,
-    private editionService: EditionService
+    private editionService: EditionService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
@@ -48,9 +50,17 @@ export class EditionFormComponent {
   }
 
   delete() {
-    if (confirm('Are you sure you wish to delete this edition?')) {
-      this.editionService.remove(this.id);
-      this.router.navigate(['/admin'],  {queryParams: {tab: 'editions'}});
-    }
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the edition ' + this.edition.name + '?  This action cannot be undone.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.editionService.remove(this.id);
+        this.router.navigate(['/admin'],  {queryParams: {tab: 'editions'}});
+      }
+    })
+    .catch(() => {
+
+    });
   }
 }

@@ -14,6 +14,10 @@ import { DisplayPrepTreasureComponent } from './components/display-prep-treasure
 import { EditPrepTreasureComponent } from './components/edit-prep-treasure/edit-prep-treasure.component';
 import { EditPrepValuablesComponent } from './components/edit-prep-valuables/edit-prep-valuables.component';
 import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coin.component';
+import { PrepCoinInputFormComponent } from './components/prep-coin-input-form/prep-coin-input-form.component';
+import { PrepCoinService } from './services/prep-coin.service';
+import { PrepValuablesService } from './services/prep-valuables.service';
+import { PrepTreasureService } from './services/prep-treasure.service';
 
 @NgModule({
   imports: [
@@ -36,7 +40,7 @@ import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coi
         canActivate: [AuthGuard]
       },
       {
-        path: 'rewardprep/new',
+        path: 'rewardprep/new/:vaultid',
         component: RewardPrepFormComponent,
         canActivate: [AuthGuard]
       },
@@ -62,10 +66,16 @@ import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coi
     DisplayPrepTreasureComponent,
     EditPrepTreasureComponent,
     EditPrepValuablesComponent,
-    EditPrepCoinComponent
+    EditPrepCoinComponent,
+    PrepCoinInputFormComponent
   ],
   exports: [
 
+  ],
+  providers: [
+    PrepCoinService,
+    PrepValuablesService,
+    PrepTreasureService
   ]
 })
 

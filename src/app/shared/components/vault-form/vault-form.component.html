@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row">
       <div class="col-6">
-        <form #vaultForm="ngForm" (ngSubmit)="save(vaultForm.value)">
+        <form #vaultForm="ngForm">
           <div class="form-group row">
-            <div class="col-6">
+            <div class="col-10">
                 <label for="name">Name</label>
                 <input
                   required
@@ -16,28 +16,7 @@
                   class="form-control"
                 />
             </div>
-            <div class="col-2">
-              <label for="split" [title]="splitTitle">Split</label>
-              <input
-                #split="ngModel"
-                [title]="splitTitle"
-                [(ngModel)]="vault.treasurySplit"
-                id="split"
-                name="split"
-                type="checkbox"
-                class="form-control">
-            </div>
-            <div class="col-2">
-                <label for="merge" [title]="mergeTitle">Merge</label>
-                <input
-                  #merge="ngModel"
-                  [title]="mergeTitle"
-                  [(ngModel)]="vault.mergeSplit"
-                  id="merge"
-                  name="split"
-                  type="checkbox"
-                  class="form-control">
-              </div>
+            
             <div class="col-2">
               <label for="active">Active</label>
               <input
@@ -149,11 +128,47 @@
                 </select>
             </div>
           </div>
+          <div class="row">
+            <div class="col-6"></div>
+            <div class="col-2">
+                <label for="split" [title]="splitTitle">Split</label>
+                <input
+                  #split="ngModel"
+                  [title]="splitTitle"
+                  [(ngModel)]="vault.treasurySplit"
+                  id="split"
+                  name="split"
+                  type="checkbox"
+                  class="form-control">
+              </div>
+              <div class="col-2">
+                <label for="merge" [title]="mergeTitle">Merge</label>
+                <input
+                  #merge="ngModel"
+                  [title]="mergeTitle"
+                  [(ngModel)]="vault.mergeSplit"
+                  id="merge"
+                  name="merge"
+                  type="checkbox"
+                  class="form-control">
+              </div>
+              <div class="col-2">
+                <label for="prep" [title]="prepTitle">Prep</label>
+                <input
+                  #prep="ngModel"
+                  [title]="prepTitle"
+                  [(ngModel)]="vault.rewardPrep"
+                  id="prep"
+                  name="prep"
+                  type="checkbox"
+                  class="form-control">
+              </div>
+          </div>
           
           <div class="row top-margin">
             <div class="col-12">
                 <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
-                    <button class="btn btn-primary w-100" [disabled]="vaultForm.invalid">
+                    <button class="btn btn-primary w-100" [disabled]="vaultForm.invalid" (click)="save()">
                       Save
                     </button>
                     <button type="button" class="btn btn-primary w-100" (click)="cancel()">

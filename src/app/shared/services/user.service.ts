@@ -31,9 +31,10 @@ export class UserService {
   }
 
   saveChanges(user: AppUser, userId) {
+    user.role = user.role ? user.role : 'user';
     this.db.object('/users/' + userId).update({
-      // level: user.level,
-      // summoner: user.summoner,
+      theme: user.theme,
+      role: user.role
       // necromancer: user.necromancer
     });
   }
