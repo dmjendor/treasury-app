@@ -54,5 +54,11 @@ export class UtilityService {
         }
     }
     return true;
-}
+  }
+
+  formatDate(obj: string) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const date  = new Date(obj);
+    return date.toLocaleDateString('en-US', options);
+  }
 }

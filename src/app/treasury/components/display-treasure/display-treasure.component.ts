@@ -166,8 +166,10 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
      this.treasureService.get(draggable)
      .valueChanges().pipe(take(1)).subscribe(p => {
       const useme = p as Treasure;
-      useme.location = ev.target.parentElement.id;
-      this.treasureService.update(draggable, useme);
+      if (this.bags.indexOf(ev.target.parentElement.id) !== -1) {
+        useme.location = ev.target.parentElement.id;
+        this.treasureService.update(draggable, useme);
+      }
     });
    }
 

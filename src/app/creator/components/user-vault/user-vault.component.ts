@@ -24,7 +24,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
   appUser: AppUser;
 
   vault$;
-  vault: Vault[];
+  vault: Vault[] = [];
   vaultSub: Subscription;
   selectedVault: Vault;
 
@@ -48,9 +48,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       private themeService: ThemeService,
       private authService: AuthService,
       private router: Router
-    ) {
-      console.log(this.appUser);
-    }
+    ) { }
 
 
     themeName(themeID) {
@@ -130,7 +128,6 @@ export class UserVaultComponent implements OnInit, OnDestroy {
         this.vaultSelected = [vault[0]];
         this.selectedVault = vault[0] as Vault;
       });
-
 
       this.themeSub = this.themeService.getAll()
       .subscribe(theme => {

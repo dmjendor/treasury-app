@@ -6,7 +6,7 @@
     </a>
   </div>
 </div>
-<div class="row" *ngIf="rewardprep && vault.rewardPrep">
+<div class="row" *ngIf="rewardprep.length>0 && vault.rewardPrep">
     <div class="col-12">
         <ngx-datatable
         class="bootstrap"
@@ -15,10 +15,6 @@
         [limit]="25"
         [rowHeight]="'auto'"
         [columns]="prepColumns"
-        [selected]="prepSelected"
-        [selectionType]="'single'"
-        (activate)="onPrepActivate($event)"
-        (select)='onPrepSelect($event)'>
         >
         
           <ngx-datatable-column name="Name"></ngx-datatable-column>
@@ -26,13 +22,18 @@
               <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
                   {{vaultName(value)}}
                 </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Timestamp">
+              <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                  {{convertTimestamp(value)}}
+                </ng-template>
             </ngx-datatable-column>     
             <ngx-datatable-column name="Transfer" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
                   <button
                     title="Transfer prepared rewards to Party Treasury"
                     class="btn btn-primary btn-sm"
-                    (click)="applyPrep(row)">
+                    (click)="transferPrep(row)">
                     <i class="fas fa-sign-in-alt"></i>
                   </button>                    
                 </ng-template>

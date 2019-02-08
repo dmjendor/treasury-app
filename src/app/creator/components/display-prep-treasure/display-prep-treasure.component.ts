@@ -136,7 +136,6 @@ export class DisplayPrepTreasureComponent implements OnInit, OnDestroy {
   }
 
   bagSplit(bag: string) {
-    console.log(bag, this.treasures);
     if (this.treasures) {
         return this.treasures.filter(x => x.location === bag);
     } else {

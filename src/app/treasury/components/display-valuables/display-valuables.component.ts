@@ -13,6 +13,7 @@ import { take } from 'rxjs/operators';
 import { Coin } from 'shared/models/coin';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
 import { CommerceService } from 'shared/services/commerce.service';
+import { BagsModalFormComponent } from 'shared/components/bags-modal-form/bags-modal-form.component';
 
 @Component({
   selector: 'display-valuables',
@@ -165,8 +166,12 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
      this.valuableService.get(draggable)
      .valueChanges().pipe(take(1)).subscribe(p => {
       const useme = p as Valuable;
-      useme.location = ev.target.parentElement.id;
-      this.valuableService.update(draggable, useme);
+
+      if (this.bags.indexOf(ev.target.parentElement.id) !== -1) {
+        useme.location = ev.target.parentElement.id;
+        this.valuableService.update(draggable, useme);
+      }
+
     });
    }
 

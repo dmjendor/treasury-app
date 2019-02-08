@@ -23,6 +23,7 @@ export class DefaultTreasureService {
   }
 
   update(treasureID: string, obj: DefaultTreasure) {
+    console.log(treasureID, obj);
     return this.db.object('/defaulttreasures/' + treasureID).update(obj);
   }
 

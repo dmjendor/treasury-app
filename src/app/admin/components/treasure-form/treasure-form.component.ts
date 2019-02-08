@@ -63,7 +63,7 @@ export class TreasureFormComponent implements OnInit, OnDestroy {
 
   save(treasure) {
     if (this.id) {
-      this.treasureService.update(this.id, treasure);
+      this.treasureService.update(this.treasure.key, treasure);
     } else {
       this.treasureService.create(treasure);
     }

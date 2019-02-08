@@ -52,22 +52,6 @@ export class ManageTreasuresComponent implements OnInit, OnDestroy {
     this.selectedTreasure = this.selected[0];
   }
 
-  onActivate(event) {
-    // console.log('Activate Event', event);
-  }
-
-  filter(query: string) {
-    // const filteredProducts = (query) ? ;
-      // this.treasures.filter(p => p.name.toLowerCase().includes(query.toLowerCase())) :
-      // this.treasures;
-    // this.initializeTable(filteredProducts);
-
-  }
-
-  reloadItems(params) {
-
-  }
-
   async ngOnInit() {
     this.treasuresSub = this.treasureService.getAll()
     .subscribe(cls => {

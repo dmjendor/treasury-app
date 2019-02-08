@@ -34,6 +34,15 @@
     },
     "users": {
 
+    },
+    "prepcoins": {
+      ".indexOn": ["vault","currency","reward"]
+    },
+    "prepvaluables": {
+      ".indexOn": ["vault","reward"]
+    },
+    "preptreasures": {
+      ".indexOn": ["vault","reward"]
     }
 
   }
