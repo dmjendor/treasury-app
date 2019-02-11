@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BagsModalFormComponent } from './bags-modal-form.component';
+import { EditTreasureItemComponent } from './edit-treasure-item.component';
 
-describe('BagsModalFormComponent', () => {
-  let component: BagsModalFormComponent;
-  let fixture: ComponentFixture<BagsModalFormComponent>;
+describe('EditTreasureItemComponent', () => {
+  let component: EditTreasureItemComponent;
+  let fixture: ComponentFixture<EditTreasureItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BagsModalFormComponent ]
+      declarations: [ EditTreasureItemComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BagsModalFormComponent);
+    fixture = TestBed.createComponent(EditTreasureItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

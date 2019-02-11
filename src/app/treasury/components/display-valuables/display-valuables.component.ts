@@ -10,10 +10,8 @@ import { Bag } from 'shared/models/bag';
 import { CurrencyService } from 'shared/services/currency.service';
 import { Currency } from 'shared/models/currency';
 import { take } from 'rxjs/operators';
-import { Coin } from 'shared/models/coin';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
 import { CommerceService } from 'shared/services/commerce.service';
-import { BagsModalFormComponent } from 'shared/components/bags-modal-form/bags-modal-form.component';
 
 @Component({
   selector: 'display-valuables',
@@ -161,13 +159,12 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
 
   drop(ev) {
     ev.preventDefault();
-
      const draggable = ev.dataTransfer.getData('text/plain');
      this.valuableService.get(draggable)
      .valueChanges().pipe(take(1)).subscribe(p => {
       const useme = p as Valuable;
-
-      if (this.bags.indexOf(ev.target.parentElement.id) !== -1) {
+      const pos = this.bags.map(function(e) { return e.key; }).indexOf(ev.target.parentElement.id);
+      if (pos !== -1) {
         useme.location = ev.target.parentElement.id;
         this.valuableService.update(draggable, useme);
       }

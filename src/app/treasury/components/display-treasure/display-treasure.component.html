@@ -25,7 +25,7 @@
                     </button>
                   </h5>
                   <ul [id]="bag.key" [ngClass]="{'hidden-body':bag.hidden}" class="list-group" (dragover)="allowDrop($event)" (drop)="drop($event)">
-                    <li class="list-group-item " *ngFor="let treasure of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="treasure.key">
+                    <li class="list-group-item " *ngFor="let treasure of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="treasure.key" (dblclick)="editItemDetails(treasure)" [title]="treasure.description">
                       <button class="btn btn-success btn-sm" (click)="increaseQty(treasure)"><i class="fas fa-plus"></i></button>
                       <button class="btn btn-danger btn-sm" (click)="decreaseQty(treasure)"><i class="fas fa-minus"></i></button>
                       <button class="btn btn-success btn-sm" (click)="buyItem(treasure)"><i class="fas fa-dollar-sign"></i></button>

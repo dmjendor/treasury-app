@@ -1,0 +1,86 @@
+<ng-container *ngIf="treasure">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit {{treasure.name}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <form #treasureForm="ngForm">
+            <div class="form-group row">
+              <div class="col-12">
+                <label for="name">Name</label>
+                <input
+                  #name="ngModel"
+                  [(ngModel)]="treasure.name"
+                  id="name"
+                  name="name"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="row" *ngIf="currency">
+              <div class="col-6">
+                <label for="value">Value in {{currency.name}}</label>
+                  <input
+                    #value="ngModel"
+                    [(ngModel)]="treasure.value"
+                    id="value"
+                    name="value"
+                    type="text"
+                    class="form-control"
+                  />
+              </div>
+              <div class="col-6">
+                <label for="quantity">Quantity</label>
+                  <input
+                    #quantity="ngModel"
+                    [(ngModel)]="treasure.quantity"
+                    id="quantity"
+                    name="quantity"
+                    type="text"
+                    class="form-control"
+                  />
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-12">
+                  <label for="description">Description</label>
+                  <textarea
+                    rows="8"
+                    #description="ngModel"
+                    [(ngModel)]="treasure.description"
+                    id="description"
+                    name="description"
+                    class="form-control"
+                  >
+                  </textarea>
+              </div>
+            </div>
+            <div class="form-group row" *ngIf="!treasure.identified">
+              <div class="col-12">Unidentified!!</div>
+            </div>
+          </form>
+        </div>
+    
+      </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-12">
+            <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                <button class="btn btn-primary w-100" (click)="save()">
+                  Save
+                </button>
+                <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+                  Cancel
+                </button>
+                <button type="button" class="btn btn-danger w-100" (click)="delete()">
+                  Delete
+                </button>
+            </div>
+        </div>
+    </div>
+  </ng-container>

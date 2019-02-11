@@ -13,6 +13,8 @@ import { take } from 'rxjs/operators';
 import { Coin } from 'shared/models/coin';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
 import { CommerceService } from 'shared/services/commerce.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditTreasureItemComponent } from 'shared/components/edit-treasure-item/edit-treasure-item.component';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private bagService: BagService,
+    private modalService: NgbModal,
     private utilityService: UtilityService,
     private commerceService: CommerceService,
     private currencyService: CurrencyService,
@@ -161,12 +164,12 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
 
   drop(ev) {
     ev.preventDefault();
-
      const draggable = ev.dataTransfer.getData('text/plain');
      this.treasureService.get(draggable)
      .valueChanges().pipe(take(1)).subscribe(p => {
       const useme = p as Treasure;
-      if (this.bags.indexOf(ev.target.parentElement.id) !== -1) {
+      const pos = this.bags.map(function(e) { return e.key; }).indexOf(ev.target.parentElement.id);
+      if (pos !== -1) {
         useme.location = ev.target.parentElement.id;
         this.treasureService.update(draggable, useme);
       }
@@ -179,6 +182,12 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
 
   drag(ev) {
     ev.dataTransfer.setData('text/plain', ev.target.id);
+  }
+
+  editItemDetails(item: Treasure) {
+    const activeModal = this.modalService.open(EditTreasureItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
+    activeModal.componentInstance.vault = this.vault;
+    activeModal.componentInstance.treasure = item;
   }
 
 }
