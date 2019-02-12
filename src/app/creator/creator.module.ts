@@ -18,6 +18,7 @@ import { PrepCoinInputFormComponent } from './components/prep-coin-input-form/pr
 import { PrepCoinService } from './services/prep-coin.service';
 import { PrepValuablesService } from './services/prep-valuables.service';
 import { PrepTreasureService } from './services/prep-treasure.service';
+import { VaultHistoryComponent } from './components/vault-history/vault-history.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,11 @@ import { PrepTreasureService } from './services/prep-treasure.service';
         component: UserVaultComponent,
         canActivate: [AuthGuard]
       },
+      {
+        path: 'vaults/:id/history',
+        component: VaultHistoryComponent,
+        canActivate: [AuthGuard]
+      }
     ])
   ],
   declarations: [
@@ -67,7 +73,8 @@ import { PrepTreasureService } from './services/prep-treasure.service';
     EditPrepTreasureComponent,
     EditPrepValuablesComponent,
     EditPrepCoinComponent,
-    PrepCoinInputFormComponent
+    PrepCoinInputFormComponent,
+    VaultHistoryComponent
   ],
   exports: [
 

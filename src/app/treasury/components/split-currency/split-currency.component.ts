@@ -126,10 +126,7 @@ export class SplitCurrencyComponent implements OnInit, AfterContentInit {
   }
 
   archiveCoin() {
-    for (let r = 0; r < this.coins.length; r++) {
-      this.coins[r].archived = true;
-      this.coinService.update(this.coins[r].key, this.coins[r]);
-    }
+    this.coinService.archiveCoin(this.coins);
   }
 
   createTreasurySplit() {

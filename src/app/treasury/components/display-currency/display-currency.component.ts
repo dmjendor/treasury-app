@@ -114,6 +114,48 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+  exchange(coin, direction) {
+    const exchangecoins = [];
+    this.getCoins(coin.currency).toPromise().then((cn) => {
+      Object.entries(cn).forEach(([key, value]) => {
+        const curr = value as Coin;
+        curr['key'] = key;
+        exchangecoins.push(curr);
+      });
+      const idx = this.currencies.findIndex((icn) => icn.key === coin.currency);
+      const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+      const newCoin = new Coin();
+      newCoin.vault = coin.vault;
+      newCoin.changeby = coin.changeby;
+      newCoin.timestamp = Date.now();
+      newCoin.value = Math.floor(coin.value / ( this.currencies[newIdx].multiplier / this.currencies[idx].multiplier));
+      newCoin.currency = this.currencies[newIdx].key;
+      this.archiveCoin(exchangecoins).then((a) => {
+        this.coinService.create(newCoin);
+        console.log(newCoin);
+        const mod = Math.floor(coin.value % ( this.currencies[newIdx].multiplier / this.currencies[idx].multiplier));
+        if (mod !== 0) {
+          const newCoinMod = new Coin();
+          newCoinMod.vault = coin.vault;
+          newCoinMod.changeby = coin.changeby;
+          newCoinMod.timestamp = Date.now();
+          newCoinMod.value = mod;
+          newCoinMod.currency = this.currencies[idx].key;
+          console.log(newCoinMod);
+          this.coinService.create(newCoinMod);
+        }
+      });
+    });
+  }
+
+  getCoins(currency) {
+    return this.coinService.getSnapShotByCurrency(currency);
+  }
+
+  archiveCoin(coins: Coin[]) {
+    return this.coinService.archiveCoin(coins);
+  }
+
 
 
 }

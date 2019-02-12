@@ -78,10 +78,10 @@ h1, h2, h3 {
 }
 
 .ngx-datatable.scroll-vertical {
-  height: 70vh;
+  height: 65vh;
 }
 .ngx-datatable .datatable-body {
-  max-height: 70vh !important;
+  max-height: 65vh !important;
   overflow: auto !important;
 }
 .card-header {
@@ -134,4 +134,10 @@ hr.navbar-dropdown {
 
 .hidden-body {
   display: none !important;
+}
+
+
+.bs-popover-right {
+  margin-left: 0 !important;
+  width: 157px;
 }

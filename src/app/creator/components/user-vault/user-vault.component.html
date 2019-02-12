@@ -81,6 +81,15 @@
               <input type="checkbox" [checked]="value" disabled="disabled" />
             </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column name="History" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="vaultHistory(row)">
+                <i class="fas fa-history"></i>
+              </button>                    
+            </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column name="Edit" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
               <button

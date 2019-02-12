@@ -67,7 +67,6 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnChanges() {
       if (this.vault && this.oldVault && this.vault.key  && (this.vault.key !== this.oldVault)) {
-        console.log('triggered');
         this.destroySubscriptions().then((init) => {
           this.createSubscriptions();
         });

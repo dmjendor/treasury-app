@@ -71,12 +71,12 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       }
     }
 
-    editVault(row) {
+    editVault(row: Vault) {
       localStorage.setItem('returnUrl', '/vaults');
       this.router.navigate(['/vaults/' + row.key]);
     }
 
-    deleteVault(row) {
+    deleteVault(row: Vault) {
       const header: string = 'Please confirm..';
       const body: string = 'Are you sure you wish to delete ' + row.name + '?  This action cannot be undone.';
       this.confirmationDialogService.confirm(header, body)
@@ -86,7 +86,11 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       })
       .catch(() => {
       });
+    }
 
+    vaultHistory(row: Vault) {
+      localStorage.setItem('returnUrl', '/vaults');
+      this.router.navigate(['/vaults/' + row.key + '/history']);
     }
 
     onVaultSelect({ selected }) {

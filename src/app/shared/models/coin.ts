@@ -16,5 +16,12 @@ export class Coin implements CoinData {
     timestamp = null;
     value = 0;
     vault = '';
-    constructor() {}
+    constructor(
+        archived?: boolean,
+        changeby?: string,
+        currency?: string,
+        key?: string,
+        timestamp?: number,
+        value?: number,
+        vault?: string) {}
 }

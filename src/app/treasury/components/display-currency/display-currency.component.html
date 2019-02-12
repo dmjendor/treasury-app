@@ -15,9 +15,13 @@
           </div>
           <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
             <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let coin of  displayCoins">
+              <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let coin of  displayCoins; let idx = index" [ngbPopover]="popupContent" placement="left">
                 {{currencyName(coin.currency)}}  
                 <span class="badge badge-primary badge-pill">{{coin.value}}</span>
+                <ng-template #popupContent>
+                    <button class="btn btn-success btn-sm" (click)="exchange(coin, 'up')" *ngIf="idx!=0" title="Exchange currency up one tier."><i class="fas fa-chevron-up"></i></button>
+                    <button class="btn btn-danger btn-sm" (click)="exchange(coin,'down')" *ngIf="idx!=(displayCoins.length-1)" title="Exchange currency down one tier."><i class="fas fa-chevron-down"></i></button>
+                </ng-template>
               </li>
             </ul>
           </div>

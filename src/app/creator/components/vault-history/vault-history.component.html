@@ -1,0 +1,134 @@
+<ngb-accordion #acc="ngbAccordion" [closeOthers]="true" activeIds="coin" *ngIf="vault && userList && currencyList">
+    <ngb-panel title="Coin History" id="coin" *ngIf="coinList.length>0">
+      <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col-12">
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="coinList"
+              [columns]="coinColumns"
+              class="bootstrap"
+              [columnMode]="'force'"
+              [rowHeight]="30"
+              [scrollbarV]="true"
+            >
+              <ngx-datatable-column name="Value"></ngx-datatable-column>
+              <ngx-datatable-column name="Currency">
+                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                  {{getCurrency(value,'name')}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="ChangeBy" prop="changeby">
+                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                  {{getName(value)}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Timestamp">
+                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                  {{formatDate(value)}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Archived" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                  <input type="checkbox" [checked]="value" disabled="disabled" />
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>        
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Valuables History" id="valuables">
+      <ng-template ngbPanelContent>
+          <div class="row">
+              <div class="col-12">
+                <ngx-datatable
+                  class="bootstrap"
+                  [rows]="valuablesList"
+                  [columns]="valuablesColumns"
+                  class="bootstrap"
+                  [columnMode]="'force'"
+                  [rowHeight]="30"
+                  [scrollbarV]="true"
+                >
+                  <ngx-datatable-column name="Name"></ngx-datatable-column>
+                  <ngx-datatable-column name="Value" prop="value" [width]="90" [canAutoResize]="false">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                        Value ({{getCurrency(vault.baseCurrency, 'abbr')}})
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Quantity" [width]="60" [canAutoResize]="false"></ngx-datatable-column>
+                  <ngx-datatable-column name="Location">
+                    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                      {{getLocation(value)}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="ChangeBy" prop="changeby">
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                          {{getName(value)}}
+                        </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Timestamp">
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                          {{formatDate(value)}}
+                        </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Archived" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                      <input type="checkbox" [checked]="value" disabled="disabled" />
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>        
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Treasure History" id="treasure">
+        <ng-template ngbPanelContent>
+            <div class="row">
+                <div class="col-12">
+                  <ngx-datatable
+                    class="bootstrap"
+                    [rows]="treasureList"
+                    [columns]="treasureColumns"
+                    class="bootstrap"
+                    [columnMode]="'force'"
+                    [rowHeight]="30"
+                    [scrollbarV]="true"
+                  >
+                    <ngx-datatable-column name="Name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Value" prop="value" [width]="90" [canAutoResize]="false">
+                      <ng-template let-column="column" ngx-datatable-header-template>
+                          Value ({{getCurrency(vault.baseCurrency, 'abbr')}})
+                      </ng-template>
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                        {{formatNumber(value)}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Quantity" [width]="60" [canAutoResize]="false"></ngx-datatable-column>
+                    <ngx-datatable-column name="Location">
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                        {{getLocation(value)}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="ChangeBy" prop="changeby">
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                        {{getName(value)}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Timestamp">
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                        {{formatDate(value)}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Archived" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                        <input type="checkbox" [checked]="value" disabled="disabled" />
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>        
+        </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
