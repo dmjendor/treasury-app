@@ -30,8 +30,9 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="baseCurrency">Base Currency</label>
+              <label for="baseCurrency" title="Lowest currency denomination.&#10;(This should be the currency with a multiplier of 1).">Base Currency</label>
               <select
+              title="Lowest currency denomination.&#10;(This should be the currency with a multiplier of 1)."
                 required
                 #baseCurrency="ngModel"
                 [(ngModel)]="vault.baseCurrency"
@@ -43,8 +44,9 @@
                 </select>
             </div>
             <div class="col-6">
-              <label for="commonCurrency">Common Currency</label>
+              <label for="commonCurrency" title="Currency most commonly used for trade.&#10;(In most fanatasy settings this is gold).">Common Currency</label>
               <select
+              title="Currency most commonly used for trade.&#10;(In most fanatasy settings this is gold)."
                 required
                 #commonCurrency="ngModel"
                 [(ngModel)]="vault.commonCurrency"
@@ -63,6 +65,7 @@
                 #gbMarkup="ngModel"
                 [(ngModel)]="vault.gbMarkup"
                 id="gbMarkup"
+                disabled="disabled"
                 name="gbMarkup"
                 type="text"
                 class="form-control">
@@ -74,6 +77,7 @@
                 [(ngModel)]="vault.gsMarkup"
                 id="gsMarkup"
                 name="gsMarkup"
+                disabled="disabled"
                 type="text"
                 class="form-control">
             </div>
@@ -86,6 +90,7 @@
                 [(ngModel)]="vault.ibMarkup"
                 id="ibMarkup"
                 name="ibMarkup"
+                disabled="disabled"
                 type="text"
                 class="form-control">
             </div>
@@ -96,6 +101,7 @@
                 [(ngModel)]="vault.isMarkup"
                 id="isMarkup"
                 name="isMarkup"
+                disabled="disabled"
                 type="text"
                 class="form-control"
                 >

@@ -125,29 +125,33 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   increaseQty(item: Treasure) {
+    const oldItem = JSON.parse(JSON.stringify(item));
     item.quantity++;
-    this.treasureService.update(item.key, item);
+    this.treasureService.update(item.key, item, oldItem);
   }
 
   decreaseQty(item) {
+    const oldItem = JSON.parse(JSON.stringify(item));
     if (item.quantity > 1) {
       item.quantity--;
-      this.treasureService.update(item.key, item);
+      this.treasureService.update(item.key, item, oldItem);
     } else {
       this.treasureService.remove(item.key);
     }
   }
 
   buyItem(item) {
+    const oldItem = JSON.parse(JSON.stringify(item));
     item.quantity++;
-    this.treasureService.update(item.key, item);
+    this.treasureService.update(item.key, item, oldItem);
     this.commerceService.buySell(item, this.vault, true);
   }
 
   sellItem(item) {
+    const oldItem = JSON.parse(JSON.stringify(item));
     if (item.quantity > 1) {
       item.quantity--;
-      this.treasureService.update(item.key, item);
+      this.treasureService.update(item.key, item, oldItem);
     } else {
       this.treasureService.remove(item.key);
     }
@@ -169,9 +173,10 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
      .valueChanges().pipe(take(1)).subscribe(p => {
       const useme = p as Treasure;
       const pos = this.bags.map(function(e) { return e.key; }).indexOf(ev.target.parentElement.id);
+      const oldItem = JSON.parse(JSON.stringify(useme));
       if (pos !== -1) {
         useme.location = ev.target.parentElement.id;
-        this.treasureService.update(draggable, useme);
+        this.treasureService.update(draggable, useme, oldItem);
       }
     });
    }

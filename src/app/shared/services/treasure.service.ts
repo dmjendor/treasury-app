@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { map, take } from 'rxjs/operators';
 import { Treasure } from 'shared/models/treasure';
 import { HttpClient } from '@angular/common/http';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +15,24 @@ export class TreasureService {
   constructor(
     private http: HttpClient,
     private db: AngularFireDatabase,
+    private loggingService: LoggingService
     ) {
     this.treasure$ = this.db.list('/treasure', c => c.orderByChild('name'))
     .snapshotChanges();
    }
 
   create(obj: Treasure) {
+    this.loggingService.logChanges('treasure', {}, obj);
     return this.db.list('/treasure').push(obj);
   }
 
-  update(treasureID: string, obj: Treasure) {
+  update(treasureID: string, obj: Treasure, origObj: Treasure) {
+    this.loggingService.logChanges('treasure', origObj, obj);
     return this.db.object('/treasure/' + treasureID).update(obj);
   }
 
   remove(treasureID: string) {
+    this.loggingService.directLog('treasure', treasureID);
     return this.db.object('/treasure/' + treasureID).remove();
   }
 
