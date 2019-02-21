@@ -1,11 +1,10 @@
 import { Injectable, OnInit } from '@angular/core';
-import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from './auth.service';
-import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-import { Permission } from 'shared/models/permission';
-import { PermissionService } from './permission.service';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { AppUser } from 'shared/models/app-user';
+import { Permission } from 'shared/models/permission';
+
+import { AuthService } from './auth.service';
+import { PermissionService } from './permission.service';
 
 @Injectable({
   providedIn: 'root'

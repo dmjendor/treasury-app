@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
 import { Vault } from 'shared/models/vault';
 
 @Injectable({
@@ -9,10 +10,16 @@ import { Vault } from 'shared/models/vault';
 })
 export class VaultService {
   vaults$: Observable<any[]>;
+  private av = new Subject<Vault>();
+  activeVault$ = this.av.asObservable();
 
   constructor(private db: AngularFireDatabase) {
     this.vaults$ = this.db.list('/vaults', c => c.orderByChild('name'))
     .snapshotChanges();
+   }
+
+   setActiveVault(vault: Vault) {
+     this.av.next(vault);
    }
 
   create(obj: Vault) {

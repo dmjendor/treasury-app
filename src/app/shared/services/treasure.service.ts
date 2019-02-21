@@ -26,8 +26,8 @@ export class TreasureService {
     return this.db.list('/treasure').push(obj);
   }
 
-  update(treasureID: string, obj: Treasure, origObj: Treasure) {
-    this.loggingService.logChanges('treasure', origObj, obj);
+  update(treasureID: string, obj: Treasure, baseObj: Treasure) {
+    this.loggingService.logChanges('treasure', baseObj, obj);
     return this.db.object('/treasure/' + treasureID).update(obj);
   }
 

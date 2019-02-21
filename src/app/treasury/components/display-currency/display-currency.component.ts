@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UtilityService } from 'shared/services/utility.service';
 import { Currency } from 'shared/models/currency';
 import { CurrencyService } from 'shared/services/currency.service';
+import { VaultService } from 'shared/services/vault.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'display-currency',
@@ -14,7 +16,8 @@ import { CurrencyService } from 'shared/services/currency.service';
   styleUrls: ['./display-currency.component.css']
 })
 export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
-  @Input('vault') vault: Vault;
+  //@Input('vault') vault: Vault;
+  vault: Vault;
   coins: Coin[];
   displayCoins: Coin[] = [];
   coinSub: Subscription;
@@ -22,18 +25,24 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
   currencySub: Subscription;
   showDisplay: boolean = false;
   oldVault: string;
+  private alive: boolean = true;
 
   constructor(
     private coinService: TreasuryCurrencyService,
     private currencyService: CurrencyService,
     private utilityService: UtilityService,
+    private vaultService: VaultService,
     private route: ActivatedRoute
 
     ) {
   }
 
   async ngOnInit() {
-    this.createSubscriptions();
+    this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault=> {
+          this.vault = vault;
+          this.createSubscriptions();
+    });
   }
 
   ngOnChanges() {
@@ -102,16 +111,19 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   createSubscriptions() {
-    this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
-    .subscribe(currency => {
-      this.currencies = currency as Currency[];
-      this.currencies.sort((a, b) => (a.multiplier < b.multiplier) ? 1 : ((b.multiplier < a.multiplier) ? -1 : 0));
-      this.coinSub = this.coinService.getCoinRecordsByVault(this.vault.key)
-      .subscribe(coin => {
-        this.coins = coin.filter((cn) => cn.archived === false) as Coin[];
-        this.updateCoinList();
+    if(this.vault && this.vault.key){
+      this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
+      .subscribe(currency => {
+        this.currencies = currency as Currency[];
+        this.currencies.sort((a, b) => (a.multiplier < b.multiplier) ? 1 : ((b.multiplier < a.multiplier) ? -1 : 0));
+        this.coinSub = this.coinService.getCoinRecordsByVault(this.vault.key)
+        .subscribe(coin => {
+          this.coins = coin.filter((cn) => cn.archived === false) as Coin[];
+          this.updateCoinList();
+        });
       });
-    });
+    }
+    
   }
 
   exchange(coin, direction) {

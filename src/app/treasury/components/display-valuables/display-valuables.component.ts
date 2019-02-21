@@ -1,17 +1,16 @@
-import { Component, OnChanges, OnDestroy, AfterContentInit, AfterViewInit, Input, OnInit } from '@angular/core';
-import { Vault } from 'shared/models/vault';
-import { Subscription } from 'rxjs';
-import { Valuable } from 'shared/models/valuable';
-import { ValuablesService } from 'shared/services/valuables.service';
-import { UtilityService } from 'shared/services/utility.service';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BagService } from 'shared/services/bag.service';
+import { Subscription } from 'rxjs';
+import { take, takeWhile } from 'rxjs/operators';
 import { Bag } from 'shared/models/bag';
-import { CurrencyService } from 'shared/services/currency.service';
 import { Currency } from 'shared/models/currency';
-import { take } from 'rxjs/operators';
-import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
+import { Valuable } from 'shared/models/valuable';
+import { Vault } from 'shared/models/vault';
+import { BagService } from 'shared/services/bag.service';
 import { CommerceService } from 'shared/services/commerce.service';
+import { CurrencyService } from 'shared/services/currency.service';
+import { ValuablesService } from 'shared/services/valuables.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'display-valuables',
@@ -29,15 +28,15 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   droppedItem: Valuable;
   oldVault: string;
   showDisplay: boolean = false;
+  private alive: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private bagService: BagService,
-    private utilityService: UtilityService,
+    private vaultService: VaultService,
     private currencyService: CurrencyService,
     private commerceService: CommerceService,
-    private valuableService: ValuablesService,
-    private coinService: TreasuryCurrencyService
+    private valuableService: ValuablesService
     ) {
   }
 
@@ -97,7 +96,11 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async ngOnInit() {
-    this.createSubscriptions();
+    this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault => {
+          this.vault = vault;
+          this.createSubscriptions();
+    });
   }
 
 

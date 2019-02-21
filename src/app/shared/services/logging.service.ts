@@ -1,32 +1,30 @@
 import { Injectable } from '@angular/core';
+import { Differences } from 'shared/models/differences';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggingService {
-  result = this.deepDiffMapper().map({
-      a: 'i am unchanged',
-      b: 'i am deleted',
-      e: { a: 1, b: false, c: null},
-      f: [1, {a: 'same', b: [{a: 'same'}, {d: 'delete'}]}],
-      g: new Date('2017.11.25')
-    },
-    {
-        a: 'i am unchanged',
-        c: 'i am created',
-        e: { a: '1', b: '', d: 'created'},
-        f: [{a: 'same', b: [{a: 'same'}, {c: 'create'}]}, 1],
-        g: new Date('2017.11.25')
-    });
 
-  constructor() { }
+    constructor() { }
 
   directLog(source, id: string) {
     console.log(source, id);
   }
 
-  logChanges(source: string, oldVal: any, newVal: any) {
+  logChanges(source: string, newVal: any, oldVal: any) {
+    console.log(oldVal.quantity,newVal.quantity)
     const result = this.deepDiffMapper().map(oldVal, newVal);
+    // remove unchanged results.
+    // for(let key in result.changes){
+
+    //     if(!required.includes(key)){
+    //         if(result.changes[key].type === 'unchanged'){
+    //             delete result.changes[key];
+    //         }
+    //     }
+        
+    // }
     console.log(result);
     switch (source) {
       case 'treasure':
@@ -57,11 +55,17 @@ export class LoggingService {
             if (this.isValue(obj1) || this.isValue(obj2)) {
                 return {
                     type: this.compareValues(obj1, obj2),
-                    data: (obj1 === undefined) ? obj2 : obj1
+                    newValue: (obj1 === undefined) ? obj2 : obj1,
+                    oldValue: (obj2 === undefined) ? obj1 : obj2
                 };
             }
 
-            const diff = {};
+            const diff = new Differences();
+            diff.key = obj1.key;
+            diff.vault = obj1.vault;
+            diff.changeby = obj1.changeby;
+            diff.timestamp = Date.now();
+
             for (const key in obj1) {
                 if (this.isFunction(obj1[key])) {
                     continue;
@@ -72,14 +76,14 @@ export class LoggingService {
                     value2 = obj2[key];
                 }
 
-                diff[key] = this.map(obj1[key], value2);
+                diff.changes[key] = this.map(obj1[key], value2);
             }
             for (const key in obj2) {
                 if (this.isFunction(obj2[key]) || ('undefined' !== typeof(diff[key]))) {
                     continue;
                 }
 
-                diff[key] = this.map(undefined, obj2[key]);
+                diff.changes[key] = this.map(undefined, obj2[key]);
             }
 
             return diff;

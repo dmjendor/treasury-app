@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'shared/services/auth.service';
 import { AppUser } from 'shared/models/app-user';
 import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 import { Vault } from 'shared/models/vault';
 import { VaultService } from 'shared/services/vault.service';
 import { Subscription } from 'rxjs';
@@ -15,9 +15,10 @@ import { Subscription } from 'rxjs';
 export class BsNavbarComponent implements OnInit, OnDestroy {
   appUser: AppUser;
   isTreasury: boolean;
-  treasuryId: string;
+  vaultId: string;
   vault: Vault;
-  routeSub: Subscription;
+  vaultSub: Subscription;
+  private alive: boolean = true;
 
   constructor(
     private vaultService: VaultService,
@@ -26,16 +27,11 @@ export class BsNavbarComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.isTreasury = window.location.pathname.includes('treasury');
-    this.routeSub = this.router.events.subscribe(params => {
-      if ((params instanceof RoutesRecognized) && this.isTreasury) {
-        this.treasuryId = params.state.root.firstChild.params['id'];
-        this.vaultService.get(this.treasuryId)
-          .valueChanges().pipe(take(1)).subscribe(p => {
-            this.vault = p as Vault;
-          });
-      }
+    vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault=> {
+          this.vault = vault;
     });
-   }
+  }
 
 
   logout() {
@@ -48,7 +44,7 @@ export class BsNavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
+    this.vaultSub.unsubscribe();
   }
 
 }

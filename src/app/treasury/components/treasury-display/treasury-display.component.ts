@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { VaultService } from 'shared/services/vault.service';
-import { take } from 'rxjs/operators';
-import { Vault } from 'shared/models/vault';
+import { Component, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ThemeService } from 'shared/services/theme.service';
-import { PermissionService } from 'shared/services/permission.service';
+import { take } from 'rxjs/operators';
 import { Permission } from 'shared/models/permission';
+import { Vault } from 'shared/models/vault';
+import { PermissionService } from 'shared/services/permission.service';
+import { ThemeService } from 'shared/services/theme.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'treasury-display',
@@ -18,7 +18,7 @@ export class TreasuryDisplayComponent implements OnDestroy {
   permissionSub: Subscription;
   splitTreasure: boolean = false;
   treasuryId: string;
-  vault: Vault;
+  vault: Vault = new Vault();
   coinAllowed: boolean = false;
   treasureAllowed: boolean = false;
   valuablesAllowed: boolean = false;
@@ -45,12 +45,14 @@ export class TreasuryDisplayComponent implements OnDestroy {
   }
 
   initializeTreasury(e) {
+    this.vaultService.setActiveVault(this.vault);
     if (e.url) {
       this.treasuryId = e.url.replace('/treasury/', '');
       this.vaultService.get(this.treasuryId)
         .valueChanges().pipe(take(1)).subscribe(p => {
           this.vault = p as Vault;
           this.vault.key = this.treasuryId;
+          this.vaultService.setActiveVault(this.vault);
           this.themeService.setCurrentTheme(this.vault.theme);
           this.permissionSub = this.permissionService.getPermissionsByUser()
           .subscribe(permission => {

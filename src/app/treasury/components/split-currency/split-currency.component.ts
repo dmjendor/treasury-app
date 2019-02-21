@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, AfterContentInit } from '@angular/core';
-import { Vault } from 'shared/models/vault';
-import { Subscription } from 'rxjs';
+import { AfterContentInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CurrencyService } from 'app/shared/services/currency.service';
-import { Currency } from 'shared/models/currency';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
+import { Subscription } from 'rxjs';
 import { Coin } from 'shared/models/coin';
+import { Currency } from 'shared/models/currency';
+import { Vault } from 'shared/models/vault';
 
 @Component({
   selector: 'split-currency',

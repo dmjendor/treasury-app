@@ -16,6 +16,7 @@ export class EditTreasureItemComponent implements OnInit {
   vault: Vault;
   treasure: Treasure;
   currency: Currency;
+  baseTreasure: Treasure;
 
   constructor(
     public currencyService: CurrencyService,
@@ -24,6 +25,7 @@ export class EditTreasureItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.baseTreasure = JSON.parse(JSON.stringify(this.treasure));
     this.currencyService.get(this.vault.baseCurrency)
       .valueChanges().pipe(take(1)).subscribe(c => {
         this.currency = c as Currency;
@@ -31,7 +33,7 @@ export class EditTreasureItemComponent implements OnInit {
   }
 
   save() {
-    this.treasureService.update(this.treasure.key, this.treasure).then((a) => {
+    this.treasureService.update(this.treasure.key, this.treasure, this.baseTreasure).then((a) => {
       this.modal.close();
     });
   }

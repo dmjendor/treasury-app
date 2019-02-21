@@ -14,7 +14,11 @@ import { DisplayTreasureComponent } from './components/display-treasure/display-
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: 'treasury/:id', component: TreasuryDisplayComponent, canActivate: [TreasureGuard], runGuardsAndResolvers: 'always' },
+      { path: 'treasury/:id', 
+        component: TreasuryDisplayComponent, 
+        canActivate: [TreasureGuard], 
+        runGuardsAndResolvers: 'always' 
+      },
       { path: 'treasury', component: NoAccessComponent },
       { path: 'noAccess', component: NoAccessComponent }
     ])

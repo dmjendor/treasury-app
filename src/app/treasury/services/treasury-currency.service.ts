@@ -1,14 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Coin } from 'shared/models/coin';
-import { map } from 'rxjs/operators';
-import { CurrencyService } from 'shared/services/currency.service';
-import { Currency } from 'shared/models/currency';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Coin } from 'shared/models/coin';
 import { Page } from 'shared/models/page';
 import { PagedData } from 'shared/models/paged-data';
-import { json } from 'body-parser';
 
 @Injectable({
   providedIn: 'root'
