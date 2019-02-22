@@ -1,14 +1,14 @@
-import { Component, OnInit, OnChanges, Input, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
-import { Vault } from 'shared/models/vault';
-import { Coin } from 'shared/models/coin';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UtilityService } from 'shared/services/utility.service';
-import { Currency } from 'shared/models/currency';
-import { CurrencyService } from 'shared/services/currency.service';
-import { VaultService } from 'shared/services/vault.service';
+import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
+import { Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+import { Coin } from 'shared/models/coin';
+import { Currency } from 'shared/models/currency';
+import { Vault } from 'shared/models/vault';
+import { CurrencyService } from 'shared/services/currency.service';
+import { UtilityService } from 'shared/services/utility.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'display-currency',
@@ -16,7 +16,6 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['./display-currency.component.css']
 })
 export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
-  //@Input('vault') vault: Vault;
   vault: Vault;
   coins: Coin[];
   displayCoins: Coin[] = [];
@@ -39,8 +38,9 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
 
   async ngOnInit() {
     this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
-      vault=> {
+      vault => {
           this.vault = vault;
+          console.log('vaultLoaded1');
           this.createSubscriptions();
     });
   }
@@ -111,7 +111,7 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   createSubscriptions() {
-    if(this.vault && this.vault.key){
+    if (this.vault && this.vault.key) {
       this.currencySub = this.currencyService.getCurrenciesByVault(this.vault.key)
       .subscribe(currency => {
         this.currencies = currency as Currency[];
@@ -123,7 +123,7 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
         });
       });
     }
-    
+
   }
 
   exchange(coin, direction) {
@@ -144,7 +144,6 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
       newCoin.currency = this.currencies[newIdx].key;
       this.archiveCoin(exchangecoins).then((a) => {
         this.coinService.create(newCoin);
-        console.log(newCoin);
         const mod = Math.floor(coin.value % ( this.currencies[newIdx].multiplier / this.currencies[idx].multiplier));
         if (mod !== 0) {
           const newCoinMod = new Coin();
@@ -153,7 +152,6 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
           newCoinMod.timestamp = Date.now();
           newCoinMod.value = mod;
           newCoinMod.currency = this.currencies[idx].key;
-          console.log(newCoinMod);
           this.coinService.create(newCoinMod);
         }
       });

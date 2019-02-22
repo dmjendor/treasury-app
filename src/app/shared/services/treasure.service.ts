@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { map, take } from 'rxjs/operators';
-import { Treasure } from 'shared/models/treasure';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Treasure } from 'shared/models/treasure';
+
 import { LoggingService } from './logging.service';
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,17 +26,17 @@ export class TreasureService {
    }
 
   create(obj: Treasure) {
-    this.loggingService.logChanges('treasure', {}, obj);
+    this.loggingService.logChanges('treasure', obj, {});
     return this.db.list('/treasure').push(obj);
   }
 
   update(treasureID: string, obj: Treasure, baseObj: Treasure) {
-    this.loggingService.logChanges('treasure', baseObj, obj);
+    this.loggingService.logChanges('treasure', obj, baseObj);
     return this.db.object('/treasure/' + treasureID).update(obj);
   }
 
-  remove(treasureID: string) {
-    this.loggingService.directLog('treasure', treasureID);
+  remove(treasureID: string, obj: Treasure) {
+    this.loggingService.logChanges('treasure', {}, obj);
     return this.db.object('/treasure/' + treasureID).remove();
   }
 

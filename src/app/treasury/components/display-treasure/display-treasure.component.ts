@@ -1,7 +1,5 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
 import { Subscription } from 'rxjs';
 import { take, takeWhile } from 'rxjs/operators';
 import { EditTreasureItemComponent } from 'shared/components/edit-treasure-item/edit-treasure-item.component';
@@ -13,7 +11,6 @@ import { BagService } from 'shared/services/bag.service';
 import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
 import { TreasureService } from 'shared/services/treasure.service';
-import { UtilityService } from 'shared/services/utility.service';
 import { VaultService } from 'shared/services/vault.service';
 
 @Component({
@@ -22,7 +19,7 @@ import { VaultService } from 'shared/services/vault.service';
   styleUrls: ['./display-treasure.component.css']
 })
 export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
-  @Input('vault') vault: Vault;
+  vault: Vault;
   treasures: Treasure[];
   treasureSub: Subscription;
   bags: Bag[];
@@ -35,15 +32,12 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
   private alive: boolean = true;
 
   constructor(
-    private route: ActivatedRoute,
     private bagService: BagService,
     private modalService: NgbModal,
     private vaultService: VaultService,
-    private utilityService: UtilityService,
     private commerceService: CommerceService,
     private currencyService: CurrencyService,
-    private treasureService: TreasureService,
-    private coinService: TreasuryCurrencyService
+    private treasureService: TreasureService
     ) {
   }
 
@@ -103,7 +97,12 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
       vault => {
           this.vault = vault;
-          this.initializeSubscriptions();
+          if (this.vault.commonCurrency) {
+            console.log('vaultLoaded3');
+            this.initializeSubscriptions();
+          } else {
+
+          }
     });
   }
 
@@ -147,7 +146,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
       item.quantity--;
       this.treasureService.update(item.key, item, baseItem);
     } else {
-      this.treasureService.remove(item.key);
+      this.treasureService.remove(item.key, item);
     }
   }
 
@@ -164,7 +163,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
       item.quantity--;
       this.treasureService.update(item.key, item, baseItem);
     } else {
-      this.treasureService.remove(item.key);
+      this.treasureService.remove(item.key, item);
     }
     this.commerceService.buySell(item, this.vault, true);
   }
@@ -184,10 +183,10 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
      .valueChanges().pipe(take(1)).subscribe(p => {
       const useme = p as Treasure;
       const pos = this.bags.map(function(e) { return e.key; }).indexOf(ev.target.parentElement.id);
-      const baseItem = JSON.parse(JSON.stringify(useme));
+      const original = JSON.parse(JSON.stringify(useme));
       if (pos !== -1) {
         useme.location = ev.target.parentElement.id;
-        this.treasureService.update(draggable, useme, baseItem);
+        this.treasureService.update(draggable, useme, original);
       }
     });
    }

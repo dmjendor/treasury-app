@@ -1,18 +1,22 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
-import { Vault } from 'shared/models/vault';
-import { Subscription } from 'rxjs';
-import { ValuablesService } from 'shared/services/valuables.service';
-import { Valuable } from 'shared/models/valuable';
-import { BagService } from 'shared/services/bag.service';
-import { Bag } from 'shared/models/bag';
-import { CurrencyService } from 'shared/services/currency.service';
-import { Currency } from 'shared/models/currency';
-import { take } from 'rxjs/operators';
-import { DefaultValuablesService } from 'shared/services/default-valuables.service';
-import { DefaultValuable } from 'shared/models/defaultvaluable';
-import { ToastService } from 'shared/services/toast.service';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { take, takeWhile } from 'rxjs/operators';
+import { Bag } from 'shared/models/bag';
+import { Currency } from 'shared/models/currency';
+import { DefaultValuable } from 'shared/models/defaultvaluable';
+import { Valuable } from 'shared/models/valuable';
+import { Vault } from 'shared/models/vault';
+import { BagService } from 'shared/services/bag.service';
+import { CurrencyService } from 'shared/services/currency.service';
+import { DefaultValuablesService } from 'shared/services/default-valuables.service';
+import { ToastService } from 'shared/services/toast.service';
+import { ValuablesService } from 'shared/services/valuables.service';
+import { VaultService } from 'shared/services/vault.service';
+
 import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.component';
+
+
 
 @Component({
   selector: 'edit-valuables',
@@ -20,7 +24,7 @@ import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.compo
   styleUrls: ['./edit-valuables.component.css']
 })
 export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() vault: Vault;
+  vault: Vault;
   valuable = new Valuable();
   selectedBag: string;
   currency: Currency;
@@ -34,18 +38,28 @@ export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
   defaultValuableSub: Subscription;
   defaultValuables: DefaultValuable[];
   oldVault: string;
+  private alive: boolean = true;
 
   constructor(
     private toast: ToastService,
     private bagService: BagService,
     private modalService: NgbModal,
+    private vaultService: VaultService,
     private currencyService: CurrencyService,
     private valuableService: ValuablesService,
     private defaultValuableService: DefaultValuablesService
   ) { }
 
   async ngOnInit() {
-    this.createSubscriptions();
+    this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault => {
+          this.vault = vault;
+          if (this.vault.commonCurrency) {
+            console.log('vaultLoaded5');
+            this.createSubscriptions();
+          }
+
+    });
   }
 
   ngOnChanges() {

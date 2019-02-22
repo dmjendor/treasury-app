@@ -1,8 +1,9 @@
 export class Differences {
-    key: string = '';
+    key?: string = '';
     vault: string = '';
     changeby: string = '';
     timestamp: number = 0;
+    source: string;
     changes: any = {};
     constructor() {}
 }

@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Coin } from 'shared/models/coin';
 import { Page } from 'shared/models/page';
 import { PagedData } from 'shared/models/paged-data';
+import { LoggingService } from 'shared/services/logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,21 +17,25 @@ export class TreasuryCurrencyService {
 
   constructor(
     private http: HttpClient,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private loggingService: LoggingService
     ) {
     this.coins$ = this.db.list('/coin', c => c.orderByChild('name'))
     .snapshotChanges();
    }
 
   create(obj: Coin) {
+    this.loggingService.logChanges('coin', obj, {});
     this.db.list('/coin').push(obj);
   }
 
-  update(coinID: string, obj: Coin) {
+  update(coinID: string, obj: Coin, baseObj: Coin) {
+    this.loggingService.logChanges('treasure', obj, baseObj);
     return this.db.object('/coin/' + coinID).update(obj);
   }
 
-  remove(coinID: string) {
+  remove(coinID: string, obj: Coin) {
+    this.loggingService.logChanges('treasure', {}, obj);
     return this.db.object('/coin/' + coinID).remove();
   }
 
@@ -94,8 +99,9 @@ export class TreasuryCurrencyService {
   archiveCoin(coins: Coin[]) {
     return new Promise((resolve, reject) => {
       for (let r = 0; r < coins.length; r++) {
+        const prevCoin = JSON.parse(JSON.stringify(coins[r]));
         coins[r].archived = true;
-        this.update(coins[r].key, coins[r]);
+        this.update(coins[r].key, coins[r], prevCoin);
       }
       resolve((a) => {
         return true;

@@ -1,15 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { Bag } from 'shared/models/bag';
-import { Subscription } from 'rxjs';
-import { Vault } from 'shared/models/vault';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BagService } from 'app/shared/services/bag.service';
+import { Subscription } from 'rxjs';
+import { Bag } from 'shared/models/bag';
+import { DefaultBag } from 'shared/models/defaultbag';
+import { Vault } from 'shared/models/vault';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 import { DefaultBagService } from 'shared/services/default-bag.service';
-import { DefaultBag } from 'shared/models/defaultbag';
 import { ToastService } from 'shared/services/toast.service';
 import { TreasureService } from 'shared/services/treasure.service';
-import { ValuablesService } from 'shared/services/valuables.service';
 import { UtilityService } from 'shared/services/utility.service';
+import { ValuablesService } from 'shared/services/valuables.service';
 
 
 @Component({
@@ -21,6 +21,7 @@ export class VaultBagsFormComponent implements OnInit, OnDestroy {
   @Input('vault') vault: Vault;
   @Input('selectedBag') set setSelectedBag(value) {
     this.bag = value;
+    this.original = JSON.parse(JSON.stringify(this.bag));
   }
   @Input('edit') editMode: boolean;
   @Output('selectedBagChange') emitter1: EventEmitter<object> = new EventEmitter<object>();
@@ -29,6 +30,7 @@ export class VaultBagsFormComponent implements OnInit, OnDestroy {
   defaultBags: DefaultBag[];
   dBagSub: Subscription;
   selected: any[];
+  original: Bag;
 
   constructor(
     private toast: ToastService,
@@ -38,11 +40,11 @@ export class VaultBagsFormComponent implements OnInit, OnDestroy {
     private treasureService: TreasureService,
     private valuablesService: ValuablesService,
     private confirmationDialogService: ConfirmationDialogService
-    ) { }
+    ) {  }
 
   save() {
     if (this.bag.key !== null) {
-      this.bagService.update(this.bag.key, this.bag);
+      this.bagService.update(this.bag.key, this.bag, this.original);
     } else {
       this.bag.vault = this.vault.key;
       this.bag.changeby = sessionStorage.getItem('userId');
@@ -67,7 +69,7 @@ export class VaultBagsFormComponent implements OnInit, OnDestroy {
             this.confirmationDialogService.confirm(header, body)
             .then((confirmed) => {
               if (confirmed) {
-                this.bagService.remove(this.bag.key);
+                this.bagService.remove(this.bag.key, this.bag);
                 this.emitter2.emit(false);
               }
             })

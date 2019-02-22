@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Valuable } from 'shared/models/valuable';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Valuable } from 'shared/models/valuable';
+
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +16,24 @@ export class ValuablesService {
   constructor(
     private http: HttpClient,
     private db: AngularFireDatabase,
+    private loggingService: LoggingService
     ) {
     this.valuables$ = this.db.list('/valuables', c => c.orderByChild('name'))
     .snapshotChanges();
    }
 
   create(obj: Valuable) {
+    this.loggingService.logChanges('valuables', obj, {});
     return this.db.list('/valuables').push(obj);
   }
 
-  update(valuablesID: string, obj: Valuable) {
+  update(valuablesID: string, obj: Valuable, baseObj: Valuable) {
+    this.loggingService.logChanges('treasure', obj, baseObj);
     return this.db.object('/valuables/' + valuablesID).update(obj);
   }
 
-  remove(valuablesID: string) {
+  remove(valuablesID: string, obj: Valuable) {
+    this.loggingService.logChanges('treasure', {}, obj);
     return this.db.object('/valuables/' + valuablesID).remove();
   }
 

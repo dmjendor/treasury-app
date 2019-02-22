@@ -1,48 +1,97 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Differences } from 'shared/models/differences';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggingService {
+    logs$: Observable<any[]>;
 
-    constructor() { }
+    constructor(
+      private db: AngularFireDatabase,
+      private fns: AngularFireFunctions
+    ) {
+      this.logs$ = this.db.list('/logs', c => c.orderByChild('timestamp'))
+      .snapshotChanges();
+    }
+
+    create(obj: Differences) {
+      return this.db.list('/logs').push(obj);
+    }
+
+    update(logsID: string, obj: Differences) {
+      return this.db.object('/logs/' + logsID).update(obj);
+    }
+
+    remove(logsID: string) {
+      return this.db.object('/logs/' + logsID).remove();
+    }
+
+    getAll() {
+      return this.logs$.pipe(map(changes => {
+        return changes.map(p => ({ key: p.payload.key, ...p.payload.val() }));
+      }));
+    }
+
+    get(logsID: string) {
+      return this.db.object('/logs/' + logsID);
+    }
+
+    getLogsByUser(user: string) {
+      return this.db.list('/logs',
+        ref => ref.orderByChild('changeby')
+        .equalTo(user))
+        .snapshotChanges()
+        .pipe(map(items => {            // <== new way of chaining
+          return items.map(a => {
+            const data = a.payload.val() as Differences;
+            const key = a.payload.key;
+            data.key  = key;
+            return data;
+          });
+        }));
+    }
+
+    getLogsByVault(vaultId: string) {
+      return this.db.list('/logs',
+        ref => ref.orderByChild('vault')
+        .equalTo(vaultId))
+        .snapshotChanges()
+        .pipe(map(items => {            // <== new way of chaining
+          return items.map(a => {
+            const data = a.payload.val() as Differences;
+            const key = a.payload.key;
+            data.key  = key;
+            return data;
+          });
+        }));
+    }
 
   directLog(source, id: string) {
     console.log(source, id);
+    const diff = new Differences();
+
+  }
+
+  private deleteUnchanged(obj) {
+    for (const key in obj) {
+        if (obj[key].type === 'unchanged') { delete obj[key]; }
+    }
+    return obj;
   }
 
   logChanges(source: string, newVal: any, oldVal: any) {
-    console.log(oldVal.quantity,newVal.quantity)
-    const result = this.deepDiffMapper().map(oldVal, newVal);
-    // remove unchanged results.
-    // for(let key in result.changes){
-
-    //     if(!required.includes(key)){
-    //         if(result.changes[key].type === 'unchanged'){
-    //             delete result.changes[key];
-    //         }
-    //     }
-        
-    // }
-    console.log(result);
-    switch (source) {
-      case 'treasure':
-      break;
-      case 'valuables':
-      break;
-      case 'bags':
-      break;
-      case 'defaulttreasures':
-      break;
-      case 'defaultvaluables':
-      break;
-      case 'defaultbags':
-      break;
-    }
+    const result = this.deepDiffMapper().map(newVal, oldVal) as Differences;
+    result.changes = this.deleteUnchanged(result.changes);
+    result.source = source;
+    this.create(result);
   }
 
-  deepDiffMapper() {
+  private deepDiffMapper() {
     return {
         VALUE_CREATED: 'created',
         VALUE_UPDATED: 'updated',
@@ -55,16 +104,19 @@ export class LoggingService {
             if (this.isValue(obj1) || this.isValue(obj2)) {
                 return {
                     type: this.compareValues(obj1, obj2),
-                    newValue: (obj1 === undefined) ? obj2 : obj1,
-                    oldValue: (obj2 === undefined) ? obj1 : obj2
+                    newValue: obj1 ? obj1 : null,
+                    oldValue: obj2 ? obj2 : null
                 };
             }
 
             const diff = new Differences();
-            diff.key = obj1.key;
-            diff.vault = obj1.vault;
-            diff.changeby = obj1.changeby;
+            if (obj1.key || obj2.key) {
+              diff.key = obj1.key ? obj1.key : obj2.key;
+            }
+            diff.vault = obj1.vault ? obj1.vault : obj2.vault;
+            diff.changeby = obj1.changeby ? obj1.changeby : obj2.changeby;
             diff.timestamp = Date.now();
+            diff.changes = {};
 
             for (const key in obj1) {
                 if (this.isFunction(obj1[key])) {
@@ -79,7 +131,7 @@ export class LoggingService {
                 diff.changes[key] = this.map(obj1[key], value2);
             }
             for (const key in obj2) {
-                if (this.isFunction(obj2[key]) || ('undefined' !== typeof(diff[key]))) {
+                if (this.isFunction(obj2[key]) || ('undefined' !== typeof(diff.changes[key]))) {
                     continue;
                 }
 

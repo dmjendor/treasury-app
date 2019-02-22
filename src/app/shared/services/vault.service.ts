@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
 import { Vault } from 'shared/models/vault';
 
 @Injectable({
@@ -10,7 +9,7 @@ import { Vault } from 'shared/models/vault';
 })
 export class VaultService {
   vaults$: Observable<any[]>;
-  private av = new Subject<Vault>();
+  private av = new BehaviorSubject<Vault>(new Vault());
   activeVault$ = this.av.asObservable();
 
   constructor(private db: AngularFireDatabase) {

@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, OnChanges } from '@angular/core';
-import { Vault } from 'shared/models/vault';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { Currency } from 'shared/models/currency';
+import { Vault } from 'shared/models/vault';
 import { CurrencyService } from 'shared/services/currency.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'edit-currency',
@@ -10,13 +12,15 @@ import { CurrencyService } from 'shared/services/currency.service';
   styleUrls: ['./edit-currency.component.css']
 })
 export class EditCurrencyComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() vault: Vault;
+
   @Output('splitChange') emitter1: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input('split') set setSplitValue(value) {
     this.split = value;
   }
+  vault: Vault;
   split: boolean;
   partyNum: number = null;
+  private alive: boolean = true;
   consolidateTitle: string =  'Consolidate coin split into highest denominations?';
   splitTitle: string = 'Keep a full share of the coin in the party treasury after split?';
   showDisplay: boolean = false;
@@ -24,11 +28,19 @@ export class EditCurrencyComponent implements OnInit, OnChanges, OnDestroy {
   currencies: Currency[];
   oldVault: string;
   constructor(
+    private vaultService: VaultService,
     private currencyService: CurrencyService
   ) { }
 
   async ngOnInit() {
-    this.createSubscriptions();
+    this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault => {
+          this.vault = vault as Vault;
+          if (this.vault.commonCurrency) {
+            console.log('vaultLoaded4');
+            this.createSubscriptions();
+          }
+    });
   }
 
   ngOnChanges() {

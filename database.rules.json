@@ -43,6 +43,9 @@
     },
     "preptreasures": {
       ".indexOn": ["vault","reward"]
+    },
+    "logs": {
+      ".indexOn": ["vault","changeby","timestamp"]
     }
 
   }

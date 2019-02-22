@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Vault } from 'shared/models/vault';
-import { Treasure } from 'shared/models/treasure';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TreasureService } from 'shared/services/treasure.service';
-import { CurrencyService } from 'shared/services/currency.service';
-import { Currency } from 'shared/models/currency';
 import { take } from 'rxjs/operators';
+import { Currency } from 'shared/models/currency';
+import { Treasure } from 'shared/models/treasure';
+import { Vault } from 'shared/models/vault';
+import { CurrencyService } from 'shared/services/currency.service';
+import { TreasureService } from 'shared/services/treasure.service';
 
 @Component({
   selector: 'app-edit-treasure-item',
@@ -39,7 +39,7 @@ export class EditTreasureItemComponent implements OnInit {
   }
 
   delete() {
-    this.treasureService.remove(this.treasure.key).then((a) => {
+    this.treasureService.remove(this.treasure.key, this.treasure).then((a) => {
       this.modal.close();
     });
   }

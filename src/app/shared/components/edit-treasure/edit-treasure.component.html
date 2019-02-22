@@ -39,7 +39,7 @@
                 <div class="input-group">
                   <input type="text" name="quantity" [(ngModel)]="treasure.quantity" class="form-control" placeholder="Qty" aria-placeholder="Quantity">
                   <div class="input-group-append">
-                    <button class="btn btn-primary" (click)="addTreasure()">Add</button>
+                    <button class="btn btn-primary" (click)="addTreasure()" [disabled]="treasure.quantity<1">Add</button>
                   </div>
                 </div>
               </div>

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UtilityService } from 'shared/services/utility.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { DefaultBag } from 'shared/models/defaultbag';
-import { DefaultBagService } from 'shared/services/default-bag.service';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { DefaultBagService } from 'shared/services/default-bag.service';
+import { UtilityService } from 'shared/services/utility.service';
 
 @Component({
   selector: 'bag-form',

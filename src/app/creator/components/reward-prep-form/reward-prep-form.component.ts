@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { RewardPrep } from 'shared/models/reward-prep';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RewardPrepService } from 'shared/services/reward-prep.service';
-import { take } from 'rxjs/operators';
-import { VaultService } from 'shared/services/vault.service';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { RewardPrep } from 'shared/models/reward-prep';
 import { Vault } from 'shared/models/vault';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { RewardPrepService } from 'shared/services/reward-prep.service';
 
 @Component({
   selector: 'app-reward-prep-form',
@@ -25,7 +24,6 @@ export class RewardPrepFormComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private vaultService: VaultService,
     private rewardPrepService: RewardPrepService,
     private confirmationDialogService: ConfirmationDialogService
   ) {

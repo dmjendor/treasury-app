@@ -45,7 +45,6 @@ export class TreasuryDisplayComponent implements OnDestroy {
   }
 
   initializeTreasury(e) {
-    this.vaultService.setActiveVault(this.vault);
     if (e.url) {
       this.treasuryId = e.url.replace('/treasury/', '');
       this.vaultService.get(this.treasuryId)

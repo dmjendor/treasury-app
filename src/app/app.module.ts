@@ -1,17 +1,21 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { HomeComponent } from 'core/components/home/home.component';
 import { environment } from 'environments/environment';
+import { VaultService } from 'shared/services/vault.service';
+
 import { AdminModule } from './admin/admin.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { CreatorModule } from './creator/creator.module';
 import { SharedModule } from './shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TreasuryModule } from './treasury/treasury.module';
-import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -33,7 +37,9 @@ import { HttpClientModule } from '@angular/common/http';
        { path: 'home', component: HomeComponent}
     ], {onSameUrlNavigation: 'reload'})
   ],
-  providers: [],
+  providers: [
+    VaultService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

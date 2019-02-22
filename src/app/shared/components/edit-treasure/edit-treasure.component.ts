@@ -1,20 +1,25 @@
-import { Component, OnInit, Input, EventEmitter, OnDestroy, OnChanges } from '@angular/core';
-import { Vault } from 'shared/models/vault';
-import { Subscription } from 'rxjs';
-import { TreasureService } from 'shared/services/treasure.service';
-import { Treasure } from 'shared/models/treasure';
-import { BagService } from 'shared/services/bag.service';
-import { Bag } from 'shared/models/bag';
-import { CurrencyService } from 'shared/services/currency.service';
-import { Currency } from 'shared/models/currency';
-import { take } from 'rxjs/operators';
-import { ToastService } from 'shared/services/toast.service';
-import { DefaultTreasureService } from 'shared/services/default-treasure.service';
-import { DefaultTreasure } from 'shared/models/defaulttreasure';
-import { ModifierService } from 'shared/services/modifier.service';
-import { Modifier } from 'shared/models/modifier';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { take, takeWhile } from 'rxjs/operators';
+import { Bag } from 'shared/models/bag';
+import { Currency } from 'shared/models/currency';
+import { DefaultTreasure } from 'shared/models/defaulttreasure';
+import { Modifier } from 'shared/models/modifier';
+import { Treasure } from 'shared/models/treasure';
+import { Vault } from 'shared/models/vault';
+import { BagService } from 'shared/services/bag.service';
+import { CurrencyService } from 'shared/services/currency.service';
+import { DefaultTreasureService } from 'shared/services/default-treasure.service';
+import { ModifierService } from 'shared/services/modifier.service';
+import { ToastService } from 'shared/services/toast.service';
+import { TreasureService } from 'shared/services/treasure.service';
+import { VaultService } from 'shared/services/vault.service';
+
 import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.component';
+
+
+
 
 
 @Component({
@@ -23,7 +28,7 @@ import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.compo
   styleUrls: ['./edit-treasure.component.css']
 })
 export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() vault: Vault;
+  vault: Vault;
   treasure = new Treasure();
   currency: Currency;
   showDisplay: boolean = false;
@@ -40,11 +45,13 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
   modifiers: Modifier[];
   oldVault: string;
   selectedMods: any[] = [];
+  private alive: boolean = true;
 
   constructor(
     private toast: ToastService,
     private bagService: BagService,
     private modalService: NgbModal,
+    private vaultService: VaultService,
     private currencyService: CurrencyService,
     private treasureService: TreasureService,
     private modifierService: ModifierService,
@@ -53,7 +60,14 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
 
 
   async ngOnInit() {
-    this.createSubscriptions();
+    this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault => {
+          this.vault = vault;
+          if (this.vault.commonCurrency) {
+            console.log('vaultLoaded6');
+            this.createSubscriptions();
+          }
+    });
   }
 
   ngOnChanges() {

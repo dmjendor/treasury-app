@@ -46,7 +46,9 @@ import { ThemeService } from './services/theme.service';
 import { TreasureGuard } from './services/treasure-guard.service';
 import { TreasureService } from './services/treasure.service';
 import { UserService } from './services/user.service';
-import { VaultService } from './services/vault.service';
+
+
+
 
 
 @NgModule({
@@ -120,7 +122,6 @@ import { VaultService } from './services/vault.service';
   ],
   providers: [
     BagService,
-    VaultService,
     CurrencyService,
     ConfirmationDialogService,
     ThemeService,

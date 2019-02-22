@@ -2,9 +2,11 @@ import { AfterContentInit, Component, EventEmitter, Input, OnInit, Output } from
 import { CurrencyService } from 'app/shared/services/currency.service';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
 import { Subscription } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { Coin } from 'shared/models/coin';
 import { Currency } from 'shared/models/currency';
 import { Vault } from 'shared/models/vault';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'split-currency',
@@ -12,11 +14,13 @@ import { Vault } from 'shared/models/vault';
   styleUrls: ['./split-currency.component.css']
 })
 export class SplitCurrencyComponent implements OnInit, AfterContentInit {
-  @Input('vault') vault: Vault;
+
   @Output('splitChange') emitter1: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input('split') set setSplitValue(value) {
     this.split = value;
   }
+  vault: Vault;
+  alive: boolean = true;
   split: boolean;
   partyNum: number = 0;
   coins: Coin[] = [];
@@ -27,9 +31,15 @@ export class SplitCurrencyComponent implements OnInit, AfterContentInit {
   currencySub: Subscription;
 
   constructor(
+    private vaultService: VaultService,
     private currencyService: CurrencyService,
     private coinService: TreasuryCurrencyService,
-  ) { }
+  ) {
+    this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
+      vault => {
+          this.vault = vault;
+    });
+   }
 
   ngOnInit() {
     this.partyNum = parseInt(sessionStorage.getItem('partyNum'), 10);

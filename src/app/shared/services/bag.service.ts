@@ -1,9 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Bag } from 'shared/models/bag';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Bag } from 'shared/models/bag';
+
+import { LoggingService } from './logging.service';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +18,25 @@ export class BagService {
 
   constructor(
     private http: HttpClient,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private loggingService: LoggingService
     ) {
     this.bags$ = this.db.list('/bags', c => c.orderByChild('name'))
     .snapshotChanges();
    }
 
   create(obj: Bag) {
+    this.loggingService.logChanges('bag', obj, {});
     return this.db.list('/bags').push(obj);
   }
 
-  update(bagID: string, obj: Bag) {
+  update(bagID: string, obj: Bag, baseObj: Bag) {
+    this.loggingService.logChanges('bag', obj, baseObj);
     return this.db.object('/bags/' + bagID).update(obj);
   }
 
-  remove(bagID: string) {
+  remove(bagID: string, obj: Bag) {
+    this.loggingService.logChanges('bag', {}, obj);
     return this.db.object('/bags/' + bagID).remove();
   }
 
