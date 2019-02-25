@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take, takeWhile } from 'rxjs/operators';
 import { EditTreasureItemComponent } from 'shared/components/edit-treasure-item/edit-treasure-item.component';
+import { TransferModalComponent } from 'shared/components/transfer-modal/transfer-modal.component';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
 import { Treasure } from 'shared/models/treasure';
@@ -202,6 +203,13 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     const activeModal = this.modalService.open(EditTreasureItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
     activeModal.componentInstance.vault = this.vault;
     activeModal.componentInstance.treasure = item;
+  }
+
+  xferItem(item: Treasure) {
+    const activeModal = this.modalService.open(TransferModalComponent, {ariaLabelledBy: 'Transfer ' + item.name, });
+    activeModal.componentInstance.vault = this.vault;
+    activeModal.componentInstance.item = item;
+    activeModal.componentInstance.source = 'treasure';
   }
 
 }

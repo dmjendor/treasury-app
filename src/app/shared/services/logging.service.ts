@@ -72,7 +72,6 @@ export class LoggingService {
     }
 
   directLog(source, id: string) {
-    console.log(source, id);
     const diff = new Differences();
 
   }
@@ -88,18 +87,15 @@ export class LoggingService {
     const result = this.deepDiffMapper().map(newVal, oldVal) as Differences;
     result.changes = this.deleteUnchanged(result.changes);
     result.source = source;
-    console.log(result.changes.vault, result.changes.vault.type, result.changes.vault.type === 'updated', result.changes.vault.newValue, result.changes.vault.oldValue);
     if (result.changes.vault &&
       result.changes.vault.type === 'updated' &&
       (result.changes.vault.oldValue && result.changes.vault.newValue)) {
-        // If the vault was the item changed create an entry in the log for both vaults
-        console.log('found vault change');
+        // If the vault was changed create an entry in the log for both vaults
         const resultA = JSON.parse(JSON.stringify(result));
-        const resultB = JSON.parse(JSON.stringify(result));
         resultA.vault = resultA.changes.vault.oldValue;
-        resultB.vault = resultB.changes.vault.newValue;
         this.create(resultA);
-        this.create(resultB);
+        resultA.vault = resultA.changes.vault.newValue;
+        this.create(resultA);
       } else {
         this.create(result);
       }
