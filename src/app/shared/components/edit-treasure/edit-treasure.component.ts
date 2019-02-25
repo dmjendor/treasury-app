@@ -64,7 +64,6 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
       vault => {
           this.vault = vault;
           if (this.vault.commonCurrency) {
-            console.log('vaultLoaded6');
             this.createSubscriptions();
           }
     });

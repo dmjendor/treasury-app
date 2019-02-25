@@ -1,0 +1,47 @@
+<ng-container *ngIf="item">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Transfer {{item.name}} <span *ngIf="selectedVault">to {{vaultName(selectedVault)}}</span></h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ng-container *ngIf="selectVault">
+        <div class="row">
+          <div class="col-12 input-group">
+            
+            <select name="vault" id="vault" class="form-control" [(ngModel)]="selectedVault">
+              <option value="">Select Vault</option>
+              <option *ngFor="let vl of mergedPerms" [disabled]="!vl.allowXferIn" [value]="vl.key">{{vl.name}}</option>
+            </select>
+            <div class="input-group-append">
+                <button class="btn-info btn" [disabled]="!selectedVault" (click)="nextStep()">Next</button>
+            </div>
+            
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectContainer">
+          <div class="col-12 input-group">
+            
+              <select name="container" id="container" class="form-control" [(ngModel)]="selectedContainer">
+                <option value="">Select Bag</option>
+                <option *ngFor="let bag of bagList" [value]="bag.key">{{bag.name}}</option>
+              </select>
+              <div class="input-group-append">
+                  <button class="btn-info btn" [disabled]="!selectedVault" (click)="save()">Transfer</button>
+              </div>
+              
+            </div>
+      </ng-container>    
+    </div>
+    <div class="modal-footer">
+        <div class="col-12">
+            <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                <button type="button" class="btn btn-primary w-100" (click)="cancel()">
+                  Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+  </ng-container>

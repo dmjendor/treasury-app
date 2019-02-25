@@ -26,6 +26,7 @@ import { ManageVaultBagsComponent } from './components/manage-vault-bags/manage-
 import { NoAccessComponent } from './components/no-access/no-access.component';
 import { OptionQuantityComponent } from './components/option-quantity/option-quantity.component';
 import { PermissionFormComponent } from './components/permission-form/permission-form.component';
+import { TransferModalComponent } from './components/transfer-modal/transfer-modal.component';
 import { TreasuryFormComponent } from './components/treasury-form/treasury-form.component';
 import { TreasuryNavbarListComponent } from './components/treasury-navbar-list/treasury-navbar-list.component';
 import { VaultBagsFormComponent } from './components/vault-bags-form/vault-bags-form.component';
@@ -46,6 +47,7 @@ import { ThemeService } from './services/theme.service';
 import { TreasureGuard } from './services/treasure-guard.service';
 import { TreasureService } from './services/treasure.service';
 import { UserService } from './services/user.service';
+
 
 
 
@@ -84,11 +86,13 @@ import { UserService } from './services/user.service';
     EditCurrencyComponent,
     EditValuablesComponent,
     BagsModalViewComponent,
-    EditTreasureItemComponent
+    EditTreasureItemComponent,
+    TransferModalComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
     EditTreasureItemComponent,
+    TransferModalComponent,
     BagsModalViewComponent
   ],
   exports: [

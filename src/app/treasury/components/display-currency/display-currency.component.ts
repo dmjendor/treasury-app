@@ -40,7 +40,6 @@ export class DisplayCurrencyComponent implements OnInit, OnChanges, OnDestroy {
     this.vaultService.activeVault$.pipe(takeWhile(() => this.alive)).subscribe(
       vault => {
           this.vault = vault;
-          console.log('vaultLoaded1');
           this.createSubscriptions();
     });
   }

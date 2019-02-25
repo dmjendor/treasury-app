@@ -1,14 +1,14 @@
-import { Component, Input, OnDestroy, OnChanges, Output, EventEmitter } from '@angular/core';
-import { BagService } from 'shared/services/bag.service';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Bag } from 'shared/models/bag';
 import { Subscription } from 'rxjs';
+import { Bag } from 'shared/models/bag';
 import { Vault } from 'shared/models/vault';
+import { BagService } from 'shared/services/bag.service';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 import { ToastService } from 'shared/services/toast.service';
 import { TreasureService } from 'shared/services/treasure.service';
-import { ValuablesService } from 'shared/services/valuables.service';
 import { UtilityService } from 'shared/services/utility.service';
+import { ValuablesService } from 'shared/services/valuables.service';
 
 
 @Component({
@@ -66,7 +66,7 @@ deleteBag() {
           this.confirmationDialogService.confirm(header, body)
           .then((confirmed) => {
             if (confirmed) {
-              this.bagService.remove(this.selectedBag.key);
+              this.bagService.remove(this.selectedBag.key, this.selectedBag);
               this.emitter2.emit(false);
             }
           })

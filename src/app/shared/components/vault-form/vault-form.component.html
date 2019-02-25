@@ -135,7 +135,29 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6"></div>
+            <div class="col-2"></div>
+            <div class="col-2">
+              <label for="xferIn" [title]="xferInTitle">X/In</label>
+              <input
+                #split="ngModel"
+                [title]="xferInTitle"
+                [(ngModel)]="vault.allowXferIn"
+                id="xferIn"
+                name="xferIn"
+                type="checkbox"
+                class="form-control">
+            </div>
+            <div class="col-2">
+              <label for="xferOut" [title]="xferOutTitle">X/Out</label>
+              <input
+                #split="ngModel"
+                [title]="xferOutTitle"
+                [(ngModel)]="vault.allowXferOut"
+                id="xferOut"
+                name="xferOut"
+                type="checkbox"
+                class="form-control">
+            </div>
             <div class="col-2">
                 <label for="split" [title]="splitTitle">Split</label>
                 <input

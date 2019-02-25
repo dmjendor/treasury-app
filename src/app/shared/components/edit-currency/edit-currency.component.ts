@@ -37,7 +37,6 @@ export class EditCurrencyComponent implements OnInit, OnChanges, OnDestroy {
       vault => {
           this.vault = vault as Vault;
           if (this.vault.commonCurrency) {
-            console.log('vaultLoaded4');
             this.createSubscriptions();
           }
     });

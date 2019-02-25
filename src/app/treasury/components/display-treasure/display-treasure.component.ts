@@ -98,7 +98,6 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
       vault => {
           this.vault = vault;
           if (this.vault.commonCurrency) {
-            console.log('vaultLoaded3');
             this.initializeSubscriptions();
           } else {
 

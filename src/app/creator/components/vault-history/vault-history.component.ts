@@ -1,23 +1,19 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { BagService } from 'shared/services/bag.service';
-import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
-import { ValuablesService } from 'shared/services/valuables.service';
-import { TreasureService } from 'shared/services/treasure.service';
-import { Subscription } from 'rxjs';
-import { Coin } from 'shared/models/coin';
-import { Bag } from 'shared/models/bag';
-import { Valuable } from 'shared/models/valuable';
-import { Treasure } from 'shared/models/treasure';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CurrencyService } from 'shared/services/currency.service';
-import { UtilityService } from 'shared/services/utility.service';
-import { Currency } from 'shared/models/currency';
-import { UserService } from 'shared/services/user.service';
-import { VaultService } from 'shared/services/vault.service';
-import { Vault } from 'shared/models/vault';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AppUser } from 'shared/models/app-user';
+import { Differences } from 'shared/models/differences';
 import { Page } from 'shared/models/page';
+import { Vault } from 'shared/models/vault';
+import { LoggingService } from 'shared/services/logging.service';
+import { UserService } from 'shared/services/user.service';
+import { UtilityService } from 'shared/services/utility.service';
+import { VaultService } from 'shared/services/vault.service';
+
+import { HistoryDetailsComponent } from '../history-details/history-details.component';
+
 
 @Component({
   selector: 'app-vault-history',
@@ -26,62 +22,28 @@ import { Page } from 'shared/models/page';
 })
 export class VaultHistoryComponent implements OnInit, OnDestroy {
   id: string;
-  bagSub: Subscription;
-  bagList: Bag[] = [];
-  coinSub: Subscription;
-  coinList: Coin[] = [];
-  valuableSub: Subscription;
-  valuablesList: Valuable[] = [];
-  treasureSub: Subscription;
-  treasureList: Treasure[] = [];
-  currencySub: Subscription;
-  currencyList: Currency[] = [];
+  logSub: Subscription;
+  logList: Differences[];
   userSub: Subscription;
   userList: AppUser[] = [];
   vault: Vault;
-  @ViewChild('coinTable') cTable;
   cPage = new Page();
   cIsLoading: boolean = false;
 
-
-  coinColumns = [
-    { name: 'Value' },
-    { name: 'Currency' },
+  logColumns = [
+    { name: 'Source' },
     { name: 'ChangeBy' },
     { name: 'Timestamp' },
-    { name: 'Archived'}
-  ];
-
-  valuablesColumns = [
-    { name: 'Name' },
-    { name: 'Value' },
-    { name: 'Quantity' },
-    { name: 'Location' },
-    { name: 'ChangeBy' },
-    { name: 'Timestamp' },
-    { name: 'Archived'}
-  ];
-
-  treasureColumns = [
-    { name: 'Name' },
-    { name: 'Value' },
-    { name: 'Quantity' },
-    { name: 'Location' },
-    { name: 'ChangeBy' },
-    { name: 'Timestamp' },
-    { name: 'Archived'}
+    { name: 'Details' }
   ];
 
   constructor(
     private route: ActivatedRoute,
-    private bagService: BagService,
+    private modalService: NgbModal,
     private userService: UserService,
     private vaultService: VaultService,
+    private loggingService: LoggingService,
     private utilityService: UtilityService,
-    private currencyService: CurrencyService,
-    private treasureService: TreasureService,
-    private valuablesService: ValuablesService,
-    private coinService: TreasuryCurrencyService,
 
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -89,47 +51,21 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
       .valueChanges().pipe(take(1)).subscribe(p => {
         this.vault = p as Vault;
         this.vault.key = this.id;
+        this.logSub = this.loggingService.getLogsByVault(this.vault.key)
+        .subscribe(val => {
+          this.logList = val as Differences[];
+        });
       });
   }
 
   ngOnInit() {
-    this.bagSub = this.bagService.getBagsByVault(this.id)
-      .subscribe((bag) => this.bagList = bag);
-
-    this.coinService.getCoinRecordsByVault(this.id)
-      .subscribe((coin) => {
-        this.coinList = coin as Coin[];
-        this.coinList.sort((a, b) => (a.timestamp < b.timestamp) ? 1 : ((b.timestamp < a.timestamp) ? -1 : 0));
-      });
-
-    this.treasureSub = this.treasureService.getTreasureByVault(this.id)
-      .subscribe((item) => {
-        this.treasureList = item as Treasure[];
-        this.treasureList.sort((a, b) => (a.timestamp < b.timestamp) ? 1 : ((b.timestamp < a.timestamp) ? -1 : 0));
-      });
-
-    this.valuableSub = this.valuablesService.getValuablesByVault(this.id)
-      .subscribe((val) => {
-        this.valuablesList = val as Valuable[];
-        this.valuablesList.sort((a, b) => (a.timestamp < b.timestamp) ? 1 : ((b.timestamp < a.timestamp) ? -1 : 0));
-      });
-
-    this.currencySub = this.currencyService.getCurrenciesByVault(this.id)
-      .subscribe((curr) => {
-        this.currencyList = curr;
-      });
-
     this.userSub = this.userService.getAll()
       .subscribe((usr) => this.userList = usr as AppUser[]);
   }
 
   ngOnDestroy() {
-    this.bagSub.unsubscribe();
-    this.coinSub.unsubscribe();
     this.userSub.unsubscribe();
-    this.valuableSub.unsubscribe();
-    this.treasureSub.unsubscribe();
-    this.currencySub.unsubscribe();
+    this.logSub.unsubscribe();
   }
 
   getName(name: string) {
@@ -142,40 +78,15 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCurrency(currency: string, retVal: string) {
-    if (currency && this.currencyList && this.currencyList.length > 0) {
-      for (let c = 0; c < this.currencyList.length; c++) {
-        if (this.currencyList[c].key === currency) {
-          let request;
-          switch (retVal) {
-            case 'name':
-              request = this.currencyList[c].name;
-              break;
-            case 'abbr':
-              request = this.currencyList[c].abbreviation;
-              break;
-            default:
-              request = this.currencyList[c].name;
-              break;
-          }
-          return request;
-        }
-      }
-    }
-  }
-
-  getLocation(bag: string) {
-    if (bag && this.bagList && this.bagList.length > 0) {
-      for (let c = 0; c < this.bagList.length; c++) {
-        if (this.bagList[c].key === bag) {
-          return this.bagList[c].name;
-        }
-      }
-    }
-  }
-
   formatDate(date: string) {
-    return this.utilityService.formatDate(date);
+    return this.utilityService.formatDate(date, true);
+  }
+
+  historyDetails(row: Differences) {
+    const activeModal = this.modalService.open(HistoryDetailsComponent, {ariaLabelledBy: (this.utilityService.toTitleCase(row.source) + ' ' + this.formatDate(row.timestamp + '')) });
+    activeModal.componentInstance.vault = this.vault;
+    activeModal.componentInstance.history = row;
+    console.log(row);
   }
 
   formatNumber(input: number) {

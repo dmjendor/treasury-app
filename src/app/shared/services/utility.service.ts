@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DateTime } from 'shared/models/datetime';
 
 @Injectable({
   providedIn: 'root'
@@ -56,8 +57,15 @@ export class UtilityService {
     return true;
   }
 
-  formatDate(obj: string) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  formatDate(obj: string, long: boolean) {
+    const options = new DateTime();
+    if (long) {
+      options.hour = '2-digit';
+      options.minute = '2-digit';
+    } else {
+      delete options.hour;
+      delete options.minute;
+    }
     const date  = new Date(obj);
     return date.toLocaleDateString('en-US', options);
   }

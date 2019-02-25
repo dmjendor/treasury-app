@@ -1,7 +1,9 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take, takeWhile } from 'rxjs/operators';
+import { TransferModalComponent } from 'shared/components/transfer-modal/transfer-modal.component';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
 import { Valuable } from 'shared/models/valuable';
@@ -33,6 +35,7 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private bagService: BagService,
+    private modalService: NgbModal,
     private vaultService: VaultService,
     private currencyService: CurrencyService,
     private commerceService: CommerceService,
@@ -100,7 +103,6 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
       vault => {
           this.vault = vault;
           if (this.vault.commonCurrency) {
-          console.log('vaultLoaded2');
           this.createSubscriptions();
           } else {
 
@@ -191,6 +193,13 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
 
   drag(ev) {
     ev.dataTransfer.setData('text/plain', ev.target.id);
+  }
+
+  xferItem(item: Valuable) {
+    const activeModal = this.modalService.open(TransferModalComponent, {ariaLabelledBy: 'Transfer ' + item.name, });
+    activeModal.componentInstance.vault = this.vault;
+    activeModal.componentInstance.item = item;
+    activeModal.componentInstance.source = 'valuables';
   }
 
 }

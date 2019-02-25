@@ -1,19 +1,19 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Vault } from 'shared/models/vault';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs/operators';
+import { Bag } from 'shared/models/bag';
+import { Currency } from 'shared/models/currency';
+import { Edition } from 'shared/models/edition';
+import { Permission } from 'shared/models/permission';
+import { Theme } from 'shared/models/theme';
+import { Vault } from 'shared/models/vault';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { CurrencyService } from 'shared/services/currency.service';
+import { EditionService } from 'shared/services/edition.service';
+import { ThemeService } from 'shared/services/theme.service';
 import { UtilityService } from 'shared/services/utility.service';
 import { VaultService } from 'shared/services/vault.service';
-import { take } from 'rxjs/operators';
-import { Currency } from 'shared/models/currency';
-import { CurrencyService } from 'shared/services/currency.service';
-import { ThemeService } from 'shared/services/theme.service';
-import { Theme } from 'shared/models/theme';
-import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
-import { Permission } from 'shared/models/permission';
-import { Bag } from 'shared/models/bag';
-import { Edition } from 'shared/models/edition';
-import { EditionService } from 'shared/services/edition.service';
 
 @Component({
   selector: 'vault-form',
@@ -39,6 +39,8 @@ export class VaultFormComponent implements OnDestroy {
   id: string;
   currentRoute: string;
   rtParams: Object = {};
+  xferOutTitle: string = 'Allow users with edit permissions to transfer treasures and valuables out of your treasury.';
+  xferInTitle: string = 'Allow users with edit permissions to transfer treasures and valuables into your treasury.';
   splitTitle: string = 'Give treasury a share during coin split.';
   mergeTitle: string = 'Merge Coin Split to Highest Denomination.';
   prepTitle: string = 'Prepare rewards for distribution in advance.';
