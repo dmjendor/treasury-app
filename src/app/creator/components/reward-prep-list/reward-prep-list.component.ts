@@ -1,25 +1,25 @@
-import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
-import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
-import { RewardPrepService } from 'shared/services/reward-prep.service';
-import { VaultService } from 'shared/services/vault.service';
-import { Vault } from 'shared/models/vault';
-import { Subscription } from 'rxjs';
-import { RewardPrep } from 'shared/models/reward-prep';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrepCoinService } from 'app/creator/services/prep-coin.service';
-import { PrepValuablesService } from 'app/creator/services/prep-valuables.service';
 import { PrepTreasureService } from 'app/creator/services/prep-treasure.service';
+import { PrepValuablesService } from 'app/creator/services/prep-valuables.service';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
-import { TreasureService } from 'shared/services/treasure.service';
-import { ValuablesService } from 'shared/services/valuables.service';
+import { Subscription } from 'rxjs';
 import { Coin } from 'shared/models/coin';
 import { PrepCoin } from 'shared/models/prep-coin';
-import { PrepValuable } from 'shared/models/prep-valuables';
-import { Valuable } from 'shared/models/valuable';
 import { PrepTreasure } from 'shared/models/prep-treasure';
+import { PrepValuable } from 'shared/models/prep-valuables';
+import { RewardPrep } from 'shared/models/reward-prep';
 import { Treasure } from 'shared/models/treasure';
+import { Valuable } from 'shared/models/valuable';
+import { Vault } from 'shared/models/vault';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { RewardPrepService } from 'shared/services/reward-prep.service';
 import { ToastService } from 'shared/services/toast.service';
+import { TreasureService } from 'shared/services/treasure.service';
 import { UtilityService } from 'shared/services/utility.service';
+import { ValuablesService } from 'shared/services/valuables.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'reward-prep-list',
@@ -116,7 +116,7 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     convertTimestamp(time) {
-      return this.utilityService.formatDate(time);
+      return this.utilityService.formatDate(time, false);
     }
 
     transferPrep(row) {
