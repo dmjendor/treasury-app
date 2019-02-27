@@ -135,14 +135,6 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  currencyDisplay(value) {
-    if (this.currency) {
-      const x = (value / this.currency.multiplier);
-      const retVal = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return  retVal + ' ' + this.currency.abbreviation;
-    }
-  }
-
   toggleDisplay() {
     this.showDisplay = !this.showDisplay;
   }
@@ -171,7 +163,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     const baseItem = JSON.parse(JSON.stringify(item));
     item.quantity++;
     this.treasureService.update(item.key, item, baseItem);
-    this.commerceService.buySell(item, this.vault, true);
+    this.commerceService.buySell(item, this.vault, false, 'treasure');
   }
 
   sellItem(item) {
@@ -182,7 +174,23 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.treasureService.remove(item.key, item);
     }
-    this.commerceService.buySell(item, this.vault, true);
+    this.commerceService.buySell(item, this.vault, true, 'treasure');
+  }
+
+  currencyDisplay(value) {
+    if (this.currency) {
+      const x = (value / this.currency.multiplier);
+      const retVal = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return  retVal + ' ' + this.currency.abbreviation;
+    }
+  }
+
+  marginDisplay(type: string, value: number) {
+    if (type === 'buy') {
+      return this.currencyDisplay(value * ((100 + this.vault.ibMarkup) / 100));
+    } else {
+      return this.currencyDisplay(value * ((100 - this.vault.isMarkup) / 100));
+    }
   }
 
   bagSplit(bag) {

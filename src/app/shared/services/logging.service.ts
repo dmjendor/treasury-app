@@ -124,7 +124,7 @@ export class LoggingService {
             if (obj1.key || obj2.key) {
               diff.key = obj1.key ? obj1.key : obj2.key;
             }
-            diff.itemkey = obj1.key ? obj1.key : obj2.key;
+            diff.itemkey = obj1.key ? obj1.key : (obj2.key ? obj2.key : null);
             diff.vault = obj1.vault ? obj1.vault : obj2.vault;
             diff.changeby = obj1.changeby ? obj1.changeby : obj2.changeby;
             diff.timestamp = Date.now();

@@ -126,13 +126,6 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-
-  currencyDisplay(value) {
-    if (this.currency) {
-      return this.currencyService.formatDisplay(this.currency, value);
-    }
-  }
-
   ngOnDestroy() {
     this.destroySubscriptions();
   }
@@ -165,7 +158,7 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     const original = JSON.parse(JSON.stringify(item));
     item.quantity++;
     this.valuableService.update(item.key, item, original);
-    this.commerceService.buySell(item, this.vault, true);
+    this.commerceService.buySell(item, this.vault, false, 'valuables');
   }
 
   sellItem(item) {
@@ -176,7 +169,21 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.valuableService.remove(item.key, original);
     }
-    this.commerceService.buySell(item, this.vault, true);
+    this.commerceService.buySell(item, this.vault, true, 'valuables');
+  }
+
+  currencyDisplay(value) {
+    if (this.currency) {
+      return this.currencyService.formatDisplay(this.currency, value);
+    }
+  }
+
+  marginDisplay(type: string, value: number) {
+    if (type === 'buy') {
+      return this.currencyDisplay(value * ((100 + this.vault.gbMarkup) / 100));
+    } else {
+      return this.currencyDisplay(value * ((100 - this.vault.gsMarkup) / 100));
+    }
   }
 
   bagSplit(bag) {

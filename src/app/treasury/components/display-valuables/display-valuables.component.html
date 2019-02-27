@@ -26,13 +26,13 @@
                     </h5>
                     <ul [id]="bag.key" [ngClass]="{'hidden-body':bag.hidden}" class="list-group" (dragover)="allowDrop($event)" (drop)="drop($event)">
                       <li class="list-group-item " *ngFor="let valuable of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="valuable.key" [ngbPopover]="popupContent" placement="right" container="body">
-                        {{valuable.name}}&nbsp;<span class="text-success">({{currencyDisplay(valuable.value)}})</span>
+                        {{valuable.name}}&nbsp;<span class="text-success" title="Sell Value: {{marginDisplay('sell',valuable.value)}} | Buy Value: {{marginDisplay('buy',valuable.value)}}">({{currencyDisplay(valuable.value)}})</span>
                         <span class="badge badge-primary badge-pill pull-right">{{valuable.quantity}}</span>
                         <ng-template #popupContent>
                             <button class="btn btn-success btn-sm" (click)="increaseQty(valuable)"><i class="fas fa-plus"></i></button>
                             <button class="btn btn-danger btn-sm" (click)="decreaseQty(valuable)"><i class="fas fa-minus"></i></button>
-                            <button class="btn btn-success btn-sm" (click)="buyItem(valuable)"><i class="fas fa-dollar-sign"></i></button>
-                            <button class="btn btn-danger btn-sm" (click)="sellItem(valuable)"><i class="fas fa-dollar-sign"></i></button>
+                            <button class="btn btn-success btn-sm" (click)="buyItem(valuable)" title="Buy Value: {{marginDisplay('buy',valuable.value)}}"><i class="fas fa-dollar-sign"></i></button>
+                            <button class="btn btn-danger btn-sm" (click)="sellItem(valuable)" title="Sell Value: {{marginDisplay('sell',valuable.value)}}"><i class="fas fa-dollar-sign"></i></button>
                             <button class="btn btn-info btn-sm" *ngIf="vault.allowXferOut && valuablesAllowed" (click)="xferItem(valuable)"><i class="fas fa-share-square"></i></button>
                         </ng-template>
                       </li>
