@@ -6,11 +6,13 @@ import { take, takeWhile } from 'rxjs/operators';
 import { TransferModalComponent } from 'shared/components/transfer-modal/transfer-modal.component';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
+import { Permission } from 'shared/models/permission';
 import { Valuable } from 'shared/models/valuable';
 import { Vault } from 'shared/models/vault';
 import { BagService } from 'shared/services/bag.service';
 import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
+import { PermissionService } from 'shared/services/permission.service';
 import { ValuablesService } from 'shared/services/valuables.service';
 import { VaultService } from 'shared/services/vault.service';
 
@@ -30,6 +32,9 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   droppedItem: Valuable;
   oldVault: string;
   showDisplay: boolean = false;
+  permissions: Permission[];
+  permissionSub: Subscription;
+  valuablesAllowed: boolean = false;
   private alive: boolean = true;
 
   constructor(
@@ -39,7 +44,8 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     private vaultService: VaultService,
     private currencyService: CurrencyService,
     private commerceService: CommerceService,
-    private valuableService: ValuablesService
+    private valuableService: ValuablesService,
+    private permissionService: PermissionService
     ) {
   }
 
@@ -67,6 +73,16 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(val => {
         this.oldVault = this.vault.key;
         this.valuables = val as Valuable[];
+    });
+
+    this.permissionSub = this.permissionService.getPermissionsByUser()
+    .subscribe(permission => {
+      this.permissions = permission as Permission[];
+      this.permissions.forEach((perm) => {
+        if (perm.gja && perm.vault === this.vault.key) {
+          this.valuablesAllowed = true;
+        }
+      });
     });
   }
 

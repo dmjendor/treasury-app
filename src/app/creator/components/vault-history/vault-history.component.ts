@@ -15,6 +15,7 @@ import { VaultService } from 'shared/services/vault.service';
 import { HistoryDetailsComponent } from '../history-details/history-details.component';
 
 
+
 @Component({
   selector: 'app-vault-history',
   templateUrl: './vault-history.component.html',
@@ -85,8 +86,13 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
   historyDetails(row: Differences) {
     const activeModal = this.modalService.open(HistoryDetailsComponent, {ariaLabelledBy: (this.utilityService.toTitleCase(row.source) + ' ' + this.formatDate(row.timestamp + '')) });
     activeModal.componentInstance.vault = this.vault;
+    if (row.changes.key) { delete row.changes.key; }
+    // convert row.changes into array of objects that contains key as value
+    row.changes = Object.keys(row.changes).map(e => {
+      row.changes[e].home = e;
+        return row.changes[e];
+    });
     activeModal.componentInstance.history = row;
-    console.log(row);
   }
 
   formatNumber(input: number) {

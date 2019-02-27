@@ -9,6 +9,7 @@ import { LoggingService } from './logging.service';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,8 +51,12 @@ export class BagService {
     return this.db.object('/bags/' + bagID);
   }
 
-  getSnapshot(vaultId) {
+  getSnapshotByVault(vaultId) {
     return this.http.get('https://treasury-app.firebaseio.com/bags.json?orderBy="vault"&equalTo="' + vaultId + '"');
+  }
+
+  getSnapshotAll() {
+    return this.http.get('https://treasury-app.firebaseio.com/bags.json');
   }
 
   getBagsByVault(vaultId: string) {

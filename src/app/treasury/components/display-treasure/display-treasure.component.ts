@@ -6,11 +6,13 @@ import { EditTreasureItemComponent } from 'shared/components/edit-treasure-item/
 import { TransferModalComponent } from 'shared/components/transfer-modal/transfer-modal.component';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
+import { Permission } from 'shared/models/permission';
 import { Treasure } from 'shared/models/treasure';
 import { Vault } from 'shared/models/vault';
 import { BagService } from 'shared/services/bag.service';
 import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
+import { PermissionService } from 'shared/services/permission.service';
 import { TreasureService } from 'shared/services/treasure.service';
 import { VaultService } from 'shared/services/vault.service';
 
@@ -30,6 +32,9 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
   droppedItem: Treasure;
   oldVault: string;
   showDisplay: boolean = false;
+  permissions: Permission[];
+  permissionSub: Subscription;
+  treasureAllowed: boolean = false;
   private alive: boolean = true;
 
   constructor(
@@ -38,7 +43,8 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     private vaultService: VaultService,
     private commerceService: CommerceService,
     private currencyService: CurrencyService,
-    private treasureService: TreasureService
+    private treasureService: TreasureService,
+    private permissionService: PermissionService
     ) {
   }
 
@@ -58,7 +64,18 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(val => {
         this.treasures = val as Treasure[];
     });
+
+    this.permissionSub = this.permissionService.getPermissionsByUser()
+    .subscribe(permission => {
+      this.permissions = permission as Permission[];
+      this.permissions.forEach((perm) => {
+        if (perm.item && perm.vault === this.vault.key) {
+          this.treasureAllowed = true;
+        }
+      });
+    });
   }
+
 
   destroySubscriptions() {
     const treasurePromise = new Promise((resolve, reject) => {

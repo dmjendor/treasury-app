@@ -33,7 +33,7 @@
                             <button class="btn btn-danger btn-sm" (click)="decreaseQty(valuable)"><i class="fas fa-minus"></i></button>
                             <button class="btn btn-success btn-sm" (click)="buyItem(valuable)"><i class="fas fa-dollar-sign"></i></button>
                             <button class="btn btn-danger btn-sm" (click)="sellItem(valuable)"><i class="fas fa-dollar-sign"></i></button>
-                            <button class="btn btn-info btn-sm" *ngIf="vault.allowXferOut" (click)="xferItem(valuable)"><i class="fas fa-share-square"></i></button>
+                            <button class="btn btn-info btn-sm" *ngIf="vault.allowXferOut && valuablesAllowed" (click)="xferItem(valuable)"><i class="fas fa-share-square"></i></button>
                         </ng-template>
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="bagSplit(bag.key).length===0">...</li>

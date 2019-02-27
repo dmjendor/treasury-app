@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +13,10 @@ export class VaultService {
   private av = new BehaviorSubject<Vault>(new Vault());
   activeVault$ = this.av.asObservable();
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private http: HttpClient,
+    private db: AngularFireDatabase
+  ) {
     this.vaults$ = this.db.list('/vaults', c => c.orderByChild('name'))
     .snapshotChanges();
    }
@@ -41,6 +45,10 @@ export class VaultService {
 
   get(vaultID: string) {
     return this.db.object('/vaults/' + vaultID);
+  }
+
+  getSnapshot() {
+    return this.http.get('https://treasury-app.firebaseio.com/vaults.json');
   }
 
   getVaultByOwner(userId: string) {

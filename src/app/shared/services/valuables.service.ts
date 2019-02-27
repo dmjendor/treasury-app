@@ -7,6 +7,9 @@ import { Valuable } from 'shared/models/valuable';
 
 import { LoggingService } from './logging.service';
 
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,12 +31,12 @@ export class ValuablesService {
   }
 
   update(valuablesID: string, obj: Valuable, baseObj: Valuable) {
-    this.loggingService.logChanges('treasure', obj, baseObj);
+    this.loggingService.logChanges('valuables', obj, baseObj);
     return this.db.object('/valuables/' + valuablesID).update(obj);
   }
 
   remove(valuablesID: string, obj: Valuable) {
-    this.loggingService.logChanges('treasure', {}, obj);
+    this.loggingService.logChanges('valuables', {}, obj);
     return this.db.object('/valuables/' + valuablesID).remove();
   }
 
@@ -60,6 +63,10 @@ export class ValuablesService {
           return data;
         });
       }));
+  }
+
+  getSnapshotByVault(vaultId: string) {
+    return this.http.get('https://treasury-app.firebaseio.com/valuables.json?orderBy="vault"&equalTo="' + vaultId + '"');
   }
 
   checkBagContents(bagId: string) {

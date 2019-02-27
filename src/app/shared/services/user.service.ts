@@ -1,9 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import * as firebase from 'firebase';
-import { AppUser } from '../models/app-user';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+
+import { AppUser } from '../models/app-user';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,10 @@ import { Observable, Subject } from 'rxjs';
 export class UserService {
   user$:  Observable<any>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private http: HttpClient,
+    private db: AngularFireDatabase
+  ) {
     this.user$ = this.db.list('/users', c => c.orderByChild('name'))
     .snapshotChanges();
   }
@@ -37,6 +43,10 @@ export class UserService {
       role: user.role
       // necromancer: user.necromancer
     });
+  }
+
+  getSnapshot() {
+    return this.http.get('https://treasury-app.firebaseio.com/users.json');
   }
 
   get(uid: string): AngularFireObject<AppUser> {

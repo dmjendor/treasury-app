@@ -1,16 +1,43 @@
 <ng-container *ngIf="history">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{formatDate(history.timestamp)}}</h4>
+      <h4 class="modal-title" id="modal-basic-title" *ngIf="item">{{item.name}}</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
+        <div class="row" *ngIf="item">
+            <div class="col-12">{{formatDate(history.timestamp)}}</div>
+          </div>
       <div class="row">
+        <div class="col-6">Type</div>
+        <div class="col-6">{{history.source}}</div>
+      </div>
+      
+      <div class="row" *ngIf="userList.length>0">
+        <div class="col-6">Change By</div>
+        <div class="col-6">{{getData('user', history.changeby)}}</div>
+      </div>
+      <hr />
+      <div class="row" *ngIf="history.changes">
         <div class="col-12" style="max-height: 60vh; overflow-y: auto">
-          <pre>{{ history.changes | json }}</pre>
+            <table class="table table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Old Value</th>
+                  <th scope="col">New Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let change of history.changes">
+                  <td>{{change.home}}</td>
+                  <td>{{getData(change.home,change.oldValue)}}</td>
+                  <td>{{getData(change.home,change.newValue)}}</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
-    
       </div>
     </div>
     <div class="modal-footer">

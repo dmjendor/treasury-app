@@ -5,5 +5,6 @@ export class Differences {
     timestamp: number = 0;
     source: string;
     changes: any = {};
+    itemkey: string = '';
     constructor() {}
 }
