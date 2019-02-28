@@ -20,6 +20,7 @@ import { DnCEditComponent } from './components/dnc-edit/dnc-edit.component';
 import { EditCurrencyComponent } from './components/edit-currency/edit-currency.component';
 import { EditTreasureItemComponent } from './components/edit-treasure-item/edit-treasure-item.component';
 import { EditTreasureComponent } from './components/edit-treasure/edit-treasure.component';
+import { EditValuableItemComponent } from './components/edit-valuable-item/edit-valuable-item.component';
 import { EditValuablesComponent } from './components/edit-valuables/edit-valuables.component';
 import { ManagePermissionsComponent } from './components/manage-permissions/manage-permissions.component';
 import { ManageVaultBagsComponent } from './components/manage-vault-bags/manage-vault-bags.component';
@@ -47,6 +48,7 @@ import { ThemeService } from './services/theme.service';
 import { TreasureGuard } from './services/treasure-guard.service';
 import { TreasureService } from './services/treasure.service';
 import { UserService } from './services/user.service';
+
 
 
 
@@ -87,11 +89,13 @@ import { UserService } from './services/user.service';
     EditValuablesComponent,
     BagsModalViewComponent,
     EditTreasureItemComponent,
-    TransferModalComponent
+    TransferModalComponent,
+    EditValuableItemComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
     EditTreasureItemComponent,
+    EditValuableItemComponent,
     TransferModalComponent,
     BagsModalViewComponent
   ],

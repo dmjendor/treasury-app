@@ -128,6 +128,13 @@ export class LoggingService {
             diff.vault = obj1.vault ? obj1.vault : obj2.vault;
             diff.changeby = obj1.changeby ? obj1.changeby : obj2.changeby;
             diff.timestamp = Date.now();
+            if (obj1.hasOwnProperty('vault') && obj2.hasOwnProperty('vault')) {
+              diff.status = 'updated';
+            } else if (obj1.hasOwnProperty('vault') && !obj2.hasOwnProperty('vault')) {
+              diff.status = 'created';
+            } else if (!obj1.hasOwnProperty('vault') && obj2.hasOwnProperty('vault')) {
+              diff.status = 'deleted';
+            }
             diff.changes = {};
 
             for (const key in obj1) {

@@ -6,5 +6,6 @@ export class Differences {
     source: string;
     changes: any = {};
     itemkey: string = '';
+    status: string = '';
     constructor() {}
 }

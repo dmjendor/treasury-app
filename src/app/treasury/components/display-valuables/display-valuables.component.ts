@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take, takeWhile } from 'rxjs/operators';
+import { EditValuableItemComponent } from 'shared/components/edit-valuable-item/edit-valuable-item.component';
 import { TransferModalComponent } from 'shared/components/transfer-modal/transfer-modal.component';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
@@ -87,6 +88,12 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   destroySubscriptions() {
+    const permissionPromise = new Promise((resolve, reject) => {
+      this.permissionSub.unsubscribe();
+      resolve();
+      reject();
+    });
+
     const valuablesPromise = new Promise((resolve, reject) => {
       this.valuableSub.unsubscribe();
       resolve();
@@ -108,7 +115,9 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     return valuablesPromise.then((a) => {
       bagPromise.then((b) => {
         currencyPromise.then((c) => {
-          return true;
+          permissionPromise.then((p) => {
+            return true;
+          });
         });
       });
     });
@@ -216,6 +225,12 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
 
   drag(ev) {
     ev.dataTransfer.setData('text/plain', ev.target.id);
+  }
+
+  editItemDetails(item: Valuable) {
+    const activeModal = this.modalService.open(EditValuableItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
+    activeModal.componentInstance.vault = this.vault;
+    activeModal.componentInstance.valuable = item;
   }
 
   xferItem(item: Valuable) {

@@ -2,19 +2,11 @@
     <div class="row">
       <div class="col-12">
           <h5>Containers
-            <div class="pull-right">
-              <button type="button" 
-                title="Minimize Containers" 
-                class="minimize btn btn-success"
-                (click)="toggleDisplay()">
-                <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
-              </button>
-            </div>
           </h5>
       </div>
     </div>
     
-    <div class="col-12" *ngIf="!showDisplay">
+    <div class="col-12">
       <ngx-datatable
       width="100%"
       class="bootstrap"

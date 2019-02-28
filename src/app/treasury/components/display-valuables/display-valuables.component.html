@@ -25,7 +25,7 @@
                       </button>
                     </h5>
                     <ul [id]="bag.key" [ngClass]="{'hidden-body':bag.hidden}" class="list-group" (dragover)="allowDrop($event)" (drop)="drop($event)">
-                      <li class="list-group-item " *ngFor="let valuable of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="valuable.key" [ngbPopover]="popupContent" placement="right" container="body">
+                      <li class="list-group-item " *ngFor="let valuable of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="valuable.key" [ngbPopover]="popupContent" placement="right" container="body" (dblclick)="editItemDetails(valuable)">
                         {{valuable.name}}&nbsp;<span class="text-success" title="Sell Value: {{marginDisplay('sell',valuable.value)}} | Buy Value: {{marginDisplay('buy',valuable.value)}}">({{currencyDisplay(valuable.value)}})</span>
                         <span class="badge badge-primary badge-pill pull-right">{{valuable.quantity}}</span>
                         <ng-template #popupContent>

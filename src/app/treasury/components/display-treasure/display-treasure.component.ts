@@ -78,6 +78,13 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
 
 
   destroySubscriptions() {
+    const permissionPromise = new Promise((resolve, reject) => {
+      if (this.permissionSub) {
+        this.permissionSub.unsubscribe();
+      }
+      resolve();
+      reject();
+    });
     const treasurePromise = new Promise((resolve, reject) => {
       if (this.treasureSub) {
         this.treasureSub.unsubscribe();
@@ -105,7 +112,9 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     return treasurePromise.then((a) => {
       bagPromise.then((b) => {
         currencyPromise.then((c) => {
-          return true;
+          permissionPromise.then((p) => {
+            return true;
+          });
         });
       });
     });

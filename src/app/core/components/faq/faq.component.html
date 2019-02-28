@@ -1,0 +1,423 @@
+<div class="row">
+  <div class="col-12">
+    <h2>Vault</h2>
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel id="vault-1" title="How do I create a Vault?">
+        <ng-template ngbPanelContent>
+          <p>
+            After logging into the Party Treasury website, click on the
+            menu in the top right corner and select My Vaults. From there
+            you can click the Create Treasury button which will take you
+            to the first part of the Creation process.
+          </p>
+          <p>
+            From here, the only field that is required is the Name field.
+            Give your new Vault a name (usually the name of your campaign,
+            the name of your adventuring group, or the name of your character).
+            Then click Save, this will take you to the second step of the creation
+            processs.
+          </p>
+          <p>The next thing you need to do is create your currencies.  If you
+            are playing in a fantasy world that uses Copper, Silver, Gold and
+            Platinum, you can click the Create Default Currencies button.  This
+            will automatically, add all four currencies for you.  Otherwise
+            Clicking the New button will open the New Currency form where you can
+            enter the name, abbreviation and multiplier for your currencies.
+            <i>A vault requires at least 1 currency and it should have a multiplier of 1.</i>
+          </p>
+          <p>
+            Once you have created your currencies, the last thing you need to do
+            is select your Base Currency, your Common Currency, and your Game/Edition.
+            Once you have those selected, you can click Save, which will finalize
+            your vault and move you back to the My Vaults list.
+          </p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="vault-2" title="How many Vaults/Treasuries can I have?">
+        <ng-template ngbPanelContent>
+            <p>
+              You can have as many Vaults as you would like.  If you are just a player
+              in the campaign and don't control the main groups vault, you can still
+              create vaults for your characters and use them to manage your characters
+              inventory and money.
+            </p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="vault-3" title="What are all of the options on the Edit Vault page?">
+        <ng-template ngbPanelContent>
+          <p>Name: This one is pretty obvious, its the name of the vault that shows up
+            in the title bar and the vault list of people who have view permission.
+          </p>
+          <p>Active: Whether the vault is active or not. Vaults that are not active
+            will not appear in the list of vaults to be able to navigate to.
+          </p>
+          <p>
+            Valuables Buy/Sell Markup: These two options are used to control the markup
+            of prices for valuables.  Adding a value for example of 10 to each of these
+            fields will modify the value when buying or selling by 10%. So if the 
+            item has a value of 100 gold, you could buy more of them for 110 gold,
+            or sell them for 90 gold each.
+          </p>
+          <p>
+            Treasure Buy/Sell Markup: These two options are used to control the markup
+            of prices for treasure.  Adding a value for example of 10 to each of these
+            fields will modify the value when buying or selling by 10%. So if the 
+            item has a value of 100 gold, you could buy more of them for 110 gold,
+            or sell them for 90 gold each.
+          </p>
+          <p>Theme: This option allows you to change the theme that users see
+            when viewing the vault.
+          </p>
+          <p>Game/Edition: This value changes the items that appear in the Quick
+            Add lists to match items available in those games. <i>(currently only 
+            5th edition D&D is supported)</i>
+          </p>
+          <p>X/In & X/Out:  These two permissions control the ability to transfer
+            items into or out of your Treasury.  The X/Out box is checked, people
+            with permissions for Treasure or Valuables can transfer them out of 
+            your treasury to another treasury.  If the X/In box is checked, people 
+            with the appropriate permissions will be able to transfer items into
+            your treasury.
+          </p>
+          <p>Split: This sets the default value for whether the Treasury is Included
+            as a party member when splits are done.
+          </p>
+          <p>Merge: This sets the default value for whether currencies are Merged when
+            spelits are done.
+          </p>
+          <p>Prep: This option enables the DM Prep area for the treasury.</p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="vault-4" title="What is the History button for?">
+        <p>The History button will bring up the Vault History page. This page
+        will display a list of all changes made to the bags, coins, valuables,
+        or treasures of your vault.  The information includes what was changed,
+        which fields were changed, who changed it and when it was changed.
+        Clicking the <i class="fas fa-history"></i> button will open a Modal
+        window that displays the details about the change.</p>
+        <p>History of changes is kept for 30 days.</p>
+      </ngb-panel>
+      <ngb-panel id="vault-5" title="What is the Reward Prep area?">
+        <p>When the Prep checkbox is enabled for a vault, a new area will
+          appear when a vault is selected on the My Vaults page.  This area
+          contains a button for Create Reward Prep, and a list of all the 
+          prepared rewards.
+        </p>
+        <p>A prepared reward, is a "mini" treasury that stores rewards to be
+          given to the party in advance at a later time. Then with a single click
+          of a button all of the items in the reward prep are transfered to the
+          party all at once.
+        </p> 
+        <p>For example, if your party is slaying a dragon, 
+          and you plan on giving them a huge amount of treasure, you can setup
+          the reward prep with eveyrthing they will receive.  Then once the dragon
+          has been killed, when they ask what they find, you can click the Transfer
+          button and they will all be able to see the newly added treasure without
+          having to wait for you to tell them what it is, or manually add all
+          the items themselves.
+        </p>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <h2>Bags</h2>
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel id="bag-1" title="How do I add a Bag">
+        <ng-template ngbPanelContent>
+          <p>In order to add valuables or treasure to your treasury, 
+            first you need to create bags. To create a bag you must 
+            first be logged into your treasury or one that you have 
+            permission to use. In either the Add Valuables section or 
+            the Add Treasure section click the Edit Bags button attached 
+            to the Select a Location drop down.</p>
+          <p>A modal(pop up) window will appear for Bag Management. 
+            It will list all of the bags that have been created for that
+            treasury.</p>
+          <p>Click the New button and a Form will appear allowing you to 
+            enter the name of your new Bag (or select a default bag name
+            by clicking the drop down button).  You can also check the box
+            Minimized by Default to set the bag to load minimized by default.
+            Clcking Save will create the new bag and it will be added to the 
+            treasury immediately.</p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="bag-2" title="How do I delete a Bag">
+        <ng-template ngbPanelContent>
+            <p>A modal(pop up) window will appear for Bag Management. 
+              It will list all of the bags that have been created for that
+              treasury.  Click on whichever bag you wish to delete in the list
+              and click the Delete button.  A confirmation dialog will appear
+              asking you to confirm your choice.</p>
+            <p>Note: You cannot delete a bag that has either Valuables or Treasure
+              contained in it.
+            </p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="bag-3" title="How do i move things between bags?">
+        <ng-template ngbPanelContent>
+          <p>In both the Treasure and Valuables areas when items are displayed 
+            they are enabled for Drag & Drop. You can click and drag any item 
+            from one bag to another, but only in the same area. ie. you cant 
+            drag a Gem into a bag listed in the Treasure area and vice versa.</p>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <h2>Currency</h2>
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel id="currency-1" title="How does Party Split work?">
+        <ng-template ngbPanelContent>
+          <p>In the Add Currency box on the right hand side while viewing 
+            a Treasury you have permission to edit is a few options that 
+            you can use to automatically split all currency in the treasury 
+            by any number of party members.</p>
+
+          <p>Under the Part Split label where it asks for # in Party, 
+            you enter the total number of members in the adventuring 
+            group who will receive an equal share of the currency. 
+            Clicking the Split button will run all the currency 
+            through a calculation and give the appropriate amounts 
+            of each type of currency.</p>
+              
+          <p>The Include Treasury in Split option will add an additional 
+            number to that calculation and will return an equal share of 
+            the loot back into the Currency Totals.</p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="currency-2" title="How is the Currency Split Calculated?">
+        <ng-template ngbPanelContent>
+            <p>The currency system used by the Party Treasury works off 
+              of two base currency models. The Base Currency and the 
+              Common Currency. The Base currency should be the currency
+              that you created that has a multiplier of 1.  The common
+              currency is the currency that is most often traded in your
+              world.  In Dungeons & Dragons, the base currency is Copper
+              and the common currency is Gold.
+            </p>
+            <p>All transactions within Party Treasury are handled using 
+              the Base Currency, while all displayed values are based on 
+              the Common currency. What this means is that if you enter a 
+              gem and give it a value of 100gp, the system automatically 
+              converts that to 10000cp.
+            </p>
+            <p>There is also an option in the Add Currency section called
+              Consolidate Coin.  This option changes how the calculations are
+              done when the Currency is being split.
+            </p>
+            <p>if Consolidate Coin is turned on when the Currency is split 
+              the first thing that occurs is the total of all of the currencies 
+              are converted to the base currency. That amount is then divided 
+              by the number of people in the split, and then it is converted 
+              back into the other currency types.
+            </p>              
+            <p>If Consolidate Coin is turned off when the Currency is Split,
+              the total amount of each currency is divided by the number of party
+              members individiaully.
+            </p>
+            <p>For example, if there was 500 Platinum, 600 gold, 700 Silver 
+              and 900 Copper and 5 party members, With Consolidate Coin enabled
+              it would first convert the platinum to 500000 copper, the gold 
+              would become 60000 copper and the silver would become 7000 copper.
+            </p>
+            <p>For a total of 567900 copper, which would be 113400 to each member. 
+              This gets turned back into 113 platinum, and 5 gold, and 8 silver 
+              for each member.
+            </p>
+            <p>If Consolidate Currency was turned off, instead each member would 
+              get 100 platinum,120 Gold, 140 Silver and 180 Copper isnstead.</p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="currency-3" title="How to Add Currency?">
+        <ng-template ngbPanelContent>
+          <p>To add an amount to currency you must first log into your 
+            Treasury (or a treasury you have permission to use). On the right 
+            hand side is a box labelled Add Currency.</p>
+
+          <p>Entering an amount and clicking the corresponding + button
+              will insert the amount entered into the Currency totals in 
+              the box on the left hand side.</p>
+          <p>Clicking the - button instead will remove the amount of 
+            currency entered from the totals on the left.
+          </p>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <h2>Valuables</h2>
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel id="valuables-1" title="How do I add new Valuablest">
+        <ng-template ngbPanelContent>
+          <p>In order to add gems, jewelry, art (valuables) to your treasury, 
+            first you need to select a bag/location using the dropdown.</p>
+
+          <p>Once you have selected the bag/location where to put the Valuable, 
+            you can either manually enter the information for the valuable you are 
+            adding (Name, Value, Quantity) or you can use the Quick Add function.</p>
+          
+          <p>To manually add the item, simply type in the items name, value and 
+            quantity and click the associated Add button.</p>
+          
+          <p>To use the Quick Add function select the type of item from the 
+            first drop down, then select the category from the next drop down, 
+            and finally select the item itself from the third drop down. 
+            Once you have selected the item click the larger Add button./p>
+              
+          <p><b>Items added via Quick Add have randomly generated values.</b></p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="valuables-2" title="How do I edit existing Valuables?">
+        <ng-template ngbPanelContent>
+            <p>If you need to make a change to existing valuables, all you 
+              need to do is Double Click on the item you wish to edit. 
+              An Edit Valuable window will appear where you can change 
+              the Name, Quantity, and Value and then save the changes. 
+              Clicking save will close the modal window and refresh 
+              the Valuable list with your changes.
+            </p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="valuables-3" title="How does the Quick Add work?">
+        <ng-template ngbPanelContent>
+          <p>
+              The quick add allows the user to select a pre-existing item 
+              from a list and add it to the appropriate category (Treasure 
+              or Valuables).
+          </p>
+          <p>
+              For Valuables, the first drop down allows you to choose whether 
+              you want Gems, Jewelry or Art, the second allows you to select 
+              the quality or type, and the third allows you to choose the 
+              actual item. Gems, Jewelry and Art have pre-defined ranges 
+              for their value and when you use the quick add the item is 
+              added to the treasury using a random value that is between 
+              the defined low and high numbers.
+          </p>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+      <h2>Treasure</h2>
+      <ngb-accordion [closeOthers]="true">
+        <ngb-panel id="treasure-1" title="How do I add Treasure">
+          <ng-template ngbPanelContent>
+            <p>
+              In order to add items and equipment to your treasury, first 
+              you need to select a bag/location using the dropdown.
+            </p>
+            <p>
+              Once you have selected the bag/location where to put the item, 
+              you can either manually enter the information for the item you 
+              are adding (Name, Value, Quantity) or you can use the Quick Add 
+              function.
+            </p>
+            <p>
+              To manually add the item, simply type in the items name, value 
+              and quantity and click the associated Add button.
+            </p>
+            <p>
+              To use the Quick Add function select the type of item from the 
+              first drop down, then select the category from the next drop 
+              down, and finally select the item itself from the third drop 
+              down. Once you have selected the item click the larger Add 
+              button.
+            </p>
+            <p>
+              In addition to the drop down lists when using Quick Add, there
+              is a Multi-Select box that will populate with data when appropriate
+              items are selected.  This list, shows Modifiers you can select for
+              your items such as magical enchantments or special materials.
+            </p>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="treasure-2" title="How do I edit existing Items">
+          <ng-template ngbPanelContent>
+              <p>
+                If you need to make a change to an existing item in the Item List, 
+                all you need to do is Double Click on the item you wish to edit. 
+                An Edit Item window will appear where you can change the Name, 
+                Quantity, Value and Location and then save the changes. Clicking 
+                save will close the modal window and refresh the item list with
+                your changes.
+              </p>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="treasure-3" title="How does Quick Add work?">
+          <ng-template ngbPanelContent>
+            <p>
+              The quick add allows the user to select a pre-existing item 
+              from a list and add it to the appropriate category.
+            </p>
+            <p>
+              For Treasure the first drop down selects the type of item, 
+              Armor, Weapons, Equipment or Magic Items, the second lets 
+              you choose the category, while the last chooses the actual 
+              item. Treasures also have the added area to choose 
+              materials and magical enchantments. The materials that 
+              appear should only be relevant to the item and will 
+              increase the cost of the item appropriately. You can use 
+              CTRL or Shift click to select multiple modifiers, such 
+              as Mithril, and Magical +1.
+            </p>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+      <h2>Permissions</h2>
+      <ngb-accordion [closeOthers]="true">
+        <ngb-panel id="permissions-1" title="How do I add a Bag">
+          <ng-template ngbPanelContent>
+            <p>In order to add valuables or treasure to your treasury, 
+              first you need to create bags. To create a bag you must 
+              first be logged into your treasury or one that you have 
+              permission to use. In either the Add Valuables section or 
+              the Add Treasure section click the Edit Bags button attached 
+              to the Select a Location drop down.</p>
+            <p>A modal(pop up) window will appear for Bag Management. 
+              It will list all of the bags that have been created for that
+              treasury.</p>
+            <p>Click the New button and a Form will appear allowing you to 
+              enter the name of your new Bag (or select a default bag name
+              by clicking the drop down button).  You can also check the box
+              Minimized by Default to set the bag to load minimized by default.
+              Clcking Save will create the new bag and it will be added to the 
+              treasury immediately.</p>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="permissions-2" title="How do I delete a Bag">
+          <ng-template ngbPanelContent>
+              <p>A modal(pop up) window will appear for Bag Management. 
+                It will list all of the bags that have been created for that
+                treasury.  Click on whichever bag you wish to delete in the list
+                and click the Delete button.  A confirmation dialog will appear
+                asking you to confirm your choice.</p>
+              <p>Note: You cannot delete a bag that has either Valuables or Treasure
+                contained in it.
+              </p>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="permissions-3" title="How do i move things between bags?">
+          <ng-template ngbPanelContent>
+            <p>In both the Treasure and Valuables areas when items are displayed 
+              they are enabled for Drag & Drop. You can click and drag any item 
+              from one bag to another, but only in the same area. ie. you cant 
+              drag a Gem into a bag listed in the Treasure area and vice versa.</p>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+  </div>
+</div>
