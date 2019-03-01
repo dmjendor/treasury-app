@@ -13,7 +13,14 @@ export class CommerceService {
   ) { }
 
 
-  buySell(item: any, vault: Vault, sell: boolean, type: string) {
+  buySell(
+    item: any,
+    vault: Vault,
+    sell: boolean,
+    type: string,
+    bypassMarkup: boolean,
+    useBaseCurrency: boolean
+    ) {
     const coin = new Coin();
     coin.vault = vault.key;
     coin.timestamp = Date.now();
@@ -21,21 +28,29 @@ export class CommerceService {
     switch (type) {
       case 'treasure':
         if (sell) {
-          coin.value = item.value * ((100 - vault.isMarkup) / 100);
+          const mts = bypassMarkup ? 0 : vault.isMarkup;
+          coin.value = item.value * ((100 - mts) / 100);
         } else {
-          coin.value = (item.value * ((100 + vault.gbMarkup) / 100)) * -1;
+          const mtb = bypassMarkup ? 0 : vault.ibMarkup;
+          coin.value = (item.value * ((100 + mtb) / 100)) * -1;
         }
       break;
       case 'valuables':
         if (sell) {
-          coin.value = item.value * ((100 - vault.gsMarkup) / 100);
+          const mvs = bypassMarkup ? 0 : vault.gsMarkup;
+          coin.value = item.value * ((100 - mvs) / 100);
         } else {
-          coin.value = (item.value * ((100 + vault.gbMarkup) / 100)) * -1;
+          const mvb = bypassMarkup ? 0 : vault.gbMarkup;
+          coin.value = (item.value * ((100 + mvb) / 100)) * -1;
         }
       break;
     }
+    if (useBaseCurrency) {
+      coin.currency = vault.baseCurrency;
+    } else {
+      coin.currency = vault.commonCurrency;
+    }
 
-    coin.currency = vault.baseCurrency;
     return this.coinService.create(coin);
   }
 }

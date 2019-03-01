@@ -10,6 +10,7 @@ import { DisplayPrepCoinComponent } from './components/display-prep-coin/display
 import { DisplayPrepTreasureComponent } from './components/display-prep-treasure/display-prep-treasure.component';
 import { DisplayPrepValuablesComponent } from './components/display-prep-valuables/display-prep-valuables.component';
 import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coin.component';
+import { EditPrepTreasureItemComponent } from './components/edit-prep-treasure-item/edit-prep-treasure-item.component';
 import { EditPrepTreasureComponent } from './components/edit-prep-treasure/edit-prep-treasure.component';
 import { EditPrepValuablesComponent } from './components/edit-prep-valuables/edit-prep-valuables.component';
 import { HistoryDetailsComponent } from './components/history-details/history-details.component';
@@ -21,6 +22,7 @@ import { VaultHistoryComponent } from './components/vault-history/vault-history.
 import { PrepCoinService } from './services/prep-coin.service';
 import { PrepTreasureService } from './services/prep-treasure.service';
 import { PrepValuablesService } from './services/prep-valuables.service';
+
 
 @NgModule({
   imports: [
@@ -77,13 +79,15 @@ import { PrepValuablesService } from './services/prep-valuables.service';
     EditPrepCoinComponent,
     PrepCoinInputFormComponent,
     VaultHistoryComponent,
-    HistoryDetailsComponent
+    HistoryDetailsComponent,
+    EditPrepTreasureItemComponent
   ],
   exports: [
 
   ],
   entryComponents: [
-    HistoryDetailsComponent
+    HistoryDetailsComponent,
+    EditPrepTreasureItemComponent
   ],
   providers: [
     PrepCoinService,

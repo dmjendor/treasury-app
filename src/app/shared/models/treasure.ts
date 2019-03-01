@@ -2,6 +2,7 @@ export interface TreasureData {
     key?: string;
     vault: string;
     name: string;
+    genericname: string;
     description: string;
     value: number;
     quantity: number;
@@ -16,6 +17,7 @@ export class Treasure implements TreasureData {
     key = null;
     vault = '';
     name = '';
+    genericname = '';
     description = '';
     value = null;
     quantity = null;

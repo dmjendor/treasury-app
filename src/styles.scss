@@ -48,6 +48,10 @@ h1, h2, h3 {
   border-color: $primary-color;
 }
 
+.btn {
+  white-space: nowrap;
+}
+
 .btn-primary {
   background-color: $primary-color;
   border-color: $primary-color;

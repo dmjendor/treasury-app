@@ -2,18 +2,18 @@
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">
         <span *ngIf="treasure.identified">Edit {{treasure.name}}</span>
-        <span *ngIf="!treasure.identified">{{treasure.genericname}}</span> <span *ngIf="!treasure.identified"><i class="text-info">(magic)</i></span>
+        <span *ngIf="!treasure.identified">{{treasure.genericname}}</span>&nbsp;<span *ngIf="!treasure.identified"><i class="text-info">(magic)</i></span>
       </h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <div class="row" *ngIf="treasure.identified">
+      <div class="row">
         <div class="col-12">
           <form #treasureForm="ngForm">
             <div class="form-group row">
-              <div class="col-12">
+              <div class="col-10">
                 <label for="name">Name</label>
                 <input
                   #name="ngModel"
@@ -23,6 +23,32 @@
                   type="text"
                   class="form-control"
                 />
+              </div>
+              <div class="col-2">
+                <div class="col-10">
+                    <label for="name">Ident.</label>
+                    <input
+                      #identified="ngModel"
+                      [(ngModel)]="treasure.identified"
+                      id="identified"
+                      name="identified"
+                      type="checkbox"
+                      class="form-control"
+                    />
+                  </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="!treasure.identified">
+              <div class="col-12">
+                  <label for="name">Unidentified Name</label>
+                  <input
+                    #genericname="ngModel"
+                    [(ngModel)]="treasure.genericname"
+                    id="genericname"
+                    name="genericname"
+                    type="text"
+                    class="form-control"
+                  />
               </div>
             </div>
             <div class="row" *ngIf="currency">
@@ -67,13 +93,7 @@
         </div>
     
       </div>
-      <div class="row" *ngIf="!treasure.identified">
-        <div class="col-12">
-          <button class="btn btn-block btn-info" (click)="identify()">
-            <i class="fas fa-magic"></i> Identify
-          </button>
-        </div>
-      </div>
+
     </div>
     <div class="modal-footer">
         <div class="col-12">

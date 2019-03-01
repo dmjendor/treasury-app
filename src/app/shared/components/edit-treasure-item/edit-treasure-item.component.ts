@@ -32,6 +32,13 @@ export class EditTreasureItemComponent implements OnInit {
       });
   }
 
+  identify() {
+    this.treasure.identified = true;
+    this.treasureService.update(this.treasure.key, this.treasure, this.baseTreasure).then((a) => {
+      console.log('identified');
+    });
+  }
+
   save() {
     this.treasureService.update(this.treasure.key, this.treasure, this.baseTreasure).then((a) => {
       this.modal.close();

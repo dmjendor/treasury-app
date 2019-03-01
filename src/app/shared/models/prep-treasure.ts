@@ -2,6 +2,7 @@ export interface PrepTreasureData {
     key?: string;
     vault: string;
     name: string;
+    genericname: string;
     description: string;
     value: number;
     quantity: number;
@@ -17,6 +18,7 @@ export class PrepTreasure implements PrepTreasureData {
     key = null;
     vault = '';
     name = '';
+    genericname = '';
     description = '';
     value = null;
     quantity = null;

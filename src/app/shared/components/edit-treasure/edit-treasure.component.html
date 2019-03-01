@@ -2,8 +2,19 @@
   <div class="col-12">
       <div class="card">
           <div class="card-header">
-            <h4>Add Treasure
-              <div class="pull-right">
+            <div class="row">
+              <div class="col-6">
+                <h4>
+                  <span *ngIf="!tBuyMode">Add</span><span *ngIf="tBuyMode">Buy</span>&nbsp;Treasure</h4>
+              </div>
+              <div class="col-4"> 
+                  <span class="switch">
+                    <input type="checkbox" class="switch" id="tBuy" [(ngModel)]="tBuyMode" name="tBuy" [title]="tBuyTitle">
+                    <label for="tBuy" *ngIf="tBuyMode" [title]="tBuyTitle">Buy</label>
+                    <label for="tBuy" *ngIf="!tBuyMode" [title]="tBuyTitle">Add</label>
+                  </span>
+              </div>
+              <div class="col-2">
                 <button type="button" 
                   title="Minimize Add Treasure" 
                   class="minimize btn btn-success"
@@ -11,7 +22,7 @@
                   <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
                 </button>
               </div>
-            </h4>
+            </div>
           </div>
           <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
             <div class="row top-margin-small" >
@@ -39,7 +50,8 @@
                 <div class="input-group">
                   <input type="text" name="quantity" [(ngModel)]="treasure.quantity" class="form-control" placeholder="Qty" aria-placeholder="Quantity">
                   <div class="input-group-append">
-                    <button class="btn btn-primary" (click)="addTreasure()" [disabled]="treasure.quantity<1">Add</button>
+                    <button class="btn btn-primary" (click)="addTreasure()" [disabled]="treasure.quantity<1" *ngIf="!tBuyMode">Add</button>
+                    <button class="btn btn-primary" (click)="buyTreasure()" [disabled]="treasure.quantity<1" *ngIf="tBuyMode">Buy</button>
                   </div>
                 </div>
               </div>
@@ -85,7 +97,8 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                      <button class="btn btn-success w-100" (click)="quickAdd()">Add Item</button>
+                      <button class="btn btn-success w-100" (click)="quickAdd()" *ngIf="!tBuyMode">Add</button>
+                      <button class="btn btn-success w-100" (click)="quickBuy()" *ngIf="tBuyMode">Buy</button>
                   </div>
                 </div>
                 

@@ -8,6 +8,7 @@ import { DefaultValuable } from 'shared/models/defaultvaluable';
 import { Valuable } from 'shared/models/valuable';
 import { Vault } from 'shared/models/vault';
 import { BagService } from 'shared/services/bag.service';
+import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
 import { DefaultValuablesService } from 'shared/services/default-valuables.service';
 import { ToastService } from 'shared/services/toast.service';
@@ -15,6 +16,12 @@ import { ValuablesService } from 'shared/services/valuables.service';
 import { VaultService } from 'shared/services/vault.service';
 
 import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.component';
+
+
+
+
+
+
 
 
 
@@ -38,6 +45,8 @@ export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
   defaultValuableSub: Subscription;
   defaultValuables: DefaultValuable[];
   oldVault: string;
+  vBuyTitle = 'Switch whether valuables are being added or purchased.';
+  vBuyMode: boolean = false;
   private alive: boolean = true;
 
   constructor(
@@ -47,6 +56,7 @@ export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
     private vaultService: VaultService,
     private currencyService: CurrencyService,
     private valuableService: ValuablesService,
+    private commerceService: CommerceService,
     private defaultValuableService: DefaultValuablesService
   ) { }
 
@@ -148,6 +158,15 @@ export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  buyValuable() {
+    if (this.valuable.location) {
+      this.commerceService.buySell(this.valuable, this.vault, false, 'valuables', true, false);
+      this.addValuable();
+    } else {
+      this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
+    }
+  }
+
   showQuickValueRange(item: DefaultValuable) {
     return '(' + this.currencyService.formatDisplay(this.currency, item.lowvalue) + ' - ' + this.currencyService.formatDisplay(this.currency, item.highvalue) + ')';
   }
@@ -171,7 +190,15 @@ export class EditValuablesComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
     }
+  }
 
+  quickBuy() {
+    if (this.valuable.location) {
+      this.commerceService.buySell(this.valuable, this.vault, false, 'valuables', true, false);
+      this.quickAdd();
+    } else {
+      this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
+    }
   }
 
   filterStep1() {

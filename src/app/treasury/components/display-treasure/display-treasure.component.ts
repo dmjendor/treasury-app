@@ -13,6 +13,7 @@ import { BagService } from 'shared/services/bag.service';
 import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
 import { PermissionService } from 'shared/services/permission.service';
+import { ToastService } from 'shared/services/toast.service';
 import { TreasureService } from 'shared/services/treasure.service';
 import { VaultService } from 'shared/services/vault.service';
 
@@ -38,6 +39,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
   private alive: boolean = true;
 
   constructor(
+    private toast: ToastService,
     private bagService: BagService,
     private modalService: NgbModal,
     private vaultService: VaultService,
@@ -172,7 +174,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     const baseItem = JSON.parse(JSON.stringify(item));
     item.quantity++;
     this.treasureService.update(item.key, item, baseItem);
-    this.commerceService.buySell(item, this.vault, false, 'treasure');
+    this.commerceService.buySell(item, this.vault, false, 'treasure', false, true);
   }
 
   sellItem(item) {
@@ -183,7 +185,7 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.treasureService.remove(item.key, item);
     }
-    this.commerceService.buySell(item, this.vault, true, 'treasure');
+    this.commerceService.buySell(item, this.vault, true, 'treasure', false, true);
   }
 
   currencyDisplay(value) {
@@ -233,17 +235,35 @@ export class DisplayTreasureComponent implements OnInit, OnChanges, OnDestroy {
     ev.dataTransfer.setData('text/plain', ev.target.id);
   }
 
+  identify(item: Treasure) {
+    if (this.treasureAllowed) {
+      const baseItem = JSON.parse(JSON.stringify(item));
+      item.identified = true;
+      this.treasureService.update(item.key, item, baseItem).then((a) => {});
+    } else {
+      this.toast.addToast('error', 'Error', 'You do not have permission to edit treasures.');
+    }
+  }
+
   editItemDetails(item: Treasure) {
-    const activeModal = this.modalService.open(EditTreasureItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
-    activeModal.componentInstance.vault = this.vault;
-    activeModal.componentInstance.treasure = item;
+    if (this.treasureAllowed) {
+      const activeModal = this.modalService.open(EditTreasureItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
+      activeModal.componentInstance.vault = this.vault;
+      activeModal.componentInstance.treasure = item;
+    } else {
+      this.toast.addToast('error', 'Error', 'You do not have permission to edit treasures.');
+    }
   }
 
   xferItem(item: Treasure) {
-    const activeModal = this.modalService.open(TransferModalComponent, {ariaLabelledBy: 'Transfer ' + item.name, });
-    activeModal.componentInstance.vault = this.vault;
-    activeModal.componentInstance.item = item;
-    activeModal.componentInstance.source = 'treasure';
+    if (this.treasureAllowed) {
+      const activeModal = this.modalService.open(TransferModalComponent, {ariaLabelledBy: 'Transfer ' + item.name, });
+      activeModal.componentInstance.vault = this.vault;
+      activeModal.componentInstance.item = item;
+      activeModal.componentInstance.source = 'treasure';
+    } else {
+      this.toast.addToast('error', 'Error', 'You do not have permission to edit treasures.');
+    }
   }
 
 }

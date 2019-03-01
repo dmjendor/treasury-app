@@ -25,15 +25,30 @@
                 </button>
               </h5>
               <ul [id]="bag.key" [ngClass]="{'hidden-body':bag.hidden}" class="list-group" (dragover)="allowDrop($event)" (drop)="drop($event)">
-                <li class="list-group-item " *ngFor="let treasure of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="treasure.key" (dblclick)="editItemDetails(treasure)" [title]="treasure.description" [ngbPopover]="popupContent" placement="right" container="body">
-                  {{treasure.name}}&nbsp;<span class="text-success" title="Sell Value: {{marginDisplay('sell',treasure.value)}} | Buy Value: {{marginDisplay('buy',treasure.value)}}">({{currencyDisplay(treasure.value)}})</span>
+                <li class="list-group-item " *ngFor="let treasure of bagSplit(bag.key)" draggable="true" (dragstart)="drag($event)" [id]="treasure.key" (dblclick)="editItemDetails(treasure)" [title]="treasure.description" [ngbPopover]="popupContent" placement="right" container="body" [autoClose]="'outside'">
+                  <span *ngIf="!treasure.identified">{{treasure.genericname}} <i class="text-info">(magic)</i></span>
+                  <span *ngIf="treasure.identified">{{treasure.name}}</span>
+                  <span *ngIf="treasure.identified" class="text-info" title="Sell Value: {{marginDisplay('sell',treasure.value)}} | Buy Value: {{marginDisplay('buy',treasure.value)}}"> ({{currencyDisplay(treasure.value)}})</span>
                   <span class="badge badge-primary badge-pill pull-right">{{treasure.quantity}}</span>
                   <ng-template #popupContent>
-                      <button class="btn btn-success btn-sm" (click)="increaseQty(treasure)"><i class="fas fa-plus"></i></button>
-                      <button class="btn btn-danger btn-sm" (click)="decreaseQty(treasure)"><i class="fas fa-minus"></i></button>
-                      <button class="btn btn-success btn-sm" (click)="buyItem(treasure)" title="Buy Value: {{marginDisplay('buy',treasure.value)}}"><i class="fas fa-dollar-sign"></i></button>
-                      <button class="btn btn-danger btn-sm" (click)="sellItem(treasure)" title="Sell Value: {{marginDisplay('sell',treasure.value)}}"><i class="fas fa-dollar-sign"></i></button>
-                      <button class="btn btn-info btn-sm" *ngIf="vault.allowXferOut && treasureAllowed" (click)="xferItem(treasure)"><i class="fas fa-share-square"></i></button>
+                    <div class="row">
+                      <div class="col-12">
+                          <div class="btn-group d-flex" role="group" aria-label="..."> 
+                              <button *ngIf="treasure.identified" class="btn btn-success btn-sm w-100" (click)="increaseQty(treasure)"><i class="fas fa-plus"></i></button>
+                              <button *ngIf="treasure.identified" class="btn btn-danger btn-sm w-100" (click)="decreaseQty(treasure)"><i class="fas fa-minus"></i></button>
+                              <button *ngIf="vault.allowXferOut && treasureAllowed && treasure.identified" class="btn btn-info btn-sm w-100"(click)="xferItem(treasure)"><i class="fas fa-share-square"></i></button>
+                              <button *ngIf="!treasure.identified && treasureAllowed" class="btn btn-info btn-sm w-100" (click)="identify(treasure)"><i class="fas fa-magic"></i></button>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row top-margin" *ngIf="treasure.identified">
+                      <div class="col-12">
+                          <div class="btn-group d-flex" role="group" aria-label="..."> 
+                              <button class="btn btn-primary btn-sm w-100" (click)="buyItem(treasure)" title="Buy"><b>-</b> {{marginDisplay('buy',treasure.value)}}</button>
+                              <button class="btn btn-primary btn-sm w-100" (click)="sellItem(treasure)" title="Sell"><b>+</b> {{marginDisplay('sell',treasure.value)}}</button>
+                          </div>
+                      </div>
+                    </div>
                   </ng-template>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="bagSplit(bag.key).length===0">...</li>

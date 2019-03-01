@@ -9,6 +9,7 @@ import { Modifier } from 'shared/models/modifier';
 import { Treasure } from 'shared/models/treasure';
 import { Vault } from 'shared/models/vault';
 import { BagService } from 'shared/services/bag.service';
+import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
 import { DefaultTreasureService } from 'shared/services/default-treasure.service';
 import { ModifierService } from 'shared/services/modifier.service';
@@ -17,6 +18,10 @@ import { TreasureService } from 'shared/services/treasure.service';
 import { VaultService } from 'shared/services/vault.service';
 
 import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.component';
+
+
+
+
 
 
 
@@ -45,6 +50,8 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
   modifiers: Modifier[];
   oldVault: string;
   selectedMods: any[] = [];
+  tBuyTitle: string = 'Switch whether treasure is being added or purchased.';
+  tBuyMode: boolean = false;
   private alive: boolean = true;
 
   constructor(
@@ -55,6 +62,7 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
     private currencyService: CurrencyService,
     private treasureService: TreasureService,
     private modifierService: ModifierService,
+    private commerceService: CommerceService,
     private defaultTreasureService: DefaultTreasureService
   ) { }
 
@@ -172,6 +180,15 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  buyTreasure() {
+    if (this.treasure.location) {
+      this.commerceService.buySell(this.treasure, this.vault, false, 'treasure', true, false);
+      this.addTreasure();
+    } else {
+      this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
+    }
+  }
+
   showQuickValueRange(item: DefaultTreasure) {
     return '(' + this.currencyService.formatDisplay(this.currency, Math.floor(item.value)) +  ')';
   }
@@ -198,9 +215,17 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
         this.treasure.location = this.selectedBag;
       });
     } else {
-      this.toast.addToast('error', 'Error', 'You must select a location before adding an item');
+      this.toast.addToast('error', 'Error', 'You must select a location before adding a treasure');
     }
+  }
 
+  quickBuy() {
+    if (this.treasure.location) {
+      this.commerceService.buySell(this.treasure, this.vault, false, 'treasure', true, false);
+      this.quickAdd();
+    } else {
+      this.toast.addToast('error', 'Error', 'You must select a location before adding a treasure');
+    }
   }
 
   filterModifiers() {

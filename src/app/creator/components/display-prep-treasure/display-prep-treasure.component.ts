@@ -1,15 +1,18 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { RewardPrep } from 'shared/models/reward-prep';
-import { PrepTreasure } from 'shared/models/prep-treasure';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PrepTreasureService } from 'app/creator/services/prep-treasure.service';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
+import { PrepTreasure } from 'shared/models/prep-treasure';
+import { RewardPrep } from 'shared/models/reward-prep';
+import { Vault } from 'shared/models/vault';
 import { BagService } from 'shared/services/bag.service';
 import { CurrencyService } from 'shared/services/currency.service';
-import { PrepTreasureService } from 'app/creator/services/prep-treasure.service';
 import { VaultService } from 'shared/services/vault.service';
-import { Vault } from 'shared/models/vault';
-import { take } from 'rxjs/operators';
+
+import { EditPrepTreasureItemComponent } from '../edit-prep-treasure-item/edit-prep-treasure-item.component';
 
 @Component({
   selector: 'display-prep-treasure',
@@ -31,6 +34,7 @@ export class DisplayPrepTreasureComponent implements OnInit, OnDestroy {
 
   constructor(
     private bagService: BagService,
+    private modalService: NgbModal,
     private vaultService: VaultService,
     private currencyService: CurrencyService,
     private treasureService: PrepTreasureService
@@ -163,4 +167,9 @@ export class DisplayPrepTreasureComponent implements OnInit, OnDestroy {
     ev.dataTransfer.setData('text/plain', ev.target.id);
   }
 
+  editItemDetails(item: PrepTreasure) {
+      const activeModal = this.modalService.open(EditPrepTreasureItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
+      activeModal.componentInstance.vault = this.vault;
+      activeModal.componentInstance.treasure = item;
+  }
 }

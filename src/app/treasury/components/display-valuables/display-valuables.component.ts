@@ -1,5 +1,4 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take, takeWhile } from 'rxjs/operators';
@@ -14,6 +13,7 @@ import { BagService } from 'shared/services/bag.service';
 import { CommerceService } from 'shared/services/commerce.service';
 import { CurrencyService } from 'shared/services/currency.service';
 import { PermissionService } from 'shared/services/permission.service';
+import { ToastService } from 'shared/services/toast.service';
 import { ValuablesService } from 'shared/services/valuables.service';
 import { VaultService } from 'shared/services/vault.service';
 
@@ -39,7 +39,7 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   private alive: boolean = true;
 
   constructor(
-    private route: ActivatedRoute,
+    private toast: ToastService,
     private bagService: BagService,
     private modalService: NgbModal,
     private vaultService: VaultService,
@@ -167,7 +167,7 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     const original = JSON.parse(JSON.stringify(item));
     item.quantity++;
     this.valuableService.update(item.key, item, original);
-    this.commerceService.buySell(item, this.vault, false, 'valuables');
+    this.commerceService.buySell(item, this.vault, false, 'valuables', false, true);
   }
 
   sellItem(item) {
@@ -178,7 +178,7 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.valuableService.remove(item.key, original);
     }
-    this.commerceService.buySell(item, this.vault, true, 'valuables');
+    this.commerceService.buySell(item, this.vault, true, 'valuables', false, true);
   }
 
   currencyDisplay(value) {
@@ -228,16 +228,24 @@ export class DisplayValuablesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   editItemDetails(item: Valuable) {
-    const activeModal = this.modalService.open(EditValuableItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
-    activeModal.componentInstance.vault = this.vault;
-    activeModal.componentInstance.valuable = item;
+    if (this.valuablesAllowed) {
+      const activeModal = this.modalService.open(EditValuableItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
+      activeModal.componentInstance.vault = this.vault;
+      activeModal.componentInstance.valuable = item;
+    } else {
+      this.toast.addToast('error', 'Error', 'You do not have permission to edit valuables.');
+    }
   }
 
   xferItem(item: Valuable) {
-    const activeModal = this.modalService.open(TransferModalComponent, {ariaLabelledBy: 'Transfer ' + item.name, });
-    activeModal.componentInstance.vault = this.vault;
-    activeModal.componentInstance.item = item;
-    activeModal.componentInstance.source = 'valuables';
+    if (this.valuablesAllowed) {
+      const activeModal = this.modalService.open(TransferModalComponent, {ariaLabelledBy: 'Transfer ' + item.name, });
+      activeModal.componentInstance.vault = this.vault;
+      activeModal.componentInstance.item = item;
+      activeModal.componentInstance.source = 'valuables';
+    } else {
+      this.toast.addToast('error', 'Error', 'You do not have permission to edit valuables.');
+    }
   }
 
 }

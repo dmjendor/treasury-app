@@ -2,8 +2,19 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-              <h4>Add Valuables
-                <div class="pull-right">
+              <div class="row">
+                <div class="col-6">
+                  <h4>
+                    <span *ngIf="!vBuyMode">Add</span><span *ngIf="vBuyMode">Buy</span>&nbsp;Valuables</h4>
+                </div>
+                <div class="col-4"> 
+                    <span class="switch">
+                      <input type="checkbox" class="switch" id="vBuy" [(ngModel)]="vBuyMode" name="vBuy" [title]="vBuyTitle">
+                      <label for="vBuy" *ngIf="vBuyMode" [title]="vBuyTitle">Buy</label>
+                      <label for="vBuy" *ngIf="!vBuyMode" [title]="vBuyTitle">Add</label>
+                    </span>
+                </div>
+                <div class="col-2">
                   <button type="button" 
                     title="Minimize Add Valuables" 
                     class="minimize btn btn-success"
@@ -11,7 +22,7 @@
                     <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
                   </button>
                 </div>
-              </h4>
+              </div>
             </div>
             <div class="card-body" [ngClass]="{'hidden-body':showDisplay}">
               <div class="row top-margin-small" >
@@ -39,7 +50,8 @@
                   <div class="input-group">
                     <input type="text" name="quantity" [(ngModel)]="valuable.quantity" class="form-control" placeholder="Qty" aria-placeholder="Quantity">
                     <div class="input-group-append">
-                      <button class="btn btn-primary" (click)="addValuable()" [disabled]="valuable.quantity<1">Add</button>
+                      <button class="btn btn-primary" (click)="addValuable()" [disabled]="valuable.quantity<1" *ngIf="!vBuyMode">Add</button>
+                      <button class="btn btn-primary" (click)="buyValuable()" [disabled]="valuable.quantity<1" *ngIf="vBuyMode">Buy</button>
                     </div>
                   </div>
                 </div>
@@ -76,7 +88,8 @@
                   </div>
                 </div>
                 <div class="col-4">
-                  <button class="btn btn-success h-100 w-100" (click)="quickAdd()">Add Item</button>
+                  <button class="btn btn-success h-100 w-100" (click)="quickAdd()" *ngIf="!vBuyMode">Add</button>
+                  <button class="btn btn-success h-100 w-100" (click)="quickBuy()" *ngIf="vBuyMode">Buy</button>
                 </div>
               </div>
             </div>
