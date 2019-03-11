@@ -1,0 +1,17 @@
+<ngb-tabset type="pills" #tabs [activeId]="selectedTab">
+    <ngb-tab title="Editions" id="Editions">
+      <ng-template ngbTabContent>
+        <manage-rule-editions></manage-rule-editions>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Valuables" id="valuables">
+      <ng-template ngbTabContent>
+        <manage-rule-valuables></manage-rule-valuables>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Treasure" id="treasures">
+      <ng-template ngbTabContent>
+        <manage-rule-treasures></manage-rule-treasures>
+      </ng-template>
+    </ngb-tab>                            
+  </ngb-tabset>

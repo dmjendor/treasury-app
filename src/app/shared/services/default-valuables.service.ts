@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
-import { DefaultValuable } from 'shared/models/defaultvaluable';
 import { map } from 'rxjs/operators';
+import { DefaultValuable } from 'shared/models/defaultvaluable';
 
 @Injectable({
   providedIn: 'root'
@@ -40,4 +40,18 @@ export class DefaultValuablesService {
     return this.db.object('/defaultvaluables/' + valuableID);
   }
 
+  getValuablesByEdition(editionId: string) {
+    return this.db.list('/defaultvaluables',
+      ref => ref.orderByChild('edition')
+      .equalTo(editionId))
+      .snapshotChanges()
+      .pipe(map(items => {            // <== new way of chaining
+        return items.map(a => {
+          const data = a.payload.val() as DefaultValuable;
+          const key = a.payload.key;
+          data.key  = key;
+          return data;
+        });
+      }));
+  }
 }

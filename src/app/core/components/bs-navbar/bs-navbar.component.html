@@ -15,8 +15,19 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="nav navbar-nav ml-auto">
           <ng-template #anonymouseUser>
+              <li ngbDropdown class="nav-item dropdown">
+                  <a ngbDropdownToggle class="nav-link dropdown-toggle"
+                    id="dropdown01" 
+                    aria-haspopup="true" 
+                    aria-expanded="false"><i class="fas fa-bars"></i></a>
+                  <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown01">
+                    <a class="dropdown-item" routerLink="/login">Login</a>
+                    <a class="dropdown-item" routerLink="/faq">FAQ</a>
+                    <a class="dropdown-item" routerLink="/privacy">Privacy</a>
+                  </div>
+                </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/login">Login</a>
+                
               </li>
           </ng-template>
         
@@ -31,7 +42,10 @@
               <ng-container *ngIf="appUser.role==='admin'">
                   <a class="dropdown-item" routerLink="/admin">Admin Console</a>
               </ng-container>
+              <a class="dropdown-item" routerLink="/rules">My Rules</a>
               <a class="dropdown-item" routerLink="/account">My Account</a>
+              <a class="dropdown-item" routerLink="/faq">FAQ</a>
+              <a class="dropdown-item" routerLink="/privacy">Privacy</a>
               <a class="dropdown-item" (click)="logout()">Log Out</a>
             </div>
           </li>

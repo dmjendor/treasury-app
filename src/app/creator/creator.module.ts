@@ -13,7 +13,14 @@ import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coi
 import { EditPrepTreasureItemComponent } from './components/edit-prep-treasure-item/edit-prep-treasure-item.component';
 import { EditPrepTreasureComponent } from './components/edit-prep-treasure/edit-prep-treasure.component';
 import { EditPrepValuablesComponent } from './components/edit-prep-valuables/edit-prep-valuables.component';
+import { EditRuleEditionComponent } from './components/edit-rule-edition/edit-rule-edition.component';
+import { EditRuleTreasuresComponent } from './components/edit-rule-treasures/edit-rule-treasures.component';
+import { EditRuleValuablesComponent } from './components/edit-rule-valuables/edit-rule-valuables.component';
 import { HistoryDetailsComponent } from './components/history-details/history-details.component';
+import { ManageRuleEditionsComponent } from './components/manage-rule-editions/manage-rule-editions.component';
+import { ManageRuleTreasuresComponent } from './components/manage-rule-treasures/manage-rule-treasures.component';
+import { ManageRuleValuablesComponent } from './components/manage-rule-valuables/manage-rule-valuables.component';
+import { ManageRulesComponent } from './components/manage-rules/manage-rules.component';
 import { PrepCoinInputFormComponent } from './components/prep-coin-input-form/prep-coin-input-form.component';
 import { RewardPrepFormComponent } from './components/reward-prep-form/reward-prep-form.component';
 import { RewardPrepListComponent } from './components/reward-prep-list/reward-prep-list.component';
@@ -22,6 +29,11 @@ import { VaultHistoryComponent } from './components/vault-history/vault-history.
 import { PrepCoinService } from './services/prep-coin.service';
 import { PrepTreasureService } from './services/prep-treasure.service';
 import { PrepValuablesService } from './services/prep-valuables.service';
+
+
+
+
+
 
 
 @NgModule({
@@ -63,6 +75,11 @@ import { PrepValuablesService } from './services/prep-valuables.service';
         path: 'vaults/:id/history',
         component: VaultHistoryComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'rules',
+        component: ManageRulesComponent,
+        canActivate: [AuthGuard]
       }
     ])
   ],
@@ -80,7 +97,14 @@ import { PrepValuablesService } from './services/prep-valuables.service';
     PrepCoinInputFormComponent,
     VaultHistoryComponent,
     HistoryDetailsComponent,
-    EditPrepTreasureItemComponent
+    EditPrepTreasureItemComponent,
+    ManageRulesComponent,
+    EditRuleEditionComponent,
+    ManageRuleEditionsComponent,
+    ManageRuleTreasuresComponent,
+    ManageRuleValuablesComponent,
+    EditRuleValuablesComponent,
+    EditRuleTreasuresComponent
   ],
   exports: [
 

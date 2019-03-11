@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Edition } from 'shared/models/edition';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Edition } from 'shared/models/edition';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +37,21 @@ export class EditionService {
 
   get(editionID: string) {
     return this.db.object('/editions/' + editionID);
+  }
+
+  getEditionsByUser(userId: string) {
+    return this.db.list('/editions',
+      ref => ref.orderByChild('user')
+      .equalTo(userId))
+      .snapshotChanges()
+      .pipe(map(items => {            // <== new way of chaining
+        return items.map(a => {
+          const data = a.payload.val() as Edition;
+          const key = a.payload.key;
+          data.key  = key;
+          return data;
+        });
+      }));
   }
 
 }

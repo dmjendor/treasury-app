@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-12">
+      <label for="edition">Select Edition</label>
+      <select class="form-control" (change)="selectEdition()" [(ngModel)]="selectedEdition" id="edition" name="edition">
+        <option value="-1">Select...</option>
+        <option *ngFor="let edition of editions" [value]="edition.key">{{edition.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" *ngIf="treasures">
+      <div class="col-12" *ngIf="!viewForm">
+        <ngx-datatable
+        class="bootstrap"
+        [rows]="treasures"
+        [columns]="columns"
+        [selected]="selected"
+        [selectionType]="'single'"
+        (activate)="onActivate($event)"
+        (select)='onSelect($event)'>
+        >
+        <ngx-datatable-column name="Name" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Parent">
+            <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            {{getParentName(value)}}  
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Value"></ngx-datatable-column>
+  
+        <ngx-datatable-column name="Active" [frozenRight]="true" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+            <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+              <input type="checkbox" [checked]="value" disabled="disabled" />
+            </ng-template>
+        </ngx-datatable-column>
+        </ngx-datatable>
+        <div class="row">
+            <div class="col-12">
+              <div class="btn-group btn-group-lg d-flex" role="group" aria-label="..."> 
+                <button type="button" class="btn btn-secondary btn-primary w-100" (click)="createTreasure()">New</button>
+                <button type="button" class="btn btn-secondary btn-info w-100" (click)="editTreasure()" [disabled]="!selectedTreasure||viewForm">Edit</button>
+                <button type="button" class="btn btn-secondary btn-danger w-100" (click)="deleteTreasure()" [disabled]="!selectedTreasure||viewForm">Delete</button>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="col-6" *ngIf="viewForm">
+          <h5>How to use:</h5>
+          <p>Treasures created here populate the Quick Add lists for their
+            game edition.  The quick add lists require that items be broken
+            into three tiers.  The first tier should be as generic as possible
+            such as Armor, Weapons, Gear these items do not get assigned a 
+            value or a parent.
+          </p>
+          <p>Next are group descriptors, these items have one of the base
+            items as their parent.  They will also not have a value assigned to them.
+          </p>
+          <p>Finally are the actual items that can be selected and added to
+            a treasury.  These items will have one of the second tier items
+            assigned as a parent, and will have a value assigned to them.
+          </p>
+        </div>
+        <div class="col-6" *ngIf="viewForm"> 
+          <edit-rule-treasures [(edit)]="viewForm" [(selectedTreasure)]="selectedTreasure"></edit-rule-treasures>
+        </div>
+    </div>
+    
