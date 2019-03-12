@@ -39,7 +39,7 @@ export class EditRuleEditionComponent {
 
   delete() {
     const header: string = 'Please confirm..';
-    const body: string = 'Are you sure you wish to delete the edition ' + this.edition.name + '?  This action cannot be undone.';
+    const body: string = 'Are you sure you wish to delete the edition ' + this.edition.name + '?  This action cannot be undone, and will delete all associated default treasures and valuables.';
       this.confirmationDialogService.confirm(header, body)
       .then((confirmed) => {
         if (confirmed) {

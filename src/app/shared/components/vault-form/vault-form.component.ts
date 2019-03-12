@@ -79,7 +79,9 @@ export class VaultFormComponent implements OnDestroy {
       });
       this.editionSub = this.editionService.getAll()
       .subscribe(edition => {
-        this.editionList = edition as Edition[];
+        this.editionList =  edition.filter(function(ed: Edition, i) {
+          return (ed.user === sessionStorage.getItem('userId') || !ed.hasOwnProperty('user'));
+        }) as Edition[];
       });
     }
   }

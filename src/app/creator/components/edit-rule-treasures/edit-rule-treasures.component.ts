@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DefaultTreasure } from 'shared/models/defaulttreasure';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
@@ -9,7 +9,7 @@ import { DefaultTreasureService } from 'shared/services/default-treasure.service
   templateUrl: './edit-rule-treasures.component.html',
   styleUrls: ['./edit-rule-treasures.component.css']
 })
-export class EditRuleTreasuresComponent implements OnInit {
+export class EditRuleTreasuresComponent implements OnInit, OnDestroy {
   @Input('selectedTreasure') set setSelectedTreasure(value) {
     this.treasure = value;
   }

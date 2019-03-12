@@ -1,8 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Edition } from 'shared/models/edition';
-import { Subscription } from 'rxjs';
-import { EditionService } from 'shared/services/edition.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppUser } from 'shared/models/app-user';
+import { Edition } from 'shared/models/edition';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { EditionService } from 'shared/services/edition.service';
+import { UserService } from 'shared/services/user.service';
 
 @Component({
   selector: 'manage-editions',
@@ -13,14 +16,19 @@ export class ManageEditionsComponent implements OnInit, OnDestroy {
   editions: Edition[];
   editionsSub: Subscription;
   selectedEdition: Edition;
+  users: AppUser[];
+  userSub: Subscription;
   selected: any;
   columns = [
     { prop: 'name', name: 'Name' },
+    { name: 'user' },
     { name: 'Active' }
   ];
 
   constructor(
+    private confirmationDialogService: ConfirmationDialogService,
     private editionService: EditionService,
+    private userService: UserService,
     private router: Router
     ) {
     }
@@ -42,7 +50,16 @@ export class ManageEditionsComponent implements OnInit, OnDestroy {
   }
 
   deleteEdition() {
-    this.editionService.remove(this.selectedEdition.key);
+    const header: string = 'Please confirm..';
+    const body: string = 'Are you sure you wish to delete the edition ' + this.selectedEdition.name + '?  This action cannot be undone, and will delete all associated default treasures and valuables.';
+    this.confirmationDialogService.confirm(header, body)
+    .then((confirmed) => {
+      if (confirmed) {
+        this.editionService.remove(this.selectedEdition.key);
+      }
+    })
+    .catch(() => {
+    });
   }
 
   onSelect({ selected }) {
@@ -65,6 +82,13 @@ export class ManageEditionsComponent implements OnInit, OnDestroy {
 
   }
 
+  getUserName(userId) {
+    if (userId && this.users && this.users.length > 0) {
+      const cu = this.users.find((user) => user.key === userId);
+      return cu.name;
+    }
+  }
+
   async ngOnInit() {
     this.editionsSub = this.editionService.getAll()
     .subscribe(cls => {
@@ -72,10 +96,16 @@ export class ManageEditionsComponent implements OnInit, OnDestroy {
       this.selected = [this.editions[0]];
       this.selectedEdition = this.editions[0];
     });
+
+    this.userSub = this.userService.getAll()
+    .subscribe(user => {
+      this.users = user as AppUser[];
+    });
   }
 
   ngOnDestroy() {
      this.editionsSub.unsubscribe();
+     this.userSub.unsubscribe();
   }
 }
 

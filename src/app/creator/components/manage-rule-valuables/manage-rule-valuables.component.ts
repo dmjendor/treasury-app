@@ -29,7 +29,7 @@ export class ManageRuleValuablesComponent implements OnInit, OnDestroy {
     { prop: 'name', name: 'Name' },
     { name: 'Parent' },
     { name: 'LowValue' },
-    { name: 'HighValue' },    
+    { name: 'HighValue' },
     { name: 'Active' }
   ];
 

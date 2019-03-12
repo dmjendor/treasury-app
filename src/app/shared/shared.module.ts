@@ -55,6 +55,7 @@ import { UserService } from './services/user.service';
 
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -65,7 +66,7 @@ import { UserService } from './services/user.service';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireFunctionsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ToastaModule.forRoot(),
   ],
   declarations: [
@@ -126,7 +127,7 @@ import { UserService } from './services/user.service';
     AngularFireFunctionsModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule.forRoot().ngModule
+    NgbModule
   ],
   providers: [
     BagService,

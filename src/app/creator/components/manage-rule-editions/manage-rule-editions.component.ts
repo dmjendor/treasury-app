@@ -43,8 +43,7 @@ export class ManageRuleEditionsComponent implements OnInit, OnDestroy {
 
   deleteEdition() {
     const header: string = 'Please confirm..';
-    const body: string = 'Are you sure you wish to delete ' + this.selectedEdition.name + '?  This action cannot be undone.';
-    this.confirmationDialogService.confirm(header, body)
+    const body: string = 'Are you sure you wish to delete the edition ' + this.selectedEdition.name + '?  This action cannot be undone, and will delete all associated default treasures and valuables.';    this.confirmationDialogService.confirm(header, body)
     .then((confirmed) => {
       if (confirmed) {
         this.editionService.remove(this.selectedEdition.key);
