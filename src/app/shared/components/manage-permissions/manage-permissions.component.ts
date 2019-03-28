@@ -1,14 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Vault } from 'shared/models/vault';
-import { Permission } from 'shared/models/permission';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { PermissionService } from 'shared/services/permission.service';
-import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
-import { UserService } from 'shared/services/user.service';
-import { User } from 'firebase';
 import { AppUser } from 'shared/models/app-user';
-import { ToastaService } from 'ngx-toasta';
+import { Permission } from 'shared/models/permission';
+import { Vault } from 'shared/models/vault';
+import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { PermissionService } from 'shared/services/permission.service';
 import { ToastService } from 'shared/services/toast.service';
+import { UserService } from 'shared/services/user.service';
 
 @Component({
   selector: 'manage-permissions',
@@ -39,6 +38,7 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
   ];
   constructor(
     private toast: ToastService,
+    private modalService: NgbModal,
     private userService: UserService,
     private permissionsService: PermissionService,
     private confirmationDialogService: ConfirmationDialogService
@@ -93,6 +93,10 @@ export class ManagePermissionsComponent implements OnInit, OnChanges, OnDestroy 
       const cu = this.users.find((user) => user.key === userId);
       return cu.name;
     }
+  }
+
+  openModal(modal) {
+    this.modalService.open(modal);
   }
 
   ngOnChanges() {

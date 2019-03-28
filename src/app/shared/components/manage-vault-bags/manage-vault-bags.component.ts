@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Bag } from 'shared/models/bag';
 import { Vault } from 'shared/models/vault';
@@ -36,6 +37,7 @@ constructor(
   private router: Router,
   private toast: ToastService,
   private bagService: BagService,
+  private modalService: NgbModal,
   private utilityService: UtilityService,
   private treasureService: TreasureService,
   private valuablesService: ValuablesService,
@@ -98,6 +100,11 @@ filter(query: string) {
   // this.initializeTable(filteredProducts);
 
 }
+
+openModal(modal) {
+  this.modalService.open(modal);
+}
+
 
 ngOnChanges() {
   if (this.vault.key) {

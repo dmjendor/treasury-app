@@ -1,12 +1,61 @@
+<ng-template #info let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Information</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Bags are used to store and organize valuables and treasures.  In 
+        order to add valuables or treasures to your treasury you first 
+        MUST have at least one bag.  Each bag that you create appears
+        as a seperate entry in both the Valuables and Treasures areas.
+      </p>
+      <p>        
+        Items can be moved from one bag to another by dragging and 
+        dropping them, but only in the same category ( you cant 
+        drag a treasure over to a bag in valuables).
+      </p>
+      <p>
+        When creating new bags you can type in your own name or choose
+        from a pre-defined list. Additionally bags can be added directly
+        from the treasury screen.  Currently, any player with permission
+        for either Valuables or Treasures can edit bags.
+      </p>
+      <p>
+        Bags must be empty before they can be deleted.
+      </p>
+    </div>
+    <div class="modal-footer">
+      
+    </div>
+  </ng-template>
+
 <ng-container class="row" *ngIf="vault.key !== null">
     <div class="row">
       <div class="col-12">
           <h5>Containers
+              <div class="pull-right">
+                  <button type="button"
+                      title="Info"
+                      class="btn btn-info"
+                      (click)="openModal(info)">
+                    <i class="fas fa-info-circle"></i>
+                  </button>&nbsp;
+
+                  <button type="button" 
+                    title="Minimize Currencies" 
+                    class="minimize btn btn-success"
+                    (click)="toggleDisplay()">
+                    <i class="fas" [ngClass]="{'fa-chevron-up':showDisplay, 'fa-chevron-down':!showDisplay}"></i>
+                  </button>
+                </div>
           </h5>
       </div>
     </div>
     
-    <div class="col-12">
+    <div class="col-12" *ngIf="!showDisplay">
       <ngx-datatable
       width="100%"
       class="bootstrap"

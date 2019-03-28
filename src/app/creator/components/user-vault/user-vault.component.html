@@ -111,4 +111,19 @@
       </ngx-datatable>
   </div>
 </div>
+<div class="row" *ngIf="appUser && vault.length===0">
+  <h4>Getting Started</h4>
+  <p>
+    Welcome, if you are joining to be a member of another game, 
+    you don't need to do anything else from this point other than
+    let your GM know you have joined so that they can give you 
+    permission to view their game.
+  </p>
+  <p>
+    If you are a new GM or a player who wishes to use the Treasury
+    to manage your characters inventory.  The first step is to click
+    the Create Treasury button above to get started.
+  </p>
+
+</div>
 <reward-prep-list [vault]="selectedVault"></reward-prep-list>

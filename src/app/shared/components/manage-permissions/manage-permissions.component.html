@@ -1,9 +1,44 @@
+<ng-template #info let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Information</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Permissions allow your players or other people to view your Treasury.
+        There are 4 permissions that you can set for each person and they are:
+      </p>
+      <ul>
+        <li>View: Allows the user to view your treasury and its contents</li>
+        <li>Coin: Allows the user to edit your treasuries coin amounts.</li>
+        <li>Valuables: Allows the user to edit your treasuries valuables.</li>
+        <li>Treasure: Allows th euser to edit your treasuries treasure.</li>
+      </ul>
+      <p>
+        When adding a new user, you can look them up by entering their
+        username.  The input should automatically match
+        them with the typeahead and make it easier to select.
+      </p>
+    </div>
+    <div class="modal-footer">
+      
+    </div>
+  </ng-template>
 
 <ng-container class="row" *ngIf="vault.key !== null">
     <div class="row">
       <div class="col-12">
           <h5>Permissions
             <div class="pull-right">
+                <button type="button"
+                    title="Info"
+                    class="btn btn-info"
+                    (click)="openModal(info)">
+                  <i class="fas fa-info-circle"></i>
+                </button>&nbsp;
+
                 <button type="button" 
                   title="Minimize Currencies" 
                   class="minimize btn btn-success"

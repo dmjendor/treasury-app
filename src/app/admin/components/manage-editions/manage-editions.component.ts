@@ -37,13 +37,6 @@ export class ManageEditionsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/editions/new']);
   }
 
-  getParentName(key: string) {
-    if (this.editions && key) {
-      const val = this.editions.find(vl => vl.key === key);
-      return val.name;
-    }
-  }
-
   editEdition() {
     localStorage.setItem('returnUrl', '/admin/editions');
     this.router.navigate(['/admin/editions/' + this.selectedEdition.key]);
@@ -85,7 +78,11 @@ export class ManageEditionsComponent implements OnInit, OnDestroy {
   getUserName(userId) {
     if (userId && this.users && this.users.length > 0) {
       const cu = this.users.find((user) => user.key === userId);
-      return cu.name;
+      if (cu && cu.name) {
+        return cu.name;
+      } else {
+        return '';
+      }
     }
   }
 

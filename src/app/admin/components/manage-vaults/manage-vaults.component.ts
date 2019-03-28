@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { VaultService } from 'shared/services/vault.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Vault } from 'shared/models/vault';
 import { Subscription } from 'rxjs';
+import { AppUser } from 'shared/models/app-user';
+import { Vault } from 'shared/models/vault';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { UserService } from 'shared/services/user.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'manage-vaults',
@@ -15,14 +17,18 @@ export class ManageVaultsComponent implements OnInit, OnDestroy {
   vaultSub: Subscription;
   selected: any[];
   selectedVault: Vault;
+  userList: AppUser[];
+  userSub: Subscription;
   columns = [
     { prop: 'name', name: 'Name' },
+    { name: 'Owner' },
     { name: 'Active' }
   ];
 
   constructor(
     private confirmationDialogService: ConfirmationDialogService,
     private vaultService: VaultService,
+    private userService: UserService,
     private router: Router
     ) {
     }
@@ -69,6 +75,16 @@ export class ManageVaultsComponent implements OnInit, OnDestroy {
 
   }
 
+  getName(name: string) {
+    if (name && this.userList && this.userList.length > 0) {
+      for (let u = 0; u < this.userList.length; u++) {
+        if (this.userList[u].key === name) {
+          return this.userList[u].name;
+        }
+      }
+    }
+  }
+
   async ngOnInit() {
 
     this.vaultSub = this.vaultService.getAll()
@@ -77,6 +93,9 @@ export class ManageVaultsComponent implements OnInit, OnDestroy {
       this.selected = [this.vaults[0]];
       this.selectedVault = this.vaults[0];
     });
+
+    this.userSub = this.userService.getAll()
+      .subscribe((usr) => this.userList = usr as AppUser[]);
   }
 
   ngOnDestroy() {

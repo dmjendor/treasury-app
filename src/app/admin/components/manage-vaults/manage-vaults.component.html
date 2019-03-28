@@ -10,6 +10,11 @@
       (select)='onSelect($event)'>
       >
       <ngx-datatable-column name="Name" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Owner">
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+            {{getName(value)}}
+          </ng-template>
+        </ngx-datatable-column>
       <ngx-datatable-column name="Active" [frozenRight]="true" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
           <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
             <input type="checkbox" [checked]="value" disabled="disabled" />

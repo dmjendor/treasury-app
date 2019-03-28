@@ -255,3 +255,33 @@
     </div>
   </div>
   
+  <ng-template #gettingStarted let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Getting Started</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          The first thing to do once you have created your new Treasury
+          is to create and assign currencies.  If you are playing in a
+          fantasy setting that uses Platinum, Gold, Silver and Copper you
+          can click the Create Default Currencies button.  That will create
+          those four currencies for you automatically.  Otherwise click the
+          New button and create your new currencies.  You are required to 
+          have at least once currency created and it should have a multiplier
+          of 1. 
+        </p>
+        <p>
+          Once you have your currencies created, use the Base Currency and
+          Common Currency drop downs to select the currencies that define 
+          your game.  The last thing that is required is to select your 
+          Game Edition.  If your not running one of the pre-defined game
+          editions, you CAN create a custom game edition from the menu item
+          My Rules.
+        </p>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </ng-template>

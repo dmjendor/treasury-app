@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnChanges, Output, EventEmitter } from '@angular/core';
-import { CurrencyService } from 'shared/services/currency.service';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Currency } from 'shared/models/currency';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { Currency } from 'shared/models/currency';
 import { Vault } from 'shared/models/vault';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { CurrencyService } from 'shared/services/currency.service';
 
 @Component({
   selector: 'manage-currencies',
@@ -30,9 +31,10 @@ export class ManageCurrenciesComponent implements OnDestroy, OnChanges {
       { name: 'Multiplier'}
     ];
   constructor(
+    private router: Router,
+    private modalService: NgbModal,
     private currencyService: CurrencyService,
-    private confirmationDialogService: ConfirmationDialogService,
-    private router: Router
+    private confirmationDialogService: ConfirmationDialogService
     ) { }
 
     toggleDisplay() {
@@ -81,6 +83,10 @@ export class ManageCurrenciesComponent implements OnDestroy, OnChanges {
       this.currencies;
     // this.initializeTable(filteredProducts);
 
+  }
+
+  openModal(modal) {
+    this.modalService.open(modal);
   }
 
   ngOnChanges() {

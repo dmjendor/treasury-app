@@ -1,8 +1,47 @@
+<ng-template #info let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Information</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Currencies are required in order for the treasury to function
+        correctly.  The treasury bases all of its math on two concepts
+        for currency.  The Base Currency which is the lowest form of 
+        currency that is used for trade (ie. copper or penny); and the Common
+        Currency or the most commonly traded form of currency (ie. gold or dollar).
+      </p>
+      <p>
+        It is also possible to have the same currency set to both the Base
+        and Common currencies, such as when in some future settings where
+        the only currency is Credit (or maybe Gil or Fol).
+      </p>
+      <p>
+        When creating multiple currencies, your first currency should have
+        a multiplier of 1 and should be considered your Base Currency. 
+        Each additional currency you create should have its multiplier
+        set in reference to its value in the Base Currency such as Silver
+        (10 copper) or Gold (100 copper).
+      </p>
+    </div>
+    <div class="modal-footer">
+      
+    </div>
+  </ng-template>
+
 <ng-container class="row" *ngIf="vault.key !== null">
   <div class="row">
     <div class="col-12">
         <h5>Currencies
           <div class="pull-right">
+            <button type="button"
+              title="Info"
+              class="btn btn-info"
+              (click)="openModal(info)">
+            <i class="fas fa-info-circle"></i>
+          </button>&nbsp;
             <button type="button" 
               title="Minimize Currencies" 
               class="minimize btn btn-success"

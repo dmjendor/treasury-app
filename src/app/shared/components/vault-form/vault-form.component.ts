@@ -1,5 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Bag } from 'shared/models/bag';
@@ -21,6 +22,7 @@ import { VaultService } from 'shared/services/vault.service';
   styleUrls: ['./vault-form.component.css']
 })
 export class VaultFormComponent implements OnDestroy {
+  @ViewChild('gettingStarted') gsModal;
   vaultList: Vault[];
   vault = new Vault();
   vaultSub: Subscription;
@@ -48,6 +50,7 @@ export class VaultFormComponent implements OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private modalService: NgbModal,
     private vaultService: VaultService,
     private themeService: ThemeService,
     private editionService: EditionService,
@@ -70,6 +73,9 @@ export class VaultFormComponent implements OnDestroy {
         this.themeSub = this.themeService.getAll()
         .subscribe(theme => {
           this.themeList = theme as Theme[];
+          if (!this.vault.baseCurrency) {
+            const activeModal = this.modalService.open(this.gsModal);
+          }
         });
       });
       this.currencySub = this.currencyService.getCurrenciesByVault(this.id)
