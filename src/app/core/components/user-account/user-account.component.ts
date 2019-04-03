@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from 'shared/services/auth.service';
-import { AppUser } from 'shared/models/app-user';
-import { UserService } from 'shared/services/user.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AppUser } from 'shared/models/app-user';
 import { Theme } from 'shared/models/theme';
+import { AuthService } from 'shared/services/auth.service';
 import { ThemeService } from 'shared/services/theme.service';
+import { UserService } from 'shared/services/user.service';
+
+declare let ga: Function;
 
 @Component({
   selector: 'user-account',
@@ -17,13 +20,22 @@ export class UserAccountComponent implements OnInit, OnDestroy {
   userId: string;
   themeSub: Subscription;
   themeList: Theme[];
+  routeSub: Subscription;
 
   constructor(
     private auth: AuthService,
+    private router: Router,
     private userService: UserService,
     private authService: AuthService,
     private themeService: ThemeService
-  ) {}
+  ) {
+    this.routeSub = this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        ga('set', 'page', e.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
+  }
 
   async ngOnInit() {
     this.userSubscription = this.authService.user$.subscribe(user => this.userId = user.uid);
@@ -40,6 +52,7 @@ export class UserAccountComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
     this.themeSub.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
   saveUser() {

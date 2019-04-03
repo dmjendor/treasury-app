@@ -1,21 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'shared/services/auth.service';
-import { Router } from '@angular/router';
+
+declare let ga: Function;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent  {
+export class LoginComponent implements OnDestroy  {
   user = {
     email: '',
     password: ''
   };
+  routeSub: Subscription;
+
   constructor(
     private authService: AuthService,
     private router: Router
-    ) { }
+    ) {
+      this.routeSub = this.router.events.subscribe(e => {
+        if (e instanceof NavigationEnd) {
+          ga('set', 'page', e.urlAfterRedirects);
+          ga('send', 'pageview');
+        }
+      });
+    }
 
   signInWithFacebook() {
     this.authService.login('facebook');
@@ -35,5 +47,9 @@ export class LoginComponent  {
 
   signInWithEmail() {
     this.authService.signInRegular(this.user.email, this.user.password);
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
 }

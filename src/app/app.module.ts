@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from 'core/components/home/home.component';
 import { environment } from 'environments/environment';
+import { GoogleAnalyticsService } from 'shared/services/google-analytics-service';
 import { VaultService } from 'shared/services/vault.service';
 
 import { AdminModule } from './admin/admin.module';
@@ -14,6 +15,7 @@ import { CoreModule } from './core/core.module';
 import { CreatorModule } from './creator/creator.module';
 import { SharedModule } from './shared/shared.module';
 import { TreasuryModule } from './treasury/treasury.module';
+
 
 
 
@@ -38,7 +40,8 @@ import { TreasuryModule } from './treasury/treasury.module';
     ], {onSameUrlNavigation: 'reload'})
   ],
   providers: [
-    VaultService
+    VaultService,
+    GoogleAnalyticsService
   ],
   bootstrap: [AppComponent]
 })

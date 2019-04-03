@@ -1,15 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AppUser } from 'shared/models/app-user';
+import { Currency } from 'shared/models/currency';
+import { Theme } from 'shared/models/theme';
 import { Vault } from 'shared/models/vault';
 import { AuthService } from 'shared/services/auth.service';
-import { AppUser } from 'shared/models/app-user';
-import { Router } from '@angular/router';
-import { VaultService } from 'shared/services/vault.service';
-import { Theme } from 'shared/models/theme';
-import { ThemeService } from 'shared/services/theme.service';
-import { CurrencyService } from 'shared/services/currency.service';
-import { Currency } from 'shared/models/currency';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
+import { CurrencyService } from 'shared/services/currency.service';
+import { ThemeService } from 'shared/services/theme.service';
+import { VaultService } from 'shared/services/vault.service';
+
+declare let ga: Function;
 
 @Component({
   selector: 'user-vault',
@@ -32,6 +34,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
   themeSub: Subscription;
   currencyList: Currency[];
   currencySub: Subscription;
+  routeSub: Subscription;
 
   userSubscription: Subscription;
 
@@ -48,7 +51,14 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       private themeService: ThemeService,
       private authService: AuthService,
       private router: Router
-    ) { }
+    ) {
+      this.routeSub = this.router.events.subscribe(e => {
+        if (e instanceof NavigationEnd) {
+          ga('set', 'page', e.urlAfterRedirects);
+          ga('send', 'pageview');
+        }
+      });
+    }
 
 
     themeName(themeID) {
@@ -148,6 +158,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
       this.vaultSub.unsubscribe();
       this.themeSub.unsubscribe();
       this.currencySub.unsubscribe();
+      this.routeSub.unsubscribe();
     }
 
 

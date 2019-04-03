@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { VaultService } from 'shared/services/vault.service';
 import { HistoryDetailsComponent } from '../history-details/history-details.component';
 
 
+declare let ga: Function;
 
 @Component({
   selector: 'app-vault-history',
@@ -30,6 +31,7 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
   vault: Vault;
   cPage = new Page();
   cIsLoading: boolean = false;
+  routeSub: Subscription;
 
   logColumns = [
     { name: 'Source' },
@@ -39,6 +41,7 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private userService: UserService,
@@ -57,6 +60,12 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
           this.logList = val as Differences[];
         });
       });
+      this.routeSub = this.router.events.subscribe(e => {
+        if (e instanceof NavigationEnd) {
+          ga('set', 'page', e.urlAfterRedirects);
+          ga('send', 'pageview');
+        }
+      });
   }
 
   ngOnInit() {
@@ -67,6 +76,7 @@ export class VaultHistoryComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.logSub.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
   getName(name: string) {

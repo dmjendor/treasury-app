@@ -1,11 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RewardPrep } from 'shared/models/reward-prep';
 import { Vault } from 'shared/models/vault';
 import { ConfirmationDialogService } from 'shared/services/confirmation-dialog.service';
 import { RewardPrepService } from 'shared/services/reward-prep.service';
+
+declare let ga: Function;
 
 @Component({
   selector: 'app-reward-prep-form',
@@ -16,10 +18,10 @@ export class RewardPrepFormComponent implements OnInit, OnDestroy {
   @Input() vault: Vault;
   id: string;
   rewardprep = new RewardPrep();
-  vaultSub: Subscription;
   vaultList: Vault[];
   vaultId: string;
   userId: string = sessionStorage.getItem('userId');
+  routeSub: Subscription;
 
   constructor(
     private router: Router,
@@ -36,6 +38,12 @@ export class RewardPrepFormComponent implements OnInit, OnDestroy {
         this.rewardprep.key = this.id;
       });
     }
+    this.routeSub = this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        ga('set', 'page', e.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
    }
 
 
@@ -45,7 +53,7 @@ export class RewardPrepFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.routeSub.unsubscribe();
   }
 
   create() {

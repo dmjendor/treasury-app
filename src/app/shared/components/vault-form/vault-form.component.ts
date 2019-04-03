@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -15,6 +15,8 @@ import { EditionService } from 'shared/services/edition.service';
 import { ThemeService } from 'shared/services/theme.service';
 import { UtilityService } from 'shared/services/utility.service';
 import { VaultService } from 'shared/services/vault.service';
+
+declare let ga: Function;
 
 @Component({
   selector: 'vault-form',
@@ -38,6 +40,7 @@ export class VaultFormComponent implements OnDestroy {
   themeSub: Subscription;
   editionList: Edition[];
   editionSub: Subscription;
+  routeSub: Subscription;
   id: string;
   currentRoute: string;
   rtParams: Object = {};
@@ -58,6 +61,12 @@ export class VaultFormComponent implements OnDestroy {
     private currencyService: CurrencyService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
+    this.routeSub = this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        ga('set', 'page', e.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
     this.id = this.route.snapshot.paramMap.get('id');
     this.currentRoute = this.route.snapshot.routeConfig.path.substr(0, this.route.snapshot.routeConfig.path.length - 4);
     if (this.currentRoute.includes('admin')) {
@@ -129,9 +138,11 @@ export class VaultFormComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.vaultSub.unsubscribe();
     this.currencySub.unsubscribe();
     this.themeSub.unsubscribe();
     this.editionSub.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
 

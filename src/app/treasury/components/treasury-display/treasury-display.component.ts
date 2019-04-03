@@ -8,6 +8,8 @@ import { PermissionService } from 'shared/services/permission.service';
 import { ThemeService } from 'shared/services/theme.service';
 import { VaultService } from 'shared/services/vault.service';
 
+declare let ga: Function;
+
 @Component({
   selector: 'treasury-display',
   templateUrl: './treasury-display.component.html',
@@ -33,6 +35,8 @@ export class TreasuryDisplayComponent implements OnDestroy {
     this.routeSub = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         this.initializeTreasury(e);
+        ga('set', 'page', e.urlAfterRedirects);
+        ga('send', 'pageview');
       }
     });
   }
