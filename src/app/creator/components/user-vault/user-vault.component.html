@@ -1,10 +1,15 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-11">
     <a class="btn btn-lg btn-info btn-block"
       routerLink="/vaults/new"  
     >
       <span>Create Treasury</span>
   </a>
+  </div>
+  <div class="col-1">
+    <button class="btn btn-lg btn-info btn-block" (click)="toggleGS()">
+      <i class="fas fa-info-circle"></i>
+    </button>
   </div>
 </div>
 <div class="row" *ngIf="vault.length>0">
@@ -111,19 +116,23 @@
       </ngx-datatable>
   </div>
 </div>
-<div class="row" *ngIf="appUser && vault.length===0">
-  <h4>Getting Started</h4>
-  <p>
-    Welcome, if you are joining to be a member of another game, 
-    you don't need to do anything else from this point other than
-    let your GM know you have joined so that they can give you 
-    permission to view their game.
-  </p>
-  <p>
-    If you are a new GM or a player who wishes to use the Treasury
-    to manage your characters inventory.  The first step is to click
-    the Create Treasury button above to get started.
-  </p>
-
+<div class="row" *ngIf="appUser && (vault.length===0||showGS)">
+  <div class="col-12">
+      <h4>Getting Started</h4>
+      <p>
+        Welcome, if you are joining to be a member of another game, 
+        you don't need to do anything else from this point other than
+        let your GM know you have joined so that they can give you 
+        permission to view their game.
+      </p>
+      <p>
+        If you are a new GM or a player who wishes to use the Treasury
+        to manage your characters inventory.  The first step is to click
+        the Create Treasury button above to get started.
+      </p>
+      <p>
+        <button class="btn btn-info" (click)="toggleGS()">Close</button>
+      </p>    
+  </div>  
 </div>
 <reward-prep-list [vault]="selectedVault"></reward-prep-list>

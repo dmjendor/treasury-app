@@ -1,10 +1,15 @@
 <div class="row top-margin">
-  <div class="col-12" *ngIf="vault && vault.rewardPrep">
+  <div class="col-11" *ngIf="vault && vault.rewardPrep">
     <a class="btn btn-lg btn-info btn-block"
       [routerLink]="['/rewardprep/new',vault.key]">
       <span>Create Reward Prep</span>
     </a>
   </div>
+  <div class="col-1">
+      <button class="btn btn-lg btn-info btn-block" (click)="openModal(info)">
+        <i class="fas fa-info-circle"></i>
+      </button>
+    </div>
 </div>
 <div class="row" *ngIf="rewardprep.length>0 && vault.rewardPrep">
     <div class="col-12">
@@ -59,3 +64,33 @@
         </ngx-datatable>
   </div>
 </div>
+
+
+<ng-template #info let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Information</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      Reward Prep is used to create rewards in advance that you can
+      then transfer directly into the parties treasury with the click
+      of a single button.
+    </p>
+    <p>
+      Clicking Create Reward Prep will take you to a new screen
+      that will closely resemble a party treasury.  Items and currency
+      that you add to this screen will be held seperate until 
+      you click the Transfer button.
+    </p>
+    <p>
+      Clicking Transfer will immediately remove the Reward Prep and 
+      transfer all of its contents to the parties treasury.
+    </p>
+  </div>
+  <div class="modal-footer">
+    
+  </div>
+</ng-template>

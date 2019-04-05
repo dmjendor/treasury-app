@@ -24,7 +24,7 @@ export class UserVaultComponent implements OnInit, OnDestroy {
   vaultSelected: any[];
   prepSelected: any[];
   appUser: AppUser;
-
+  showGS: boolean = false;
   vault$;
   vault: Vault[] = [];
   vaultSub: Subscription;
@@ -117,9 +117,6 @@ export class UserVaultComponent implements OnInit, OnDestroy {
         this.vault;
     }
 
-    reloadItems(params) {
-    }
-
     transform(source: Vault[]) {
       const dest: Vault[] = [];
 
@@ -127,6 +124,10 @@ export class UserVaultComponent implements OnInit, OnDestroy {
         const destItem = {...sourceItem};
         dest.push(destItem);
       }
+    }
+
+    toggleGS() {
+      this.showGS = !this.showGS;
     }
 
     async ngOnInit() {

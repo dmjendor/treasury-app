@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrepCoinService } from 'app/creator/services/prep-coin.service';
 import { PrepTreasureService } from 'app/creator/services/prep-treasure.service';
 import { PrepValuablesService } from 'app/creator/services/prep-valuables.service';
@@ -55,6 +56,7 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
       private prepCoinService: PrepCoinService,
       private utilityService: UtilityService,
       private vaultService: VaultService,
+      private modalService: NgbModal,
       private toast: ToastService,
       private router: Router
     ) {
@@ -201,9 +203,6 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
         this.rewardprep;
     }
 
-    reloadItems(params) {
-    }
-
     transform(source: RewardPrep[]) {
       const dest: RewardPrep[] = [];
 
@@ -213,7 +212,9 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
 
-
+  openModal(modal) {
+    this.modalService.open(modal);
+  }
 
   }
 
