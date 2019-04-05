@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'shared/services/auth.service';
+import { GoogleAnalyticsService } from 'shared/services/google-analytics-service';
 
 declare let ga: Function;
 
@@ -18,6 +19,7 @@ export class LoginComponent implements OnDestroy  {
   routeSub: Subscription;
 
   constructor(
+    private googleAnalyticsService: GoogleAnalyticsService,
     private authService: AuthService,
     private router: Router
     ) {
@@ -31,17 +33,21 @@ export class LoginComponent implements OnDestroy  {
 
   signInWithFacebook() {
     this.authService.login('facebook');
+    this.googleAnalyticsService.eventEmitter('loginPage', 'login', 'facebook', 1);
   }
 
   signInWithGoogle() {
+    this.googleAnalyticsService.eventEmitter('loginPage', 'login', 'google', 1);
     this.authService.login('google');
   }
 
   signInWithTwitter() {
     this.authService.login('twitter');
+    this.googleAnalyticsService.eventEmitter('loginPage', 'login', 'twitter', 1);
   }
 
   signInWithGithub() {
+    this.googleAnalyticsService.eventEmitter('loginPage', 'login', 'github', 1);
     this.authService.login('github');
   }
 
