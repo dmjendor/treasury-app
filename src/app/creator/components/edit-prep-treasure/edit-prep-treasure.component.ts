@@ -1,22 +1,22 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { RewardPrep } from 'shared/models/reward-prep';
-import { PrepTreasure } from 'shared/models/prep-treasure';
-import { Currency } from 'shared/models/currency';
-import { Subscription } from 'rxjs';
-import { Bag } from 'shared/models/bag';
-import { DefaultTreasure } from 'shared/models/defaulttreasure';
-import { Modifier } from 'shared/models/modifier';
-import { ToastService } from 'shared/services/toast.service';
-import { BagService } from 'shared/services/bag.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CurrencyService } from 'shared/services/currency.service';
 import { PrepTreasureService } from 'app/creator/services/prep-treasure.service';
-import { ModifierService } from 'shared/services/modifier.service';
-import { DefaultTreasureService } from 'shared/services/default-treasure.service';
-import { Vault } from 'shared/models/vault';
-import { VaultService } from 'shared/services/vault.service';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { BagsModalViewComponent } from 'shared/components/bags-modal-view/bags-modal-view.component';
+import { Bag } from 'shared/models/bag';
+import { Currency } from 'shared/models/currency';
+import { DefaultTreasure } from 'shared/models/defaulttreasure';
+import { Modifier } from 'shared/models/modifier';
+import { PrepTreasure } from 'shared/models/prep-treasure';
+import { RewardPrep } from 'shared/models/reward-prep';
+import { Vault } from 'shared/models/vault';
+import { BagService } from 'shared/services/bag.service';
+import { CurrencyService } from 'shared/services/currency.service';
+import { DefaultTreasureService } from 'shared/services/default-treasure.service';
+import { ModifierService } from 'shared/services/modifier.service';
+import { ToastService } from 'shared/services/toast.service';
+import { VaultService } from 'shared/services/vault.service';
 
 @Component({
   selector: 'edit-prep-treasure',
@@ -224,11 +224,17 @@ export class EditPrepTreasureComponent implements OnInit, OnDestroy {
 
   changeStep2() {
     this.step3 = '-1';
+    this.selectedMods = [];
   }
 
   changeStep1() {
     this.step2 = '-1';
     this.step3 = '-1';
+    this.selectedMods = [];
+  }
+
+  resetMods() {
+    this.selectedMods = [];
   }
 
   editBags() {

@@ -85,7 +85,10 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                      <button class="btn btn-success w-100" (click)="quickAdd()">Add Item</button>
+                      <div class="btn-group btn-group d-flex" role="group">
+                          <button class="btn btn-success w-100" (click)="quickAdd()">Add</button>
+                        <button class="btn btn-danger w-100" (click)="resetMods()" title="Clear Selected"><i class="fas fa-undo"></i></button>
+                      </div>
                   </div>
                 </div>
                 

@@ -27,6 +27,8 @@ import { BagsModalViewComponent } from '../bags-modal-view/bags-modal-view.compo
 
 
 
+
+
 @Component({
   selector: 'edit-treasure',
   templateUrl: './edit-treasure.component.html',
@@ -254,13 +256,19 @@ export class EditTreasureComponent implements OnInit, OnChanges, OnDestroy {
 
   changeStep2() {
     this.step3 = '-1';
+    this.selectedMods = [];
   }
 
   changeStep1() {
     this.step2 = '-1';
     this.step3 = '-1';
+    this.selectedMods = [];
   }
 
+  resetMods() {
+    this.selectedMods = [];
+  }
+  
   editBags() {
     const activeModal = this.modalService.open(BagsModalViewComponent, {ariaLabelledBy: 'Edit Bags', });
     activeModal.componentInstance.vault = this.vault;

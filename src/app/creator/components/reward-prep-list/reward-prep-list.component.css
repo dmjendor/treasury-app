@@ -1,0 +1,4 @@
+.ngx-datatable .datatable-body {
+    max-height: 40vh !important;
+    overflow: auto !important;
+}
