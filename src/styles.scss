@@ -95,6 +95,12 @@ h1, h2, h3 {
   max-height: 65vh !important;
   overflow: auto !important;
 }
+
+.ngx-datatable .datatable-body.preptable {
+  max-height: 40vh !important;
+  overflow-x: auto !important;
+}
+
 .card-header {
   background-color: $primary-color;
 }
@@ -151,4 +157,30 @@ hr.navbar-dropdown {
 .bs-popover-right {
   margin-left: 0 !important;
   max-width: 100% !important;
+}
+
+
+.mobileTop {
+  margin-top: 10px;
+}
+
+.mobileHide {
+  display: inherit;
+}
+
+@media (max-width: 600px) {
+  .mobileHide.datatable-body-cell {
+    display: none !important;
+  }
+  .ngx-datatable .datatable-header .datatable-header-cell.mobileHide {
+    display: none !important;
+  }
+
+}
+
+@media screen and (min-width: 600px) {
+  /* CSS that should be displayed if width is equal to or less than 600px goes here */
+  .mobileTop {
+    margin-top: 0px;
+  }
 }

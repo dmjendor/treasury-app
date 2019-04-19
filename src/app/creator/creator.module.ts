@@ -12,6 +12,7 @@ import { DisplayPrepValuablesComponent } from './components/display-prep-valuabl
 import { EditPrepCoinComponent } from './components/edit-prep-coin/edit-prep-coin.component';
 import { EditPrepTreasureItemComponent } from './components/edit-prep-treasure-item/edit-prep-treasure-item.component';
 import { EditPrepTreasureComponent } from './components/edit-prep-treasure/edit-prep-treasure.component';
+import { EditPrepValuablesItemComponent } from './components/edit-prep-valuables-item/edit-prep-valuables-item.component';
 import { EditPrepValuablesComponent } from './components/edit-prep-valuables/edit-prep-valuables.component';
 import { EditRuleEditionComponent } from './components/edit-rule-edition/edit-rule-edition.component';
 import { EditRuleTreasuresComponent } from './components/edit-rule-treasures/edit-rule-treasures.component';
@@ -29,10 +30,6 @@ import { VaultHistoryComponent } from './components/vault-history/vault-history.
 import { PrepCoinService } from './services/prep-coin.service';
 import { PrepTreasureService } from './services/prep-treasure.service';
 import { PrepValuablesService } from './services/prep-valuables.service';
-
-
-
-
 
 
 
@@ -104,14 +101,16 @@ import { PrepValuablesService } from './services/prep-valuables.service';
     ManageRuleTreasuresComponent,
     ManageRuleValuablesComponent,
     EditRuleValuablesComponent,
-    EditRuleTreasuresComponent
+    EditRuleTreasuresComponent,
+    EditPrepValuablesItemComponent
   ],
   exports: [
 
   ],
   entryComponents: [
     HistoryDetailsComponent,
-    EditPrepTreasureItemComponent
+    EditPrepTreasureItemComponent,
+    EditPrepValuablesItemComponent
   ],
   providers: [
     PrepCoinService,

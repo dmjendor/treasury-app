@@ -1,13 +1,10 @@
 <div class="row">
-  <div class="col-11">
-    <a class="btn btn-lg btn-info btn-block"
-      routerLink="/vaults/new"  
-    >
+  <div class="col-12 btn-group">
+    <a class="btn btn-lg btn-primary w-100"
+      routerLink="/vaults/new">
       <span>Create Treasury</span>
   </a>
-  </div>
-  <div class="col-1">
-    <button class="btn btn-lg btn-info btn-block" (click)="toggleGS()">
+    <button class="btn btn-lg btn-info" (click)="toggleGS()">
       <i class="fas fa-info-circle"></i>
     </button>
   </div>
@@ -19,7 +16,10 @@
       class="bootstrap"
       [columnMode]="'force'"
       [rows]="vault"
-      [limit]="25"
+      [limit]="10"
+      [count]="10"
+      [rowHeight]="'auto'"
+      [footerHeight]="40"
       [rowHeight]="'auto'"
       [columns]="vaultColumns"
       [selected]="vaultSelected"
@@ -28,13 +28,14 @@
       (select)='onVaultSelect($event)'>
       >
       
-        <ngx-datatable-column name="Name"></ngx-datatable-column>
+        <ngx-datatable-column name="Name" flex-grow="1"></ngx-datatable-column>
         <ngx-datatable-column name="Theme">
             <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
               {{themeName(value)}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="gbMarkup" name="VBMarkup">
+                <!--
+        <ngx-datatable-column prop="gbMarkup" name="VBMarkup" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-header-template let-column="column">
                 <span class="datatable-header-cell-label" title="Valuable Item Buy Markup">{{column.name}}</span>
             </ng-template>
@@ -42,7 +43,7 @@
               {{value}}%
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="gsMarkup" name="VSMarkup">
+        <ngx-datatable-column prop="gsMarkup" name="VSMarkup" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-header-template let-column="column">
                 <span class="datatable-header-cell-label" title="Valuable Item Sell Markup">{{column.name}}</span>
             </ng-template>
@@ -50,7 +51,8 @@
               {{value}}%
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="ibMarkup" name="TBMarkup">
+
+          <ngx-datatable-column prop="ibMarkup" name="TBMarkup" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-header-template let-column="column">
                 <span class="datatable-header-cell-label" title="Treasure Buy Markup">{{column.name}}</span>
             </ng-template>
@@ -58,7 +60,7 @@
               {{value}}%
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="isMarkup" name="TSMarkup">
+        <ngx-datatable-column prop="isMarkup" name="TSMarkup" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-header-template let-column="column">
                 <span class="datatable-header-cell-label" title="Treasure Sell Markup">{{column.name}}</span>
             </ng-template>
@@ -66,22 +68,24 @@
               {{value}}%
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="baseCurrency" name="Base$">
+        <ngx-datatable-column prop="baseCurrency" name="Base$" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
               {{currencyName(value)}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="commonCurrency" name="Common$">
+        <ngx-datatable-column prop="commonCurrency" name="Common$" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
               {{currencyName(value)}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Split" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        <ngx-datatable-column name="Split" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
               <input type="checkbox" [checked]="value" disabled="disabled" />
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Active" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        
+        -->
+        <ngx-datatable-column name="Active" [width]="60" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [cellClass]="'mobileHide'" [headerClass]="'mobileHide'">
             <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
               <input type="checkbox" [checked]="value" disabled="disabled" />
             </ng-template>

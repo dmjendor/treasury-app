@@ -1,15 +1,18 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { PrepValuable } from 'shared/models/prep-valuables';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PrepValuablesService } from 'app/creator/services/prep-valuables.service';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Bag } from 'shared/models/bag';
 import { Currency } from 'shared/models/currency';
+import { PrepValuable } from 'shared/models/prep-valuables';
+import { RewardPrep } from 'shared/models/reward-prep';
+import { Vault } from 'shared/models/vault';
 import { BagService } from 'shared/services/bag.service';
 import { CurrencyService } from 'shared/services/currency.service';
-import { PrepValuablesService } from 'app/creator/services/prep-valuables.service';
 import { VaultService } from 'shared/services/vault.service';
-import { Vault } from 'shared/models/vault';
-import { RewardPrep } from 'shared/models/reward-prep';
-import { take } from 'rxjs/operators';
+
+import { EditPrepValuablesItemComponent } from '../edit-prep-valuables-item/edit-prep-valuables-item.component';
 
 @Component({
   selector: 'display-prep-valuables',
@@ -31,6 +34,7 @@ export class DisplayPrepValuablesComponent implements OnInit, OnDestroy {
 
   constructor(
     private bagService: BagService,
+    private modalService: NgbModal,
     private vaultService: VaultService,
     private currencyService: CurrencyService,
     private prepValuableService: PrepValuablesService
@@ -162,4 +166,9 @@ export class DisplayPrepValuablesComponent implements OnInit, OnDestroy {
     ev.dataTransfer.setData('text/plain', ev.target.id);
   }
 
+  editItemDetails(item: PrepValuable) {
+      const activeModal = this.modalService.open(EditPrepValuablesItemComponent, {ariaLabelledBy: 'Edit ' + item.name, });
+      activeModal.componentInstance.vault = this.vault;
+      activeModal.componentInstance.valuable = item;
+  }
 }

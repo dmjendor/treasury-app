@@ -1,12 +1,10 @@
 <div class="row top-margin">
-  <div class="col-11" *ngIf="vault && vault.rewardPrep">
-    <a class="btn btn-lg btn-info btn-block"
+  <div class="col-12 btn-group" *ngIf="vault && vault.rewardPrep">
+    <a class="btn btn-lg btn-primary w-100"
       [routerLink]="['/rewardprep/new',vault.key]">
       <span>Create Reward Prep</span>
     </a>
-  </div>
-  <div class="col-1">
-      <button class="btn btn-lg btn-info btn-block" (click)="openModal(info)">
+    <button class="btn btn-lg btn-info" (click)="openModal(info)">
         <i class="fas fa-info-circle"></i>
       </button>
     </div>
@@ -17,10 +15,11 @@
         class="bootstrap"
         [columnMode]="'force'"
         [rows]="rewardprep"
-        [limit]="25"
+        [limit]="10"
+        [count]="10"
         [rowHeight]="'auto'"
-        [columns]="prepColumns"
-        >
+        [footerHeight]="40"
+        [columns]="prepColumns">
         
           <ngx-datatable-column name="Name"></ngx-datatable-column>
           <ngx-datatable-column name="Vault">
