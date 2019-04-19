@@ -5,7 +5,7 @@ import { PrepCoinService } from 'app/creator/services/prep-coin.service';
 import { PrepTreasureService } from 'app/creator/services/prep-treasure.service';
 import { PrepValuablesService } from 'app/creator/services/prep-valuables.service';
 import { TreasuryCurrencyService } from 'app/treasury/services/treasury-currency.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Coin } from 'shared/models/coin';
 import { PrepCoin } from 'shared/models/prep-coin';
 import { PrepTreasure } from 'shared/models/prep-treasure';
@@ -31,11 +31,7 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() vault: Vault;
   userId: string = sessionStorage.getItem('userId');
   prepSelected: any[];
-  dtOptions: DataTables.Settings = {};
-  // We use this trigger because fetching the list of persons can be quite long,
-  // thus we ensure the data is fetched before rendering
-  dtTrigger: Subject<any> = new Subject();
-
+  
   vaultSub: Subscription;
   vaultList: Vault[];
 
@@ -68,16 +64,6 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
 
 
     async ngOnInit() {
-      this.dtOptions = {
-        paging: true,
-        ordering: true,
-        processing: true,
-        searching: true,
-        autoWidth: true,
-        pagingType: 'full_numbers',
-        pageLength: 10,
-        lengthMenu: [5, 10, 15, 20]
-      };
       this.createSubscriptions();
     }
 
@@ -104,7 +90,6 @@ export class RewardPrepListComponent implements OnInit, OnChanges, OnDestroy {
               this.rewardprep.splice(i, 1);
             }
           }
-          this.dtTrigger.next();
           this.oldVault = this.vault.key;
         });
       });
